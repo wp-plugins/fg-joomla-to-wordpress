@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -50,10 +50,18 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed: The content was not imported in the post content for the posts without a "Read more" link.
+* New: Option to choose to import the Joomla introtext in the excerpt or in the post content with a «Read more» tag.
+
 = 1.0.0 =
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+* Fixed: The content was not imported in the post content for the posts without a "Read more" link.
+* New: You can now choose to import the Joomla introtext in the excerpt or in the post content with a «Read more» tag.
 
 = 1.0.0 =
 Initial version

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-12 11:17+0100\n"
-"PO-Revision-Date: 2012-02-12 11:17+0100\n"
+"POT-Creation-Date: 2012-02-28 22:48+0100\n"
+"PO-Revision-Date: 2012-02-28 22:48+0100\n"
 "Last-Translator: F. GILLES <fred.gilles@free.fr>\n"
 "Language-Team: F. GILLES <fred.gilles@free.fr>\n"
 "Language: \n"
@@ -66,7 +66,23 @@ msgstr "Mot de passe"
 msgid "Joomla Table Prefix"
 msgstr "Préfixe des table Joomla"
 
-#: admin_build_page.tpl.php:61
+#: admin_build_page.tpl.php:60
+msgid "Behavior"
+msgstr "Comportement"
+
+#: admin_build_page.tpl.php:63
+msgid "Posts with a \"read more\" split:"
+msgstr "Articles avec «Lire la suite»:"
+
+#: admin_build_page.tpl.php:64
+msgid "Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link."
+msgstr "Coché : le texte d'introduction de Joomla est importé dans l'extrait. Décoché : il est importé dans le contenu de l'article avec un lien «Lire la suite»."
+
+#: admin_build_page.tpl.php:64
+msgid "Import the text above the \"read more\" to the excerpt"
+msgstr "Importer le texte d'introduction dans l'extrait"
+
+#: admin_build_page.tpl.php:68
 msgid "Import content from Joomla to WordPress"
 msgstr "Importer le contenu de Joomla vers WordPress"
 
@@ -78,32 +94,42 @@ msgstr "Joomla 1.5 (FG)"
 msgid "Import categories, articles and images from a Joomla 1.5 database into WordPress."
 msgstr "Importer les catégories, articles et images depuis une base Joomla 1.5 vers WordPress."
 
-#: fg-joomla-to-wordpress.php:84
+#: fg-joomla-to-wordpress.php:98
 msgid "Categories, posts and images deleted"
 msgstr "Catégories, articles et images supprimées"
 
-#: fg-joomla-to-wordpress.php:86
+#: fg-joomla-to-wordpress.php:100
 msgid "Couldn't delete content"
 msgstr "Impossible de supprimer le contenu"
 
-#: fg-joomla-to-wordpress.php:100
+#: fg-joomla-to-wordpress.php:115
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:104
+#: fg-joomla-to-wordpress.php:119
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:105
+#: fg-joomla-to-wordpress.php:120
 #, php-format
 msgid "%d image imported"
 msgid_plural "%d images imported"
 msgstr[0] "%d image importée"
 msgstr[1] "%d images importées"
 
+#, fuzzy
+#~ msgid "FG Joomla to WordPress"
+#~ msgstr "Importer le contenu de Joomla vers WordPress"
+
+#, fuzzy
+#~ msgid ""
+#~ "A plugin to migrate categories, posts and images from Joomla to WordPress"
+#~ msgstr ""
+#~ "Cette extension va importer les sections, les catégories, les articles et "
+#~ "les images depuis une base Joomla vers WordPress."

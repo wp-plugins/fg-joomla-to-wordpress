@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts and images from Joomla to WordPress
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Frédéric GILLES
  */
 
@@ -71,8 +71,22 @@ class fgj2wp extends WP_Importer {
 	public function dispatch() {
 		set_time_limit(7200);
 		
-		$this->joomla_info = $this->get_form_info();
-			
+		// Default values
+		$this->joomla_info = array(
+			'url'					=> null,
+			'hostname'				=> 'localhost',
+			'port'					=> 3306,
+			'database'				=> null,
+			'username'				=> 'root',
+			'password'				=> '',
+			'prefix'				=> 'jos_',
+			'introtext_in_excerpt'	=> 1,
+		);
+		$options = get_option('fgj2wp_options');
+		if ( is_array($options) ) {
+			$this->joomla_info = array_merge($this->joomla_info, $options);
+		}
+		
 		if ( isset($_POST['action']) ) {
 			
 			switch ( $_POST['action'] ) {
@@ -93,6 +107,7 @@ class fgj2wp extends WP_Importer {
 					if ( check_admin_referer( 'import', 'fgj2wp_nonce' ) ) { // Security check
 						
 						// Set database options
+						$this->joomla_info = array_merge($this->joomla_info, $this->validate_form_info());
 						update_option('fgj2wp_options', $this->joomla_info);
 						
 						// Categories
@@ -108,11 +123,7 @@ class fgj2wp extends WP_Importer {
 			}
 		}
 		
-		$options = get_option('fgj2wp_options');
-		if ( !empty($options) ) {
-			$this->joomla_info = $options;
-		}
-		$this->admin_build_page();
+		$this->admin_build_page(); // Display the form
 	}
 	
 	/**
@@ -214,21 +225,22 @@ SQL;
 	}
 
 	/**
-	 * Get POST info
+	 * Validate POST info
 	 *
 	 * @return array Form parameters
 	 */
-	private function get_form_info()
+	private function validate_form_info()
 	{
 		$info = array();
 
-		$info[ 'url' ]		= empty( $_POST[ 'url' ] )		? null			: $_POST[ 'url' ];
-		$info[ 'hostname' ]	= empty( $_POST[ 'hostname' ] )	? 'localhost'	: $_POST[ 'hostname' ];
-		$info[ 'port' ]		= empty( $_POST[ 'port' ] )		? 3306			: (int) $_POST[ 'port' ];
-		$info[ 'database' ]	= empty( $_POST[ 'database' ] )	? null			: $_POST[ 'database' ];
-		$info[ 'username' ]	= empty( $_POST[ 'username' ] )	? null			: $_POST[ 'username' ];
-		$info[ 'password' ]	= empty( $_POST[ 'password' ] )	? null			: $_POST[ 'password' ];
-		$info[ 'prefix'   ]	= empty( $_POST[ 'prefix' ] )	? 'jos_'		: $_POST[ 'prefix' ];
+		$info[ 'url' ]					= $_POST[ 'url' ];
+		$info[ 'hostname' ]				= $_POST[ 'hostname' ];
+		$info[ 'port' ]					= (int) $_POST[ 'port' ];
+		$info[ 'database' ]				= $_POST[ 'database' ];
+		$info[ 'username' ]				= $_POST[ 'username' ];
+		$info[ 'password' ]				= $_POST[ 'password' ];
+		$info[ 'prefix' ]				= $_POST[ 'prefix' ];
+		$info[ 'introtext_in_excerpt' ]	= !empty($_POST[ 'introtext_in_excerpt' ]);
 		
 		return $info;
 	}
@@ -300,14 +312,27 @@ SQL;
 					$cat_id = 1; // default category
 				}
 				
-				// Process content
+				// Define excerpt and post content
 				if ( empty($post['fulltext']) ) {
-					$content = $this->process_content($post['introtext'], $post_images);
+					// Posts without a "Read more" link
 					$excerpt = '';
+					$content = $post['introtext'];
 				} else {
-					$content = $this->process_content($post['fulltext'], $post_images);
-					$excerpt = $this->process_content($post['introtext'], $post_images);
+					// Posts with a "Read more" link
+					if ( $this->joomla_info['introtext_in_excerpt'] ) {
+						// Introtext imported in excerpt
+						$excerpt = $post['introtext'];
+						$content = $post['fulltext'];
+					} else {
+						// Introtext imported in post content with a "Read more" tag
+						$excerpt = '';
+						$content = $post['introtext'] . "\n<!--more-->\n" . $post['fulltext'];
+					}
 				}
+				
+				// Process content
+				$excerpt = $this->process_content($excerpt, $post_images);
+				$content = $this->process_content($content, $post_images);
 				
 				// Status
 				$status = ($post['state'] == 1)? 'publish' : 'draft';
@@ -548,8 +573,10 @@ SQL;
 	 */
 	private function process_content($content, $images) {
 		
-		// Replace img links with the new links
-		$content = $this->process_content_img_links($content, $images);
+		if ( !empty($content) ) {
+			// Replace img links with the new links
+			$content = $this->process_content_img_links($content, $images);
+		}
 
 		return $content;
 	}
