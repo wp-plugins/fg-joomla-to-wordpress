@@ -301,8 +301,13 @@ SQL;
 				}
 				
 				// Process content
-				$content = $this->process_content($post['fulltext'], $post_images);
-				$excerpt = $this->process_content($post['introtext'], $post_images);
+				if ( empty($post['fulltext']) ) {
+					$content = $this->process_content($post['introtext'], $post_images);
+					$excerpt = '';
+				} else {
+					$content = $this->process_content($post['fulltext'], $post_images);
+					$excerpt = $this->process_content($post['introtext'], $post_images);
+				}
 				
 				// Status
 				$status = ($post['state'] == 1)? 'publish' : 'draft';
