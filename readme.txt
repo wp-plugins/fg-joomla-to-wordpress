@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -22,7 +22,7 @@ Major features include:
 * migrates categories as sub-categories
 * migrates Joomla posts
 * associates posts to categories
-* uploads all the posts images in WP uploads directories
+* uploads all the posts images in WP uploads directories (optional)
 * resizes images according to the sizes defined in WP
 * defines the thumbnail to be the first post image
 * modifies images src in content
@@ -50,6 +50,11 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Changelog ==
 
+= 1.0.2 =
+* Fixed: The images with absolute links were not imported.
+* New: Option to skip the images import
+* New: Skip external images
+
 = 1.0.1 =
 * Fixed: The content was not imported in the post content for the posts without a "Read more" link.
 * New: Option to choose to import the Joomla introtext in the excerpt or in the post content with a «Read more» tag.
@@ -58,6 +63,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+You can now skip the images import. And even if you keep on importing the images, the external images are automatically skipped.
 
 = 1.0.1 =
 * Fixed: The content was not imported in the post content for the posts without a "Read more" link.

@@ -81,6 +81,7 @@ class fgj2wp extends WP_Importer {
 			'password'				=> '',
 			'prefix'				=> 'jos_',
 			'introtext_in_excerpt'	=> 1,
+			'skip_images'			=> 0,
 		);
 		$options = get_option('fgj2wp_options');
 		if ( is_array($options) ) {
@@ -229,20 +230,18 @@ SQL;
 	 *
 	 * @return array Form parameters
 	 */
-	private function validate_form_info()
-	{
-		$info = array();
-
-		$info[ 'url' ]					= $_POST[ 'url' ];
-		$info[ 'hostname' ]				= $_POST[ 'hostname' ];
-		$info[ 'port' ]					= (int) $_POST[ 'port' ];
-		$info[ 'database' ]				= $_POST[ 'database' ];
-		$info[ 'username' ]				= $_POST[ 'username' ];
-		$info[ 'password' ]				= $_POST[ 'password' ];
-		$info[ 'prefix' ]				= $_POST[ 'prefix' ];
-		$info[ 'introtext_in_excerpt' ]	= !empty($_POST[ 'introtext_in_excerpt' ]);
-		
-		return $info;
+	private function validate_form_info() {
+		return array(
+			'url'					=> $_POST['url'],
+			'hostname'				=> $_POST['hostname'],
+			'port'					=> (int) $_POST['port'],
+			'database'				=> $_POST['database'],
+			'username'				=> $_POST['username'],
+			'password'				=> $_POST['password'],
+			'prefix'				=> $_POST['prefix'],
+			'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
+			'skip_images'			=> !empty($_POST['skip_images']),
+		);
 	}
 
 	/**
@@ -302,8 +301,14 @@ SQL;
 			foreach ( $posts as $post ) {
 				
 				// Images
-				list($post_images, $post_images_count) = $this->import_images($post['introtext'] . $post['fulltext'], $post['publish_up']);
-				$images_count += $post_images_count;
+				if ( !$this->joomla_info['skip_images'] ) {
+					// Import images
+					list($post_images, $post_images_count) = $this->import_images($post['introtext'] . $post['fulltext'], $post['publish_up']);
+					$images_count += $post_images_count;
+				} else {
+					// Skip images
+					$post_images = array();
+				}
 				
 				// Category ID
 				if ( array_key_exists($post['category'], $tab_categories) ) {
@@ -489,7 +494,16 @@ SQL;
 					$other_attributes = $match[1] . $match[3];
 					
 					// Upload the file from the Joomla web site to WordPress upload dir
-					$old_filename = untrailingslashit($this->joomla_info['url']) . '/' . $filename;
+					if ( preg_match('/^http/', $filename) ) {
+						if ( preg_match('#^' . $this->joomla_info['url'] . '#', $filename) ) {
+							$old_filename = $filename;
+						} else {
+							// Don't import external images
+							continue;
+						}
+					} else {
+						$old_filename = untrailingslashit($this->joomla_info['url']) . '/' . $filename;
+					}
 					$old_filename = str_replace(" ", "%20", $old_filename); // for filenames with spaces
 					$image_date = strftime('%Y/%m', strtotime($post_date));
 					$uploads = wp_upload_dir($image_date);
@@ -589,11 +603,13 @@ SQL;
 	 * @return string Processed post content
 	 */
 	private function process_content_img_links($content, $post_images) {
-		foreach ( $post_images as $old_filename => $post_image_name ) {
-			$attachment = $this->get_attachment_from_name($post_image_name);
-			if ( $attachment ) {
-				$image_url = wp_get_attachment_image_src($attachment->ID, 'medium');
-				$content = str_replace($old_filename, $image_url[0], $content);
+		if ( is_array($post_images) ) {
+			foreach ( $post_images as $old_filename => $post_image_name ) {
+				$attachment = $this->get_attachment_from_name($post_image_name);
+				if ( $attachment ) {
+					$image_url = wp_get_attachment_image_src($attachment->ID, 'medium');
+					$content = str_replace($old_filename, $image_url[0], $content);
+				}
 			}
 		}
 		return $content;
@@ -608,16 +624,18 @@ SQL;
 	 */
 	function add_post_images($post_id, $post_data, $post_images) {
 		$thumbnail_is_set = false;
-		foreach ( $post_images as $old_filename => $post_image_name ) {
-			$attachment = $this->get_attachment_from_name($post_image_name);
-			$attachment->post_parent = $post_id; // Attach the post to the image
-			$attachment->post_date = $post_data['post_date'] ;// Define the image's date
-			wp_update_post($attachment);
+		if ( is_array($post_images) ) {
+			foreach ( $post_images as $old_filename => $post_image_name ) {
+				$attachment = $this->get_attachment_from_name($post_image_name);
+				$attachment->post_parent = $post_id; // Attach the post to the image
+				$attachment->post_date = $post_data['post_date'] ;// Define the image's date
+				wp_update_post($attachment);
 
-			// Set the thumbnail to be the first image
-			if ( !$thumbnail_is_set ) {
-				set_post_thumbnail($post_id, $attachment->ID);
-				$thumbnail_is_set = true;
+				// Set the thumbnail to be the first image
+				if ( !$thumbnail_is_set ) {
+					set_post_thumbnail($post_id, $attachment->ID);
+					$thumbnail_is_set = true;
+				}
 			}
 		}
 	}
