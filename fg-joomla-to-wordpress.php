@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts and images from Joomla to WordPress
- * Version:     1.0.2
+ * Version:     1.1.0
  * Author:      Frédéric GILLES
  */
 
@@ -30,14 +30,14 @@ function fgj2wp_load() {
 
 class fgj2wp extends WP_Importer {
 	
-	private $joomla_info;			// Joomla parameters
+	private $plugin_options;			// Plug-in options
 	
 	/**
 	 * Sets up the plugin
 	 *
 	 */
 	public function __construct() {
-		$this->joomla_info = array();
+		$this->plugin_options = array();
 
 		add_action( 'init', array (&$this, 'init') ); // Hook on init
 	}
@@ -72,7 +72,7 @@ class fgj2wp extends WP_Importer {
 		set_time_limit(7200);
 		
 		// Default values
-		$this->joomla_info = array(
+		$this->plugin_options = array(
 			'url'					=> null,
 			'hostname'				=> 'localhost',
 			'port'					=> 3306,
@@ -85,7 +85,7 @@ class fgj2wp extends WP_Importer {
 		);
 		$options = get_option('fgj2wp_options');
 		if ( is_array($options) ) {
-			$this->joomla_info = array_merge($this->joomla_info, $options);
+			$this->plugin_options = array_merge($this->plugin_options, $options);
 		}
 		
 		if ( isset($_POST['action']) ) {
@@ -108,8 +108,8 @@ class fgj2wp extends WP_Importer {
 					if ( check_admin_referer( 'import', 'fgj2wp_nonce' ) ) { // Security check
 						
 						// Set database options
-						$this->joomla_info = array_merge($this->joomla_info, $this->validate_form_info());
-						update_option('fgj2wp_options', $this->joomla_info);
+						$this->plugin_options = array_merge($this->plugin_options, $this->validate_form_info());
+						update_option('fgj2wp_options', $this->plugin_options);
 						
 						// Categories
 						$cat_count = $this->import_categories();
@@ -132,7 +132,15 @@ class fgj2wp extends WP_Importer {
 	 * 
 	 */
 	private function admin_build_page() {
-		$data = $this->joomla_info;
+		$posts_count = wp_count_posts('post');
+		$images_count = wp_count_posts('attachment');
+		$cat_count = count(get_categories(array('hide_empty' => 0)));
+		
+		$data = $this->plugin_options;
+		$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
+		$data['images_count'] = $images_count->inherit;
+		$data['cat_count'] = $cat_count;
+		
 		include('admin_build_page.tpl.php');
 	}
 
@@ -221,10 +229,36 @@ AND tt.taxonomy = 'category'
 SQL;
 		$result &= $wpdb->query($wpdb->prepare($sql));
 		
+		// Reset the Joomla last imported post ID
+		update_option('fgj2wp_last_id', 0);
+		
+		$this->optimize_database();
+		
 		$wpdb->hide_errors();
 		return ($result !== false);
 	}
 
+	/**
+	 * Optimize the database
+	 *
+	 */
+	private function optimize_database() {
+		global $wpdb;
+		
+		$sql = <<<SQL
+OPTIMIZE TABLE 
+`$wpdb->commentmeta` ,
+`$wpdb->comments` ,
+`$wpdb->options` ,
+`$wpdb->postmeta` ,
+`$wpdb->posts` ,
+`$wpdb->terms` ,
+`$wpdb->term_relationships` ,
+`$wpdb->term_taxonomy`
+SQL;
+		$wpdb->query($wpdb->prepare($sql));
+	}
+		
 	/**
 	 * Validate POST info
 	 *
@@ -260,8 +294,7 @@ SQL;
 				//Parent category
 				$parent_id = 0;
 				if ( !empty($category['parent']) ) {
-					$parent_slug = sanitize_title($category['parent']);
-					$idObj = get_category_by_slug($parent_slug);
+					$idObj = get_category_by_slug($category['parent']);
 					$parent_id = $idObj->term_id;
 				}
 				
@@ -301,7 +334,7 @@ SQL;
 			foreach ( $posts as $post ) {
 				
 				// Images
-				if ( !$this->joomla_info['skip_images'] ) {
+				if ( !$this->plugin_options['skip_images'] ) {
 					// Import images
 					list($post_images, $post_images_count) = $this->import_images($post['introtext'] . $post['fulltext'], $post['publish_up']);
 					$images_count += $post_images_count;
@@ -324,7 +357,7 @@ SQL;
 					$content = $post['introtext'];
 				} else {
 					// Posts with a "Read more" link
-					if ( $this->joomla_info['introtext_in_excerpt'] ) {
+					if ( $this->plugin_options['introtext_in_excerpt'] ) {
 						// Introtext imported in excerpt
 						$excerpt = $post['introtext'];
 						$content = $post['fulltext'];
@@ -357,6 +390,9 @@ SQL;
 				if ( $new_post_id ) { 
 					// Add links between the post and its images
 					$this->add_post_images($new_post_id, $new_post, $post_images);
+					
+					// Increment the Joomla last imported post ID
+					update_option('fgj2wp_last_id', $post['id']);
 
 					$posts_count++;					
 				}
@@ -377,10 +413,10 @@ SQL;
 		$sections = array();
 
 		try {
-			$db = new PDO('mysql:host=' . $this->joomla_info['hostname'] . ';port=' . $this->joomla_info['port'] . ';dbname=' . $this->joomla_info['database'], $this->joomla_info['username'], $this->joomla_info['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-			$prefix = $this->joomla_info['prefix'];
+			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT title, name, description
+				SELECT title, IFNULL(alias, name) AS name, description
 				FROM ${prefix}sections
 			";
 			$query = $db->query($sql);
@@ -406,12 +442,12 @@ SQL;
 		$categories = array();
 
 		try {
-			$db = new PDO('mysql:host=' . $this->joomla_info['hostname'] . ';port=' . $this->joomla_info['port'] . ';dbname=' . $this->joomla_info['database'], $this->joomla_info['username'], $this->joomla_info['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-			$prefix = $this->joomla_info['prefix'];
+			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT c.title, c.name, c.description, s.name AS parent
+				SELECT c.title, IFNULL(c.alias, c.name) AS name, c.description, IFNULL(s.alias, s.name) AS parent
 				FROM ${prefix}categories c
-				LEFT JOIN ${prefix}sections AS s ON s.id = c.section
+				INNER JOIN ${prefix}sections AS s ON s.id = c.section
 			";
 			$query = $db->query($sql);
 			if ( is_object($query) ) {
@@ -434,15 +470,19 @@ SQL;
 	 */
 	private function get_posts() {
 		$posts = array();
+		
+		$last_id = (int)get_option('fgj2wp_last_id'); // to restore the import where it left
 
 		try {
-			$db = new PDO('mysql:host=' . $this->joomla_info['hostname'] . ';port=' . $this->joomla_info['port'] . ';dbname=' . $this->joomla_info['database'], $this->joomla_info['username'], $this->joomla_info['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-			$prefix = $this->joomla_info['prefix'];
+			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT p.title, p.alias, p.introtext, p.fulltext, p.state, c.title AS category, p.modified, p.publish_up
+				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, IFNULL(c.alias, c.name) AS category, p.modified, p.publish_up
 				FROM ${prefix}content p
 				LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 				WHERE p.state >= 0 -- don't get the trash
+				AND p.id > '$last_id'
+				ORDER BY p.id
 			";
 			$query = $db->query($sql);
 			if ( is_object($query) ) {
@@ -468,7 +508,7 @@ SQL;
 		$categories = get_categories(array('hide_empty' => '0'));
 		if ( is_array($categories) ) {
 			foreach ( $categories as $category ) {
-				$tab_categories[$category->name] = $category->term_taxonomy_id;
+				$tab_categories[$category->slug] = $category->term_taxonomy_id;
 			}
 		}
 		return $tab_categories;
@@ -495,14 +535,14 @@ SQL;
 					
 					// Upload the file from the Joomla web site to WordPress upload dir
 					if ( preg_match('/^http/', $filename) ) {
-						if ( preg_match('#^' . $this->joomla_info['url'] . '#', $filename) ) {
+						if ( preg_match('#^' . $this->plugin_options['url'] . '#', $filename) ) {
 							$old_filename = $filename;
 						} else {
 							// Don't import external images
 							continue;
 						}
 					} else {
-						$old_filename = untrailingslashit($this->joomla_info['url']) . '/' . $filename;
+						$old_filename = untrailingslashit($this->plugin_options['url']) . '/' . $filename;
 					}
 					$old_filename = str_replace(" ", "%20", $old_filename); // for filenames with spaces
 					$image_date = strftime('%Y/%m', strtotime($post_date));

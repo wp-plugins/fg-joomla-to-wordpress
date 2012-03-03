@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 01:30+0100\n"
-"PO-Revision-Date: 2012-03-02 01:30+0100\n"
+"POT-Creation-Date: 2012-03-03 15:16+0100\n"
+"PO-Revision-Date: 2012-03-03 15:16+0100\n"
 "Last-Translator: F. GILLES <fred.gilles@free.fr>\n"
 "Language-Team: F. GILLES <fred.gilles@free.fr>\n"
 "Language: \n"
@@ -26,71 +26,96 @@ msgstr "Import Joomla 1.5 (FG)"
 msgid "This plugin will import sections, categories, posts and images from a Joomla database into WordPress."
 msgstr "Cette extension va importer les sections, les catégories, les articles et les images depuis une base Joomla vers WordPress."
 
-#: admin_build_page.tpl.php:14
+#: admin_build_page.tpl.php:8
+msgid "WordPress database"
+msgstr "Base de données WordPress"
+
+#: admin_build_page.tpl.php:9
+#, php-format
+msgid "%d category"
+msgid_plural "%d categories"
+msgstr[0] "%d catégorie"
+msgstr[1] "%d catégories"
+
+#: admin_build_page.tpl.php:10
+#, php-format
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] "%d article"
+msgstr[1] "%d articles"
+
+#: admin_build_page.tpl.php:11
+#, php-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] "%d image"
+msgstr[1] "%d images"
+
+#: admin_build_page.tpl.php:21
 msgid "Empty WordPress content"
 msgstr "Supprimer le contenu de WordPress"
 
-#: admin_build_page.tpl.php:26
+#: admin_build_page.tpl.php:33
 msgid "Joomla web site parameters"
 msgstr "Paramètres du site Web Joomla"
 
-#: admin_build_page.tpl.php:29
+#: admin_build_page.tpl.php:36
 msgid "URL"
 msgstr "URL"
 
-#: admin_build_page.tpl.php:33
+#: admin_build_page.tpl.php:40
 msgid "Joomla database parameters"
 msgstr "Paramètres de la base Joomla"
 
-#: admin_build_page.tpl.php:36
+#: admin_build_page.tpl.php:43
 msgid "Hostname"
 msgstr "Serveur"
 
-#: admin_build_page.tpl.php:40
+#: admin_build_page.tpl.php:47
 msgid "Port"
 msgstr "Port"
 
-#: admin_build_page.tpl.php:44
+#: admin_build_page.tpl.php:51
 msgid "Database"
 msgstr "Nom de la base"
 
-#: admin_build_page.tpl.php:48
+#: admin_build_page.tpl.php:55
 msgid "Username"
 msgstr "Identifiant"
 
-#: admin_build_page.tpl.php:52
+#: admin_build_page.tpl.php:59
 msgid "Password"
 msgstr "Mot de passe"
 
-#: admin_build_page.tpl.php:56
+#: admin_build_page.tpl.php:63
 msgid "Joomla Table Prefix"
 msgstr "Préfixe des table Joomla"
 
-#: admin_build_page.tpl.php:60
+#: admin_build_page.tpl.php:67
 msgid "Behavior"
 msgstr "Comportement"
 
-#: admin_build_page.tpl.php:63
+#: admin_build_page.tpl.php:70
 msgid "Posts with a \"read more\" split:"
 msgstr "Articles avec «Lire la suite» :"
 
-#: admin_build_page.tpl.php:64
+#: admin_build_page.tpl.php:71
 msgid "Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link."
 msgstr "Coché : le texte d'introduction de Joomla est importé dans l'extrait. Décoché : il est importé dans le contenu de l'article avec un lien «Lire la suite»."
 
-#: admin_build_page.tpl.php:64
+#: admin_build_page.tpl.php:71
 msgid "Import the text above the \"read more\" to the excerpt"
 msgstr "Importer le texte d'introduction dans l'extrait"
 
-#: admin_build_page.tpl.php:67
+#: admin_build_page.tpl.php:74
 msgid "Images:"
 msgstr "Images :"
 
-#: admin_build_page.tpl.php:68
+#: admin_build_page.tpl.php:75
 msgid "Skip images"
 msgstr "Ne pas importer les images"
 
-#: admin_build_page.tpl.php:72
+#: admin_build_page.tpl.php:79
 msgid "Import content from Joomla to WordPress"
 msgstr "Importer le contenu de Joomla vers WordPress"
 

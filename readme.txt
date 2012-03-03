@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -36,6 +36,10 @@ Major features include:
 
 == Frequently Asked Questions ==
 
+= All the posts are not migrated. Why ? =
+
+* The archived posts or posts put in trash are not migrated. But unpublished posts are migrated as drafts.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
@@ -50,6 +54,13 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Changelog ==
 
+= 1.1.0 =
+* Update the FAQ
+* New: Can restart an import where it left after a crash (for big databases)
+* New: Display the number of categories, posts and images already imported
+* Fixed: Issue with categories with alias but no name
+* Fixed: Now import only post categories, not all categories (ie modules categories, …)
+
 = 1.0.2 =
 * Fixed: The images with absolute links were not imported.
 * New: Option to skip the images import
@@ -63,6 +74,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+You can restart an import where it left after a crash (for big databases).
 
 = 1.0.2 =
 You can now skip the images import. And even if you keep on importing the images, the external images are automatically skipped.
