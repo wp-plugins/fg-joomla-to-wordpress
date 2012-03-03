@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts and images from Joomla to WordPress
- * Version:     1.1.0
+ * Version:     1.1.1
  * Author:      Frédéric GILLES
  */
 
@@ -416,8 +416,8 @@ SQL;
 			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT title, IFNULL(alias, name) AS name, description
-				FROM ${prefix}sections
+				SELECT s.title, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS name, s.description
+				FROM ${prefix}sections s
 			";
 			$query = $db->query($sql);
 			if ( is_object($query) ) {
@@ -445,7 +445,7 @@ SQL;
 			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT c.title, IFNULL(c.alias, c.name) AS name, c.description, IFNULL(s.alias, s.name) AS parent
+				SELECT c.title, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
 				FROM ${prefix}categories c
 				INNER JOIN ${prefix}sections AS s ON s.id = c.section
 			";
@@ -477,7 +477,7 @@ SQL;
 			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, IFNULL(c.alias, c.name) AS category, p.modified, p.publish_up
+				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, p.publish_up
 				FROM ${prefix}content p
 				LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 				WHERE p.state >= 0 -- don't get the trash
@@ -508,7 +508,7 @@ SQL;
 		$categories = get_categories(array('hide_empty' => '0'));
 		if ( is_array($categories) ) {
 			foreach ( $categories as $category ) {
-				$tab_categories[$category->slug] = $category->term_taxonomy_id;
+				$tab_categories[$category->slug] = $category->term_id;
 			}
 		}
 		return $tab_categories;

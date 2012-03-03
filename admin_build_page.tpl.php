@@ -71,7 +71,7 @@
 				<td><input id="introtext_in_excerpt" name="introtext_in_excerpt" type="checkbox" value="1" <?php checked($data['introtext_in_excerpt'], 1); ?> /> <label for="introtext_in_excerpt" title="<?php _e("Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link.", 'fgj2wp'); ?>"><?php _e('Import the text above the "read more" to the excerpt', 'fgj2wp'); ?></label></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e('Images:', 'fgj2wp') ?></th>
+				<th scope="row"><?php _e('Images:', 'fgj2wp'); ?></th>
 				<td><input id="skip_images" name="skip_images" type="checkbox" value="1" <?php checked($data['skip_images'], 1); ?> /> <label for="skip_images" ><?php _e('Skip images', 'fgj2wp'); ?></label></td>
 			</tr>
 			<tr>
@@ -81,6 +81,8 @@
 		</table>
 		
 	</form>
+	
+	<p><?php _e('If you found this plugin useful and it saved you many hours or days, please rate it on <a href="http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/">FG Joomla to WordPress</a>. You can also make a donation using the button below.', 'fgj2wp'); ?></p>
 	
 	<div style="text-align: center; margin-top:20px;">
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">

@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -54,6 +54,10 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Changelog ==
 
+= 1.1.1 =
+* New: Manage sections and categories duplicates
+* Fixed: Wrong categorization of posts
+
 = 1.1.0 =
 * Update the FAQ
 * New: Can restart an import where it left after a crash (for big databases)
@@ -74,6 +78,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Manage sections and categories duplicates
 
 = 1.1.0 =
 You can restart an import where it left after a crash (for big databases).

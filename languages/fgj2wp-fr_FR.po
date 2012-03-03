@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-03 15:16+0100\n"
-"PO-Revision-Date: 2012-03-03 15:16+0100\n"
+"POT-Creation-Date: 2012-03-03 23:13+0100\n"
+"PO-Revision-Date: 2012-03-03 23:15+0100\n"
 "Last-Translator: F. GILLES <fred.gilles@free.fr>\n"
 "Language-Team: F. GILLES <fred.gilles@free.fr>\n"
 "Language: \n"
@@ -118,6 +118,10 @@ msgstr "Ne pas importer les images"
 #: admin_build_page.tpl.php:79
 msgid "Import content from Joomla to WordPress"
 msgstr "Importer le contenu de Joomla vers WordPress"
+
+#: admin_build_page.tpl.php:85
+msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
+msgstr "Si vous avez trouvé cette extension utile et qu'elle vous a fait gagner de nombreuses heures ou jours, merci de voter pour elle sur <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton ci-dessous."
 
 #: fg-joomla-to-wordpress.php:51
 msgid "Joomla 1.5 (FG)"
