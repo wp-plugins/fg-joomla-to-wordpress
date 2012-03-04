@@ -2,13 +2,13 @@
 	<?php screen_icon(); ?>
 	<h2><?php _e('Import Joomla 1.5 (FG)', 'fgj2wp') ?></h2>
 	
-	<p><?php _e('This plugin will import sections, categories, posts and images from a Joomla database into WordPress.', 'fgj2wp'); ?></p>
+	<p><?php _e('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp'); ?></p>
 	
 	<div style="border: 1px solid #cccccc; background: #faebd7; margin: 10px; padding: 2px 10px;">
 		<h3><?php _e('WordPress database', 'fgj2wp') ?></h3>
 		<?php printf(_n('%d category', '%d categories', $data['cat_count'], 'fgj2wp'), $data['cat_count']); ?><br />
 		<?php printf(_n('%d post', '%d posts', $data['posts_count'], 'fgj2wp'), $data['posts_count']); ?><br />
-		<?php printf(_n('%d image', '%d images', $data['images_count'], 'fgj2wp'), $data['images_count']); ?><br />
+		<?php printf(_n('%d media', '%d medias', $data['media_count'], 'fgj2wp'), $data['media_count']); ?><br />
 	</div>
 	
 	<form action="" method="post">
@@ -71,8 +71,8 @@
 				<td><input id="introtext_in_excerpt" name="introtext_in_excerpt" type="checkbox" value="1" <?php checked($data['introtext_in_excerpt'], 1); ?> /> <label for="introtext_in_excerpt" title="<?php _e("Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link.", 'fgj2wp'); ?>"><?php _e('Import the text above the "read more" to the excerpt', 'fgj2wp'); ?></label></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e('Images:', 'fgj2wp'); ?></th>
-				<td><input id="skip_images" name="skip_images" type="checkbox" value="1" <?php checked($data['skip_images'], 1); ?> /> <label for="skip_images" ><?php _e('Skip images', 'fgj2wp'); ?></label></td>
+				<th scope="row"><?php _e('Medias:', 'fgj2wp'); ?></th>
+				<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label></td>
 			</tr>
 			<tr>
 				<th scope="row">&nbsp;</th>

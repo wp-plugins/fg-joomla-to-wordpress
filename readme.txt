@@ -4,28 +4,27 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
-A plugin to migrate categories, posts and images from Joomla to WordPress
+A plugin to migrate categories, posts, images and other medias from Joomla to WordPress
 
 == Description ==
 
-This plugin migrates sections, categories, posts, and images from Joomla to Wordpress.
+This plugin migrates sections, categories, posts, images and medias from Joomla to Wordpress.
 
-It has been tested with **Joomla 1.5** and **Wordpress 3.3.1**
+It has been tested with **Joomla 1.5** and **Wordpress 3.3.1** on huge databases (15 000+ posts)
 
 Major features include:
 
 * migrates Joomla sections as categories
 * migrates categories as sub-categories
 * migrates Joomla posts
-* associates posts to categories
-* uploads all the posts images in WP uploads directories (optional)
+* uploads all the posts media in WP uploads directories (in option)
+* modifies the post content to keep the media links
 * resizes images according to the sizes defined in WP
 * defines the thumbnail to be the first post image
-* modifies images src in content
 * keeps the alt image attribute
 
 == Installation ==
@@ -54,6 +53,13 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Changelog ==
 
+= 1.2.0 =
+* New: Import all media
+* Fixed: Do not reimport already imported categories
+* Fixed: Update categories cache
+* Fixed: Issue with media containing spaces
+* Fixed: Original images sizes are kept in post contents
+
 = 1.1.1 =
 * New: Manage sections and categories duplicates
 * Fixed: Wrong categorization of posts
@@ -78,6 +84,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Import all media
 
 = 1.1.1 =
 Manage sections and categories duplicates

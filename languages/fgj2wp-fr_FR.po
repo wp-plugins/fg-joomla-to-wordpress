@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-03 23:13+0100\n"
-"PO-Revision-Date: 2012-03-03 23:15+0100\n"
+"POT-Creation-Date: 2012-03-04 23:39+0100\n"
+"PO-Revision-Date: 2012-03-04 23:39+0100\n"
 "Last-Translator: F. GILLES <fred.gilles@free.fr>\n"
 "Language-Team: F. GILLES <fred.gilles@free.fr>\n"
 "Language: \n"
@@ -23,8 +23,8 @@ msgid "Import Joomla 1.5 (FG)"
 msgstr "Import Joomla 1.5 (FG)"
 
 #: admin_build_page.tpl.php:5
-msgid "This plugin will import sections, categories, posts and images from a Joomla database into WordPress."
-msgstr "Cette extension va importer les sections, les catégories, les articles et les images depuis une base Joomla vers WordPress."
+msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress."
+msgstr "Cette extension va importer les sections, les catégories, les articles et les médias (images, fichiers attachés) depuis une base Joomla vers WordPress."
 
 #: admin_build_page.tpl.php:8
 msgid "WordPress database"
@@ -46,10 +46,10 @@ msgstr[1] "%d articles"
 
 #: admin_build_page.tpl.php:11
 #, php-format
-msgid "%d image"
-msgid_plural "%d images"
-msgstr[0] "%d image"
-msgstr[1] "%d images"
+msgid "%d media"
+msgid_plural "%d medias"
+msgstr[0] "%d média"
+msgstr[1] "%d médias"
 
 #: admin_build_page.tpl.php:21
 msgid "Empty WordPress content"
@@ -108,12 +108,12 @@ msgid "Import the text above the \"read more\" to the excerpt"
 msgstr "Importer le texte d'introduction dans l'extrait"
 
 #: admin_build_page.tpl.php:74
-msgid "Images:"
-msgstr "Images :"
+msgid "Medias:"
+msgstr "Médias :"
 
 #: admin_build_page.tpl.php:75
-msgid "Skip images"
-msgstr "Ne pas importer les images"
+msgid "Skip media"
+msgstr "Ne pas importer les médias"
 
 #: admin_build_page.tpl.php:79
 msgid "Import content from Joomla to WordPress"
@@ -128,12 +128,12 @@ msgid "Joomla 1.5 (FG)"
 msgstr "Joomla 1.5 (FG)"
 
 #: fg-joomla-to-wordpress.php:51
-msgid "Import categories, articles and images from a Joomla 1.5 database into WordPress."
-msgstr "Importer les catégories, articles et images depuis une base Joomla 1.5 vers WordPress."
+msgid "Import categories, articles and medias (images, attachments) from a Joomla 1.5 database into WordPress."
+msgstr "Importer les catégories, articles et médias (images, fichiers attachés) depuis une base Joomla 1.5 vers WordPress."
 
 #: fg-joomla-to-wordpress.php:99
-msgid "Categories, posts and images deleted"
-msgstr "Catégories, articles et images supprimées"
+msgid "Categories, posts and medias deleted"
+msgstr "Catégories, articles et médias supprimés"
 
 #: fg-joomla-to-wordpress.php:101
 msgid "Couldn't delete content"
@@ -155,10 +155,19 @@ msgstr[1] "%d articles importés"
 
 #: fg-joomla-to-wordpress.php:121
 #, php-format
-msgid "%d image imported"
-msgid_plural "%d images imported"
-msgstr[0] "%d image importée"
-msgstr[1] "%d images importées"
+msgid "%d media imported"
+msgid_plural "%d medias imported"
+msgstr[0] "%d média importé"
+msgstr[1] "%d médias importés"
+
+#~ msgid "%d image"
+
+#~ msgid_plural "%d images"
+#~ msgstr[0] "%d image"
+#~ msgstr[1] "%d images"
+
+#~ msgid "Images:"
+#~ msgstr "Images :"
 
 #, fuzzy
 #~ msgid "FG Joomla to WordPress"
