@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.2.0
+ * Version:     1.2.1
  * Author:      Frédéric GILLES
  */
 
@@ -343,7 +343,7 @@ SQL;
 				// Medias
 				if ( !$this->plugin_options['skip_media'] ) {
 					// Import media
-					list($post_media, $post_media_count) = $this->import_media($post['introtext'] . $post['fulltext'], $post['publish_up']);
+					list($post_media, $post_media_count) = $this->import_media($post['introtext'] . $post['fulltext'], $post['date']);
 					$media_count += $post_media_count;
 				} else {
 					// Skip media
@@ -351,8 +351,9 @@ SQL;
 				}
 				
 				// Category ID
-				if ( array_key_exists($post['category'], $tab_categories) ) {
-					$cat_id = $tab_categories[$post['category']];
+				$category = sanitize_title($post['category']);
+				if ( array_key_exists($category, $tab_categories) ) {
+					$cat_id = $tab_categories[$category];
 				} else {
 					$cat_id = 1; // default category
 				}
@@ -386,7 +387,7 @@ SQL;
 				$new_post = array(
 					'post_category'		=> array($cat_id),
 					'post_content'		=> $content,
-					'post_date'			=> $post['publish_up'],
+					'post_date'			=> $post['date'],
 					'post_excerpt'		=> $excerpt,
 					'post_status'		=> $status,
 					'post_title'		=> $post['title'],
@@ -484,7 +485,7 @@ SQL;
 			$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 			$prefix = $this->plugin_options['prefix'];
 			$sql = "
-				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, p.publish_up
+				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date
 				FROM ${prefix}content p
 				LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 				WHERE p.state >= 0 -- don't get the trash
