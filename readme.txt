@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -39,6 +39,18 @@ Major features include:
 
 * The archived posts or posts put in trash are not migrated. But unpublished posts are migrated as drafts.
 
+= The migration stops and I get the message: "Fatal error: Allowed memory size of XXXXXX bytes exhausted" =
+
+* You can run the migration again. It will continue where it stopped. You can also increase the memory limit in php.ini if you have write access to this file.
+
+= The media are not migrated and I get the error message: "Warning: copy() [function.copy]: URL file-access is disabled in the server configuration" =
+
+* The PHP directive "Allow URL fopen" must be turned on in php.ini to copy the medias. If your remote host doesn't allow this directive, you will have to do the migration on localhost.
+
+= I get the message: "Fatal error: Class 'PDO' not found" =
+
+* PDO and PDO_MySQL libraries are needed. You must enable them in php.ini.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
@@ -52,6 +64,10 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * other can be translated
 
 == Changelog ==
+
+= 1.2.2 =
+* Fixed: Don't import HTML links as medias
+* FAQ updated
 
 = 1.2.1 =
 * New: Get the post creation date when the publication date is empty
@@ -88,6 +104,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Don't import HTML links as medias
 
 = 1.2.1 =
 Get the post creation date when the publication date is empty
