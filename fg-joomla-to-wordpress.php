@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.2.2
+ * Version:     1.3.0
  * Author:      Frédéric GILLES
  */
 
@@ -122,6 +122,15 @@ if ( !class_exists('fgj2wp', false) ) {
 							$result = $this->import_posts();
 							$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
 							$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+							$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
+						}
+						break;
+
+					// Modify internal links
+					case 'modify_links':
+						if ( check_admin_referer( 'modify_links', 'fgj2wp_nonce' ) ) { // Security check
+							$result = $this->modify_links();
+							$this->display_admin_notice(sprintf(_n('%d internal link modified', '%d internal links modified', $result['links_count'], 'fgj2wp'), $result['links_count']));
 						}
 						break;
 				}
@@ -330,85 +339,96 @@ SQL;
 		/**
 		 * Import posts
 		 *
-		 * @return int Number of posts imported
+		 * @return array:
+		 * 		int posts_count: Number of posts imported
+		 * 		int media_count: Number of medias imported
 		 */
 		private function import_posts() {
 			$posts_count = 0;
 			$media_count = 0;
+			$step = 1000; // to limit the results
 			
 			$tab_categories = $this->tab_categories(); // Get the categories list
 			
-			$posts = $this->get_posts(); // Get the Joomla posts
-			
-			if ( is_array($posts) ) {
-				foreach ( $posts as $post ) {
-					
-					// Medias
-					if ( !$this->plugin_options['skip_media'] ) {
-						// Import media
-						list($post_media, $post_media_count) = $this->import_media($post['introtext'] . $post['fulltext'], $post['date']);
-						$media_count += $post_media_count;
-					} else {
-						// Skip media
-						$post_media = array();
-					}
-					
-					// Category ID
-					$category = sanitize_title($post['category']);
-					if ( array_key_exists($category, $tab_categories) ) {
-						$cat_id = $tab_categories[$category];
-					} else {
-						$cat_id = 1; // default category
-					}
-					
-					// Define excerpt and post content
-					if ( empty($post['fulltext']) ) {
-						// Posts without a "Read more" link
-						$excerpt = '';
-						$content = $post['introtext'];
-					} else {
-						// Posts with a "Read more" link
-						if ( $this->plugin_options['introtext_in_excerpt'] ) {
-							// Introtext imported in excerpt
-							$excerpt = $post['introtext'];
-							$content = $post['fulltext'];
+			do {
+				$posts = $this->get_posts($step); // Get the Joomla posts
+				
+				if ( is_array($posts) ) {
+					foreach ( $posts as $post ) {
+						
+						// Medias
+						if ( !$this->plugin_options['skip_media'] ) {
+							// Import media
+							$result = $this->import_media($post['introtext'] . $post['fulltext'], $post['date']);
+							$post_media = $result['media'];
+							$media_count += $result['media_count'];
 						} else {
-							// Introtext imported in post content with a "Read more" tag
+							// Skip media
+							$post_media = array();
+						}
+						
+						// Category ID
+						$category = sanitize_title($post['category']);
+						if ( array_key_exists($category, $tab_categories) ) {
+							$cat_id = $tab_categories[$category];
+						} else {
+							$cat_id = 1; // default category
+						}
+						
+						// Define excerpt and post content
+						if ( empty($post['fulltext']) ) {
+							// Posts without a "Read more" link
 							$excerpt = '';
-							$content = $post['introtext'] . "\n<!--more-->\n" . $post['fulltext'];
+							$content = $post['introtext'];
+						} else {
+							// Posts with a "Read more" link
+							if ( $this->plugin_options['introtext_in_excerpt'] ) {
+								// Introtext imported in excerpt
+								$excerpt = $post['introtext'];
+								$content = $post['fulltext'];
+							} else {
+								// Introtext imported in post content with a "Read more" tag
+								$excerpt = '';
+								$content = $post['introtext'] . "\n<!--more-->\n" . $post['fulltext'];
+							}
+						}
+						
+						// Process content
+						$excerpt = $this->process_content($excerpt, $post_media);
+						$content = $this->process_content($content, $post_media);
+						
+						// Status
+						$status = ($post['state'] == 1)? 'publish' : 'draft';
+						
+						// Insert the post
+						$new_post = array(
+							'post_category'		=> array($cat_id),
+							'post_content'		=> $content,
+							'post_date'			=> $post['date'],
+							'post_excerpt'		=> $excerpt,
+							'post_status'		=> $status,
+							'post_title'		=> $post['title'],
+							'post_name'			=> $post['alias'],
+							'post_type'			=> 'post',
+						);
+						$new_post_id = wp_insert_post($new_post);
+						if ( $new_post_id ) { 
+							// Add links between the post and its medias
+							$this->add_post_media($new_post_id, $new_post, $post_media);
+							
+							// Add the Joomla ID as a post meta in order to modify links after
+							add_post_meta($new_post_id, '_fgj2wp_old_id', $post['id'], true);
+							
+							// Increment the Joomla last imported post ID
+							update_option('fgj2wp_last_id', $post['id']);
+
+							$posts_count++;					
 						}
 					}
-					
-					// Process content
-					$excerpt = $this->process_content($excerpt, $post_media);
-					$content = $this->process_content($content, $post_media);
-					
-					// Status
-					$status = ($post['state'] == 1)? 'publish' : 'draft';
-					
-					// Insert the post
-					$new_post = array(
-						'post_category'		=> array($cat_id),
-						'post_content'		=> $content,
-						'post_date'			=> $post['date'],
-						'post_excerpt'		=> $excerpt,
-						'post_status'		=> $status,
-						'post_title'		=> $post['title'],
-						'post_name'			=> $post['alias'],
-						'post_type'			=> 'post',
-					);
-					$new_post_id = wp_insert_post($new_post);
-					if ( $new_post_id ) { 
-						// Add links between the post and its medias
-						$this->add_post_media($new_post_id, $new_post, $post_media);
-						
-						// Increment the Joomla last imported post ID
-						update_option('fgj2wp_last_id', $post['id']);
-
-						$posts_count++;					
-					}
 				}
-			}
+				wp_cache_flush(); // To avoid memory exhausted problem
+			} while ( ($posts != null) && (count($posts) > 0) );
+			
 			return array(
 				'posts_count'	=> $posts_count,
 				'media_count'	=> $media_count,
@@ -477,9 +497,10 @@ SQL;
 		/**
 		 * Get Joomla posts
 		 *
+		 * @param int limit Number of posts max
 		 * @return array of Posts
 		 */
-		private function get_posts() {
+		private function get_posts($limit=1000) {
 			$posts = array();
 			
 			$last_id = (int)get_option('fgj2wp_last_id'); // to restore the import where it left
@@ -494,6 +515,7 @@ SQL;
 					WHERE p.state >= 0 -- don't get the trash
 					AND p.id > '$last_id'
 					ORDER BY p.id
+					LIMIT $limit
 				";
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
@@ -531,8 +553,8 @@ SQL;
 		 * @param string $content post content
 		 * @param date $post_date Post date (for storing media)
 		 * @return array:
-		 * 		array: Medias imported
-		 * 		int:   Medias count
+		 * 		array media: Medias imported
+		 * 		int media_count:   Medias count
 		 */
 		private function import_media($content, $post_date) {
 			$media = array();
@@ -613,7 +635,10 @@ SQL;
 					}
 				}
 			}
-			return array($media, $media_count);
+			return array(
+				'media'			=> $media,
+				'media_count'	=> $media_count
+			);
 		}
 
 		/**
@@ -692,7 +717,7 @@ SQL;
 		 * @param array $post_data Post data
 		 * @param array $post_media Post medias
 		 */
-		function add_post_media($post_id, $post_data, $post_media) {
+		private function add_post_media($post_id, $post_data, $post_media) {
 			$thumbnail_is_set = false;
 			if ( is_array($post_media) ) {
 				foreach ( $post_media as $old_filename => $post_media_name ) {
@@ -710,6 +735,99 @@ SQL;
 			}
 		}
 
+		/**
+		 * Modify the internal links of all posts
+		 *
+		 * @return array:
+		 * 		int links_count: Links count
+		 */
+		private function modify_links() {
+			$links_count = 0;
+			$step = 1000; // to limit the results
+			$offset = 0;
+			
+			do {
+				$args = array(
+					'numberposts'	=> $step,
+					'offset'		=> $offset,
+					'orderby'		=> 'ID',
+					'order'			=> 'ASC',
+					'post_type'		=> 'post',
+				);
+				$posts = get_posts($args);
+				foreach ( $posts as $post ) {
+					$content = $post->post_content;
+					if ( preg_match_all('#<a(.*?)href="(.*?)"(.*?)>#', $content, $matches, PREG_SET_ORDER) > 0 ) {
+						if ( is_array($matches) ) {
+							foreach ($matches as $match ) {
+								$link = $match[2];
+								// Is it an internal link ?
+								if ( $this->is_internal_link($link) ) {
+									$old_id = $this->get_joomla_id_in_link($link);
+									// Can we find an ID in the link ?
+									if ( $old_id != 0 ) {
+										// Get the linked post
+										$linked_posts = get_posts(array(
+											'numberposts'	=> 1,
+											'post_type'		=> 'post',
+											'meta_key'		=> '_fgj2wp_old_id',
+											'meta_value'	=> $old_id,
+										));
+										if ( count($linked_posts) > 0 ) {
+											$new_link = get_permalink($linked_posts[0]->ID);
+											$content = str_replace("href=\"$link\"", "href=\"$new_link\"", $content);
+											// Update the post
+											wp_update_post(array(
+												'ID'			=> $post->ID,
+												'post_content'	=> $content,
+											));
+											$links_count++;
+										}
+										unset($linked_posts);
+									}
+								}
+							}
+						}
+					}
+				}
+				$offset += $step;
+				wp_cache_flush(); // To avoid memory exhausted problem
+			} while ( ($posts != null) && (count($posts) > 0) );
+			
+			return array('links_count' => $links_count);
+		}
+
+		/**
+		 * Test if the link is an internal link or not
+		 *
+		 * @param string $link
+		 * @return bool
+		 */
+		private function is_internal_link($link) {
+			$result = (preg_match("#^".$this->plugin_options['url']."#", $link) > 0) ||
+				(preg_match("#^http#", $link) == 0);
+			return $result;
+		}
+
+		/**
+		 * Get the Joomla ID in a link
+		 *
+		 * @param string $link
+		 * @return int
+		 */
+		private function get_joomla_id_in_link($link) {
+			$old_id = 0;
+			// Without URL rewriting
+			if ( preg_match("#id=(\d+)#", $link, $matches) ) {
+				$old_id = $matches[1];
+			}
+			// With URL rewriting
+			elseif ( preg_match("#(.*)/(\d+)-(.*)#", $link, $matches) ) {
+				$old_id = $matches[2];
+			}
+			return $old_id;
+		}
+		
 	}
 }
 ?>

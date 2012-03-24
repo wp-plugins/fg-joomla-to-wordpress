@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 23:39+0100\n"
-"PO-Revision-Date: 2012-03-04 23:39+0100\n"
+"POT-Creation-Date: 2012-03-24 17:54+0100\n"
+"PO-Revision-Date: 2012-03-24 17:54+0100\n"
 "Last-Translator: F. GILLES <fred.gilles@free.fr>\n"
 "Language-Team: F. GILLES <fred.gilles@free.fr>\n"
 "Language: \n"
@@ -119,46 +119,65 @@ msgstr "Ne pas importer les médias"
 msgid "Import content from Joomla to WordPress"
 msgstr "Importer le contenu de Joomla vers WordPress"
 
-#: admin_build_page.tpl.php:85
+#: admin_build_page.tpl.php:91
+msgid "After the migration"
+msgstr "Après la migration"
+
+#: admin_build_page.tpl.php:95
+msgid "Modify internal links"
+msgstr "Modifier les liens internes"
+
+#: admin_build_page.tpl.php:101
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Si vous avez trouvé cette extension utile et qu'elle vous a fait gagner de nombreuses heures ou jours, merci de voter pour elle sur <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton ci-dessous."
 
-#: fg-joomla-to-wordpress.php:51
+#: fg-joomla-to-wordpress.php:54
 msgid "Joomla 1.5 (FG)"
 msgstr "Joomla 1.5 (FG)"
 
-#: fg-joomla-to-wordpress.php:51
+#: fg-joomla-to-wordpress.php:54
 msgid "Import categories, articles and medias (images, attachments) from a Joomla 1.5 database into WordPress."
 msgstr "Importer les catégories, articles et médias (images, fichiers attachés) depuis une base Joomla 1.5 vers WordPress."
 
-#: fg-joomla-to-wordpress.php:99
+#: fg-joomla-to-wordpress.php:102
 msgid "Categories, posts and medias deleted"
 msgstr "Catégories, articles et médias supprimés"
 
-#: fg-joomla-to-wordpress.php:101
+#: fg-joomla-to-wordpress.php:104
 msgid "Couldn't delete content"
 msgstr "Impossible de supprimer le contenu"
 
-#: fg-joomla-to-wordpress.php:116
+#: fg-joomla-to-wordpress.php:119
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:120
+#: fg-joomla-to-wordpress.php:123
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:121
+#: fg-joomla-to-wordpress.php:124
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
 msgstr[0] "%d média importé"
 msgstr[1] "%d médias importés"
+
+#: fg-joomla-to-wordpress.php:125
+msgid "Don't forget to modify internal links."
+msgstr "N'oubliez pas de modifier les liens internes."
+
+#: fg-joomla-to-wordpress.php:133
+#, php-format
+msgid "%d internal link modified"
+msgid_plural "%d internal links modified"
+msgstr[0] "%d lien interne modifié"
+msgstr[1] "%d liens internes modifiés"
 
 #~ msgid "%d image"
 

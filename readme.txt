@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -26,6 +26,7 @@ Major features include:
 * resizes images according to the sizes defined in WP
 * defines the thumbnail to be the first post image
 * keeps the alt image attribute
+* modifies the internal links
 
 == Installation ==
 
@@ -64,6 +65,10 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * other can be translated
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Modify posts internal links using WordPress permalinks setup
+* Fixed: Exhausted memory issue
 
 = 1.2.2 =
 * Fixed: Don't import HTML links as medias
@@ -104,6 +109,10 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Modify posts internal links using WordPress permalinks setup
+Exhausted memory issue fixed
 
 = 1.2.2 =
 Don't import HTML links as medias

@@ -79,6 +79,22 @@
 				<td><input class="button-primary" name="submit" value="<?php _e('Import content from Joomla to WordPress', 'fgj2wp'); ?>" type="submit" /></td>
 			</tr>
 		</table>
+	</form>
+	
+	<form action="" method="post">
+
+		<input name="action" type="hidden" value="modify_links" />
+		<?php wp_nonce_field( 'modify_links', 'fgj2wp_nonce' ); ?>
+
+		<table class="form-table">
+			<tr>
+				<th scope="row" colspan="2"><h3><?php _e('After the migration', 'fgj2wp'); ?></h3></th>
+			</tr>
+			<tr>
+				<th scope="row">&nbsp;</th>
+				<td><input class="button-primary" name="submit" value="<?php _e('Modify internal links', 'fgj2wp'); ?>" type="submit" /></td>
+			</tr>
+		</table>
 		
 	</form>
 	
