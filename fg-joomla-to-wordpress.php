@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.3.0
+ * Version:     1.3.1
  * Author:      Frédéric GILLES
  */
 
@@ -52,6 +52,10 @@ if ( !class_exists('fgj2wp', false) ) {
 			load_plugin_textdomain( 'fgj2wp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		
 			register_importer('fgj2wp', __('Joomla 1.5 (FG)', 'fgj2wp'), __('Import categories, articles and medias (images, attachments) from a Joomla 1.5 database into WordPress.', 'fgj2wp'), array ($this, 'dispatch'));
+			
+			// Suspend the cache during the migration to avoid exhausted memory problem
+			wp_suspend_cache_addition(true);
+			wp_suspend_cache_invalidation(true);
 		}
 
 		/**
@@ -356,6 +360,9 @@ SQL;
 				if ( is_array($posts) ) {
 					foreach ( $posts as $post ) {
 						
+						// Hook for modifying the Joomla post before processing
+						$post = apply_filters('fgj2wp_pre_process_post', $post);
+						
 						// Medias
 						if ( !$this->plugin_options['skip_media'] ) {
 							// Import media
@@ -411,6 +418,10 @@ SQL;
 							'post_name'			=> $post['alias'],
 							'post_type'			=> 'post',
 						);
+						
+						// Hook for modifying the WordPress post just before the insert
+						$new_post = apply_filters('fgj2wp_pre_insert_post', $new_post);
+						
 						$new_post_id = wp_insert_post($new_post);
 						if ( $new_post_id ) { 
 							// Add links between the post and its medias
@@ -422,11 +433,13 @@ SQL;
 							// Increment the Joomla last imported post ID
 							update_option('fgj2wp_last_id', $post['id']);
 
-							$posts_count++;					
+							$posts_count++;
+							
+							// Hook for doing other actions after inserting the post
+							do_action('fgj2wp_post_insert_post', $new_post_id, $post);
 						}
 					}
 				}
-				wp_cache_flush(); // To avoid memory exhausted problem
 			} while ( ($posts != null) && (count($posts) > 0) );
 			
 			return array(
@@ -791,7 +804,6 @@ SQL;
 					}
 				}
 				$offset += $step;
-				wp_cache_flush(); // To avoid memory exhausted problem
 			} while ( ($posts != null) && (count($posts) > 0) );
 			
 			return array('links_count' => $links_count);
