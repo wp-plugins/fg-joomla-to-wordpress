@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, images and other medias from Joomla to Wo
 
 This plugin migrates sections, categories, posts, images and medias from Joomla to Wordpress.
 
-It has been tested with **Joomla 1.5** and **Wordpress 3.3.1** on huge databases (15 000+ posts)
+It has been tested with **Joomla 1.5** and **Wordpress 3.3.1** on huge databases (72 000+ posts)
 
 Major features include:
 

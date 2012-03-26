@@ -1,14 +1,14 @@
 <div class="wrap" style="float: left;">
 	<?php screen_icon(); ?>
-	<h2><?php _e('Import Joomla 1.5 (FG)', 'fgj2wp') ?></h2>
+	<h2><?php print $data['title'] ?></h2>
 	
-	<p><?php _e('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp'); ?></p>
+	<p><?php print $data['description'] ?></p>
 	
 	<div style="border: 1px solid #cccccc; background: #faebd7; margin: 10px; padding: 2px 10px;">
 		<h3><?php _e('WordPress database', 'fgj2wp') ?></h3>
-		<?php printf(_n('%d category', '%d categories', $data['cat_count'], 'fgj2wp'), $data['cat_count']); ?><br />
-		<?php printf(_n('%d post', '%d posts', $data['posts_count'], 'fgj2wp'), $data['posts_count']); ?><br />
-		<?php printf(_n('%d media', '%d medias', $data['media_count'], 'fgj2wp'), $data['media_count']); ?><br />
+		<?php foreach ( $data['database_info'] as $data_row ): ?>
+			<?php print $data_row; ?><br />
+		<?php endforeach; ?>
 	</div>
 	
 	<form action="" method="post">

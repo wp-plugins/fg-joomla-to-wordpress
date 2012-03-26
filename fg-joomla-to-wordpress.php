@@ -33,7 +33,7 @@ if ( !function_exists( 'fgj2wp_load' ) ) {
 if ( !class_exists('fgj2wp', false) ) {
 	class fgj2wp extends WP_Importer {
 		
-		private $plugin_options;			// Plug-in options
+		protected $plugin_options;			// Plug-in options
 		
 		/**
 		 * Sets up the plugin
@@ -61,14 +61,14 @@ if ( !class_exists('fgj2wp', false) ) {
 		/**
 		 * Display admin notice
 		 */
-		private function display_admin_notice( $message )	{
+		protected function display_admin_notice( $message )	{
 			echo '<div class="updated"><p>['.__CLASS__.'] '.$message.'</p></div>';
 		}
 
 		/**
 		 * Display admin error
 		 */
-		private function display_admin_error( $message )	{
+		protected function display_admin_error( $message )	{
 			echo '<div class="error"><p>['.__CLASS__.'] '.$message.'</p></div>';
 		}
 
@@ -153,11 +153,26 @@ if ( !class_exists('fgj2wp', false) ) {
 			$cat_count = count(get_categories(array('hide_empty' => 0)));
 			
 			$data = $this->plugin_options;
+			
+			$data['title'] = __('Import Joomla 1.5 (FG)', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['media_count'] = $media_count->inherit;
 			$data['cat_count'] = $cat_count;
+			$data['database_info'] = array(
+				sprintf(_n('%d category', '%d categories', $data['cat_count'], 'fgj2wp'), $data['cat_count']),
+				sprintf(_n('%d post', '%d posts', $data['posts_count'], 'fgj2wp'), $data['posts_count']),
+				sprintf(_n('%d media', '%d medias', $data['media_count'], 'fgj2wp'), $data['media_count']),
+			);
+			
+			// Hook for modifying the admin page
+			$data = apply_filters('fgj2wp_pre_display_admin_page', $data);
 			
 			include('admin_build_page.tpl.php');
+			
+			// Hook for doing other actions after displaying the admin page
+			do_action('fgj2wp_post_display_admin_page');
+			
 		}
 
 		/**
@@ -248,6 +263,9 @@ SQL;
 			// Reset the Joomla last imported post ID
 			update_option('fgj2wp_last_id', 0);
 			
+			// Hook for doing other actions after empty the database
+			do_action('fgj2wp_post_empty_database');
+			
 			$this->optimize_database();
 			
 			$wpdb->hide_errors();
@@ -258,7 +276,7 @@ SQL;
 		 * Optimize the database
 		 *
 		 */
-		private function optimize_database() {
+		protected function optimize_database() {
 			global $wpdb;
 			
 			$sql = <<<SQL
@@ -354,6 +372,9 @@ SQL;
 			
 			$tab_categories = $this->tab_categories(); // Get the categories list
 			
+			// Hook for doing other actions before the import
+			do_action('fgj2wp_pre_import_posts');
+			
 			do {
 				$posts = $this->get_posts($step); // Get the Joomla posts
 				
@@ -420,7 +441,7 @@ SQL;
 						);
 						
 						// Hook for modifying the WordPress post just before the insert
-						$new_post = apply_filters('fgj2wp_pre_insert_post', $new_post);
+						$new_post = apply_filters('fgj2wp_pre_insert_post', $new_post, $post);
 						
 						$new_post_id = wp_insert_post($new_post);
 						if ( $new_post_id ) { 
@@ -441,6 +462,9 @@ SQL;
 					}
 				}
 			} while ( ($posts != null) && (count($posts) > 0) );
+			
+			// Hook for doing other actions after the import
+			do_action('fgj2wp_post_import_posts');
 			
 			return array(
 				'posts_count'	=> $posts_count,
@@ -513,7 +537,7 @@ SQL;
 		 * @param int limit Number of posts max
 		 * @return array of Posts
 		 */
-		private function get_posts($limit=1000) {
+		protected function get_posts($limit=1000) {
 			$posts = array();
 			
 			$last_id = (int)get_option('fgj2wp_last_id'); // to restore the import where it left
