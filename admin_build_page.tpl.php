@@ -75,6 +75,10 @@
 				<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label></td>
 			</tr>
 			<tr>
+				<th scope="row"><?php _e('Meta keywords:', 'fgj2wp'); ?></th>
+				<td><input id="meta_keywords_in_tags" name="meta_keywords_in_tags" type="checkbox" value="1" <?php checked($data['meta_keywords_in_tags'], 1); ?> /> <label for="meta_keywords_in_tags" ><?php _e('Import meta keywords as tags', 'fgj2wp'); ?></label></td>
+			</tr>
+			<tr>
 				<th scope="row">&nbsp;</th>
 				<td><input class="button-primary" name="submit" value="<?php _e('Import content from Joomla to WordPress', 'fgj2wp'); ?>" type="submit" /></td>
 			</tr>

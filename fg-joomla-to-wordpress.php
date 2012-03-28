@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.3.1
+ * Version:     1.4.0
  * Author:      Frédéric GILLES
  */
 
@@ -89,6 +89,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'prefix'				=> 'jos_',
 				'introtext_in_excerpt'	=> 1,
 				'skip_media'			=> 0,
+				'meta_keywords_in_tags'	=> 0,
 			);
 			$options = get_option('fgj2wp_options');
 			if ( is_array($options) ) {
@@ -103,7 +104,7 @@ if ( !class_exists('fgj2wp', false) ) {
 					case 'empty':
 						if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
 							if ($this->empty_database()) { // Empty WP database
-								$this->display_admin_notice(__('Categories, posts and medias deleted', 'fgj2wp'));
+								$this->display_admin_notice(__('Categories, tags, posts and medias deleted', 'fgj2wp'));
 							} else {
 								$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
 							}
@@ -126,6 +127,9 @@ if ( !class_exists('fgj2wp', false) ) {
 							$result = $this->import_posts();
 							$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
 							$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+							if ( $this->plugin_options['meta_keywords_in_tags'] ) {
+								$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+							}
 							$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
 						}
 						break;
@@ -151,6 +155,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$posts_count = wp_count_posts('post');
 			$media_count = wp_count_posts('attachment');
 			$cat_count = count(get_categories(array('hide_empty' => 0)));
+			$tags_count = count(get_tags(array('hide_empty' => 0)));
 			
 			$data = $this->plugin_options;
 			
@@ -158,11 +163,11 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['media_count'] = $media_count->inherit;
-			$data['cat_count'] = $cat_count;
 			$data['database_info'] = array(
-				sprintf(_n('%d category', '%d categories', $data['cat_count'], 'fgj2wp'), $data['cat_count']),
+				sprintf(_n('%d category', '%d categories', $cat_count, 'fgj2wp'), $cat_count),
 				sprintf(_n('%d post', '%d posts', $data['posts_count'], 'fgj2wp'), $data['posts_count']),
 				sprintf(_n('%d media', '%d medias', $data['media_count'], 'fgj2wp'), $data['media_count']),
+				sprintf(_n('%d tag', '%d tags', $tags_count, 'fgj2wp'), $tags_count),
 			);
 			
 			// Hook for modifying the admin page
@@ -252,11 +257,11 @@ SQL;
 			$result &= $wpdb->query($wpdb->prepare($sql));
 
 			$sql = <<<SQL
--- Delete Categories
+-- Delete Categories and Tags
 DELETE t, tt FROM $wpdb->terms t, $wpdb->term_taxonomy tt
 WHERE t.term_id = tt.term_id
 AND t.term_id > 1 -- non-classe
-AND tt.taxonomy = 'category'
+AND tt.taxonomy IN ('category', 'post_tag')
 SQL;
 			$result &= $wpdb->query($wpdb->prepare($sql));
 			
@@ -309,6 +314,7 @@ SQL;
 				'prefix'				=> $_POST['prefix'],
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
 				'skip_media'			=> !empty($_POST['skip_media']),
+				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
 			);
 		}
 
@@ -368,6 +374,8 @@ SQL;
 		private function import_posts() {
 			$posts_count = 0;
 			$media_count = 0;
+			$tags_count = 0;
+			$imported_tags = array();
 			$step = 1000; // to limit the results
 			
 			$tab_categories = $this->tab_categories(); // Get the categories list
@@ -428,6 +436,13 @@ SQL;
 						// Status
 						$status = ($post['state'] == 1)? 'publish' : 'draft';
 						
+						// Tags
+						$tags = array();
+						if ( $this->plugin_options['meta_keywords_in_tags'] && !empty($post['metakey']) ) {
+							$tags = explode(',', $post['metakey']);
+							$imported_tags = array_merge($imported_tags, $tags);
+						}
+						
 						// Insert the post
 						$new_post = array(
 							'post_category'		=> array($cat_id),
@@ -438,6 +453,7 @@ SQL;
 							'post_title'		=> $post['title'],
 							'post_name'			=> $post['alias'],
 							'post_type'			=> 'post',
+							'tags_input'		=> $tags,
 						);
 						
 						// Hook for modifying the WordPress post just before the insert
@@ -469,6 +485,7 @@ SQL;
 			return array(
 				'posts_count'	=> $posts_count,
 				'media_count'	=> $media_count,
+				'tags_count'	=> count(array_unique($imported_tags)),
 			);
 		}
 		
@@ -546,7 +563,7 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 					WHERE p.state >= 0 -- don't get the trash

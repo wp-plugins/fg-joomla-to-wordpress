@@ -4,15 +4,15 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
-A plugin to migrate categories, posts, images and other medias from Joomla to WordPress
+A plugin to migrate categories, posts, tags, images and other medias from Joomla to WordPress
 
 == Description ==
 
-This plugin migrates sections, categories, posts, images and medias from Joomla to Wordpress.
+This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
 It has been tested with **Joomla 1.5** and **Wordpress 3.3.1** on huge databases (72 000+ posts)
 
@@ -27,6 +27,7 @@ Major features include:
 * defines the thumbnail to be the first post image
 * keeps the alt image attribute
 * modifies the internal links
+* migrates meta keywords as tags
 
 == Installation ==
 
@@ -65,6 +66,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * other can be translated
 
 == Changelog ==
+
+= 1.4.0 =
+* New: Option to import meta keywords as tags
 
 = 1.3.1 =
 * New: Deactivate the cache during the migration for improving speed
@@ -112,6 +116,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Option to import meta keywords as tags
 
 = 1.3.1 =
 Improve speed
