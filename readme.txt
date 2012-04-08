@@ -29,6 +29,13 @@ Major features include:
 * modifies the internal links
 * migrates meta keywords as tags
 
+The **Premium version** includes these extra features:
+
+* migrates authors
+
+It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
+
+
 == Installation ==
 
 1.  Extract plugin zip file and load up to your wp-content/plugin directory
