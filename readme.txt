@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.3.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -63,6 +63,14 @@ It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
+= I get the message: "SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)"
+
+* First verify your login and password to your Joomla database.
+* You must give access to the WordPress host on your Joomla database.
+* If your provider doesn't allow external IP to access your database, you have two solutions:
+- install WordPress on the same host as Joomla
+- install WordPress and the Joomla database on your localhost and do the migration on localhost
+
 == Screenshots ==
 
 1. Parameters screen
@@ -73,6 +81,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * other can be translated
 
 == Changelog ==
+
+= 1.4.1 =
+* FAQ and description updated
 
 = 1.4.0 =
 * New: Option to import meta keywords as tags
@@ -123,6 +134,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+FAQ and description updated
 
 = 1.4.0 =
 Option to import meta keywords as tags
