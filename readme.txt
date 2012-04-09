@@ -60,16 +60,16 @@ It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 * PDO and PDO_MySQL libraries are needed. You must enable them in php.ini.
 
-Don't hesitate to let a comment on the forum or to report bugs if you found some.
-http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
-
-= I get the message: "SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)"
+= I get the message: "SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
 
 * First verify your login and password to your Joomla database.
 * You must give access to the WordPress host on your Joomla database.
 * If your provider doesn't allow external IP to access your database, you have two solutions:
 - install WordPress on the same host as Joomla
 - install WordPress and the Joomla database on your localhost and do the migration on localhost
+
+Don't hesitate to let a comment on the forum or to report bugs if you found some.
+http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 
 == Screenshots ==
 
