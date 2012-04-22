@@ -32,6 +32,7 @@ Major features include:
 The **Premium version** includes these extra features:
 
 * migrates authors
+* SEO: redirects Joomla URLs to the new WordPress URLs
 
 It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
