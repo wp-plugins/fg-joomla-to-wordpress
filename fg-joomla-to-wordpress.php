@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.4.0
+ * Version:     1.4.1
  * Author:      Frédéric GILLES
  */
 
@@ -530,7 +530,7 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
-					SELECT c.title, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
+					SELECT c.title, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
 					FROM ${prefix}categories c
 					INNER JOIN ${prefix}sections AS s ON s.id = c.section
 				";
@@ -563,7 +563,7 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT(c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 					WHERE p.state >= 0 -- don't get the trash
