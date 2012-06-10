@@ -3,8 +3,8 @@ Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
-Tested up to: WP 3.3.2
-Stable tag: 1.4.1
+Tested up to: WP 3.4.0
+Stable tag: 1.4.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla 1.5** and **Wordpress 3.3.2** on huge databases (72 000+ posts)
+It has been tested with **Joomla 1.5** and **Wordpress 3.4** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -70,7 +70,7 @@ It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 - install WordPress and the Joomla database on your localhost and do the migration on localhost
 
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
-http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
+http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Screenshots ==
 
@@ -82,6 +82,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * other can be translated
 
 == Changelog ==
+
+= 1.4.2 =
+* Tested with WordPress 3.4
 
 = 1.4.1 =
 * Add "c" in the category slug to not be in conflict with the Joomla URLs
@@ -136,6 +139,9 @@ http://wordpress.org/tags/fg-joomla-to-wordpress?forum_id=10
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+Works with WordPress 3.4
 
 = 1.4.1 =
 Add "c" in the category slug to not be in conflict with the Joomla URLs
