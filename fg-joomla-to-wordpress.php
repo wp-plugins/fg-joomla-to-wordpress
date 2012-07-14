@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.4.2
+ * Version:     1.5.0
  * Author:      Frédéric GILLES
  */
 
@@ -34,6 +34,7 @@ if ( !class_exists('fgj2wp', false) ) {
 	class fgj2wp extends WP_Importer {
 		
 		protected $plugin_options;			// Plug-in options
+		protected $post_type = 'post';		// post or page
 		
 		/**
 		 * Sets up the plugin
@@ -90,6 +91,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'introtext_in_excerpt'	=> 1,
 				'skip_media'			=> 0,
 				'meta_keywords_in_tags'	=> 0,
+				'import_as_pages'		=> 0,
 			);
 			$options = get_option('fgj2wp_options');
 			if ( is_array($options) ) {
@@ -104,7 +106,7 @@ if ( !class_exists('fgj2wp', false) ) {
 					case 'empty':
 						if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
 							if ($this->empty_database()) { // Empty WP database
-								$this->display_admin_notice(__('Categories, tags, posts and medias deleted', 'fgj2wp'));
+								$this->display_admin_notice(__('Categories, tags, posts, pages and medias deleted', 'fgj2wp'));
 							} else {
 								$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
 							}
@@ -119,17 +121,33 @@ if ( !class_exists('fgj2wp', false) ) {
 							$this->plugin_options = array_merge($this->plugin_options, $this->validate_form_info());
 							update_option('fgj2wp_options', $this->plugin_options);
 							
+							$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
+				
 							// Categories
-							$cat_count = $this->import_categories();
-							$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
+							if ($this->post_type == 'post') {
+								$cat_count = $this->import_categories();
+								$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
+							}
 							
 							// Posts and medias
 							$result = $this->import_posts();
-							$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-							$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
-							if ( $this->plugin_options['meta_keywords_in_tags'] ) {
-								$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+							switch ($this->post_type) {
+								case 'page':
+									$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+									break;
+								case 'post':
+								default:
+									$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
 							}
+							$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+							
+							// Tags
+							if ($this->post_type == 'post') {
+								if ( $this->plugin_options['meta_keywords_in_tags'] ) {
+									$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+								}
+							}
+							
 							$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
 						}
 						break;
@@ -153,6 +171,7 @@ if ( !class_exists('fgj2wp', false) ) {
 		 */
 		private function admin_build_page() {
 			$posts_count = wp_count_posts('post');
+			$pages_count = wp_count_posts('page');
 			$media_count = wp_count_posts('attachment');
 			$cat_count = count(get_categories(array('hide_empty' => 0)));
 			$tags_count = count(get_tags(array('hide_empty' => 0)));
@@ -162,10 +181,12 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data['title'] = __('Import Joomla 1.5 (FG)', 'fgj2wp');
 			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
+			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
 			$data['media_count'] = $media_count->inherit;
 			$data['database_info'] = array(
 				sprintf(_n('%d category', '%d categories', $cat_count, 'fgj2wp'), $cat_count),
 				sprintf(_n('%d post', '%d posts', $data['posts_count'], 'fgj2wp'), $data['posts_count']),
+				sprintf(_n('%d page', '%d pages', $data['pages_count'], 'fgj2wp'), $data['pages_count']),
 				sprintf(_n('%d media', '%d medias', $data['media_count'], 'fgj2wp'), $data['media_count']),
 				sprintf(_n('%d tag', '%d tags', $tags_count, 'fgj2wp'), $tags_count),
 			);
@@ -200,7 +221,7 @@ WHERE comment_id IN
 	WHERE comment_post_ID IN
 		(
 		SELECT ID FROM $wpdb->posts
-		WHERE post_type IN ('post', 'attachment', 'revision')
+		WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 		OR post_status = 'trash'
 		OR post_title = 'Brouillon auto'
 		)
@@ -214,7 +235,7 @@ DELETE FROM $wpdb->comments
 WHERE comment_post_ID IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'attachment', 'revision')
+	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
 	OR post_title = 'Brouillon auto'
 	);
@@ -227,7 +248,7 @@ DELETE FROM $wpdb->term_relationships
 WHERE `object_id` IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'attachment', 'revision')
+	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
 	OR post_title = 'Brouillon auto'
 	);
@@ -240,7 +261,7 @@ DELETE FROM $wpdb->postmeta
 WHERE post_id IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'attachment', 'revision')
+	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
 	OR post_title = 'Brouillon auto'
 	);
@@ -250,7 +271,7 @@ SQL;
 			$sql = <<<SQL
 -- Delete Posts
 DELETE FROM $wpdb->posts
-WHERE post_type IN ('post', 'attachment', 'revision')
+WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 OR post_status = 'trash'
 OR post_title = 'Brouillon auto';
 SQL;
@@ -315,6 +336,7 @@ SQL;
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
 				'skip_media'			=> !empty($_POST['skip_media']),
 				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
+				'import_as_pages'		=> !empty($_POST['import_as_pages']),
 			);
 		}
 
@@ -452,8 +474,9 @@ SQL;
 							'post_status'		=> $status,
 							'post_title'		=> $post['title'],
 							'post_name'			=> $post['alias'],
-							'post_type'			=> 'post',
+							'post_type'			=> $this->post_type,
 							'tags_input'		=> $tags,
+							'menu_order'        => $post['ordering'],
 						);
 						
 						// Hook for modifying the WordPress post just before the insert
@@ -563,7 +586,7 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc, p.ordering
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 					WHERE p.state >= 0 -- don't get the trash
@@ -806,7 +829,7 @@ SQL;
 					'offset'		=> $offset,
 					'orderby'		=> 'ID',
 					'order'			=> 'ASC',
-					'post_type'		=> 'post',
+					'post_type'		=> $this->post_type,
 				);
 				$posts = get_posts($args);
 				foreach ( $posts as $post ) {
@@ -823,7 +846,7 @@ SQL;
 										// Get the linked post
 										$linked_posts = get_posts(array(
 											'numberposts'	=> 1,
-											'post_type'		=> 'post',
+											'post_type'		=> $this->post_type,
 											'meta_key'		=> '_fgj2wp_old_id',
 											'meta_value'	=> $old_id,
 										));

@@ -3,8 +3,8 @@ Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
-Tested up to: WP 3.4.0
-Stable tag: 1.4.2
+Tested up to: WP 3.4.1
+Stable tag: 1.5.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla 1.5** and **Wordpress 3.4** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla 1.5** and **Wordpress 3.4.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -28,6 +28,7 @@ Major features include:
 * keeps the alt image attribute
 * modifies the internal links
 * migrates meta keywords as tags
+* can import Joomla posts as posts or pages
 
 The **Premium version** includes these extra features:
 
@@ -35,7 +36,6 @@ The **Premium version** includes these extra features:
 * SEO: redirects Joomla URLs to the new WordPress URLs
 
 It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
-
 
 == Installation ==
 
@@ -79,9 +79,14 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 == Translations ==
 * French (fr_FR)
 * English (default)
+* German (de_DE) by LWille
 * other can be translated
 
 == Changelog ==
+
+= 1.5.0 =
+* New: Can import posts as pages (thanks to LWille)
+* Translation: German (thanks to LWille)
 
 = 1.4.2 =
 * Tested with WordPress 3.4
@@ -139,6 +144,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+Can import posts as pages
+German translation
 
 = 1.4.2 =
 Works with WordPress 3.4
