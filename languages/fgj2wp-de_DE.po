@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-14 10:50+0100\n"
-"PO-Revision-Date: 2012-07-14 10:51+0100\n"
+"POT-Creation-Date: 2012-07-23 13:55+0100\n"
+"PO-Revision-Date: 2012-07-23 13:56+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -41,144 +41,149 @@ msgstr "Joomla URL"
 
 # @ fgj2wp
 #: admin_build_page.tpl.php:41
+msgid "Joomla version"
+msgstr "Joomla Version"
+
+# @ fgj2wp
+#: admin_build_page.tpl.php:49
 msgid "Joomla database parameters"
 msgstr "Joomla Datenbankparameter"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:44
+#: admin_build_page.tpl.php:52
 msgid "Hostname"
 msgstr "Hostname"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:48
+#: admin_build_page.tpl.php:56
 msgid "Port"
 msgstr "Port"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:52
+#: admin_build_page.tpl.php:60
 msgid "Database"
 msgstr "Datenbank"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:56
+#: admin_build_page.tpl.php:64
 msgid "Username"
 msgstr "Benutzer"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:60
+#: admin_build_page.tpl.php:68
 msgid "Password"
 msgstr "Passwort"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:64
+#: admin_build_page.tpl.php:72
 msgid "Joomla Table Prefix"
 msgstr "Joomla Tabellen-Präfix"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:68
+#: admin_build_page.tpl.php:76
 msgid "Behavior"
 msgstr "Verhalten"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:71
+#: admin_build_page.tpl.php:79
 msgid "Posts with a \"read more\" split:"
 msgstr "Beiträge mit \"weiterlesen\"-Trennung:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:72
+#: admin_build_page.tpl.php:80
 msgid "Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link."
 msgstr "Markiert: Der Joomla-Einleitungstext wird in den Anrisstext importiert. Nicht markiert: Einleitungstext wird mit einem «weiterlesen» Link in den Post importiert.."
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:72
+#: admin_build_page.tpl.php:80
 msgid "Import the text above the \"read more\" to the excerpt"
 msgstr "Den Text vor dem \"weiterlesen\" in den Anrisstext importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:75
+#: admin_build_page.tpl.php:83
 msgid "Medias:"
 msgstr "Medien:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:76
+#: admin_build_page.tpl.php:84
 msgid "Skip media"
 msgstr "Medien auslassen"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:79
+#: admin_build_page.tpl.php:87
 msgid "Meta keywords:"
 msgstr "Meta-Keywords:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:80
+#: admin_build_page.tpl.php:88
 msgid "Import meta keywords as tags"
 msgstr "Meta-Keywords als Tags importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:83
+#: admin_build_page.tpl.php:91
 msgid "Create pages:"
 msgstr "Seiten erstellen:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:84
+#: admin_build_page.tpl.php:92
 msgid "Import as pages instead of blog posts (without categories)"
 msgstr "Beiträge als Seiten statt als Artikel importieren (ohne den Kategorien)"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:88
+#: admin_build_page.tpl.php:96
 msgid "Import content from Joomla to WordPress"
 msgstr "Inhalt von Joomla nach WordPress importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:100
+#: admin_build_page.tpl.php:108
 msgid "After the migration"
 msgstr "Nach der Migration"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:104
+#: admin_build_page.tpl.php:112
 msgid "Modify internal links"
 msgstr "Interne Links anpassen"
 
-#: admin_build_page.tpl.php:112
+#: admin_build_page.tpl.php:120
 msgid "Do you need extra features?"
 msgstr "Benötigen Sie zusätzliche Funktionen?"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:115
+#: admin_build_page.tpl.php:123
 msgid "multiple authors migration"
 msgstr "mehrere Autoren Migration"
 
-#: admin_build_page.tpl.php:116
+#: admin_build_page.tpl.php:124
 msgid "SEO"
 msgstr "SEO"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:123
+#: admin_build_page.tpl.php:131
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
 # @ fgj2wp
 #: fg-joomla-to-wordpress.php:55
-msgid "Joomla 1.5 (FG)"
-msgstr "Joomla 1.5 (FG)"
+msgid "Joomla (FG)"
+msgstr "Joomla (FG)"
 
 # @ fgj2wp
 #: fg-joomla-to-wordpress.php:55
-msgid "Import categories, articles and medias (images, attachments) from a Joomla 1.5 database into WordPress."
-msgstr "Kategorien, Artikel und Medien (Bilder, Anhänge) aus der Joomla 1.5-Datenbank zu WordPress importieren."
+msgid "Import categories, articles and medias (images, attachments) from a Joomla database into WordPress."
+msgstr "Kategorien, Artikel und Medien (Bilder, Anhänge) aus der Joomla Datenbank zu WordPress importieren."
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:109
+#: fg-joomla-to-wordpress.php:110
 msgid "Categories, tags, posts, pages and medias deleted"
 msgstr "Kategorien, Tags, Beiträge Seiten und Medien gelöscht"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:111
+#: fg-joomla-to-wordpress.php:112
 msgid "Couldn't delete content"
 msgstr "Konnte Inhalte nicht löschen"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:129
+#: fg-joomla-to-wordpress.php:130
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
@@ -186,7 +191,7 @@ msgstr[0] "Eine Kategorie importiert"
 msgstr[1] "%d Kategorien importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:136
+#: fg-joomla-to-wordpress.php:137
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
@@ -194,7 +199,7 @@ msgstr[0] "%d Seite importiert"
 msgstr[1] "%d Seiten importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:140
+#: fg-joomla-to-wordpress.php:141
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
@@ -202,7 +207,7 @@ msgstr[0] "Ein Post importiert"
 msgstr[1] "%d Posts importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:142
+#: fg-joomla-to-wordpress.php:143
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
@@ -210,7 +215,7 @@ msgstr[0] "Ein Medium importiert"
 msgstr[1] "%d Medien importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:147
+#: fg-joomla-to-wordpress.php:148
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
@@ -218,12 +223,12 @@ msgstr[0] "Ein Tag importiert"
 msgstr[1] "%d Tags importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:151
+#: fg-joomla-to-wordpress.php:152
 msgid "Don't forget to modify internal links."
 msgstr "Vergessen Sie nicht, die internen Links anzupassen."
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:159
+#: fg-joomla-to-wordpress.php:160
 #, php-format
 msgid "%d internal link modified"
 msgid_plural "%d internal links modified"
@@ -231,17 +236,17 @@ msgstr[0] "Ein interner Link angepasst"
 msgstr[1] "%d interne Links angepasst"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:181
-msgid "Import Joomla 1.5 (FG)"
-msgstr "Import Joomla 1.5 (FG)"
-
-# @ fgj2wp
 #: fg-joomla-to-wordpress.php:182
-msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress."
-msgstr "Dieses Plugin wird Abschnitte, Kategorien, Beiträge und Medien (Bilder, Anhänge) aus der Joomla-Datenbank zu WordPress importieren."
+msgid "Import Joomla (FG)"
+msgstr "Import Joomla (FG)"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:187
+#: fg-joomla-to-wordpress.php:183
+msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6 and 1.7."
+msgstr "Dieses Plugin wird Abschnitte, Kategorien, Beiträge und Medien (Bilder, Anhänge) aus der Joomla-Datenbank zu WordPress importieren.<br />Kompatibel mit Joomla-Versionen 1.5, 1.6 und 1.7."
+
+# @ fgj2wp
+#: fg-joomla-to-wordpress.php:188
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
@@ -249,14 +254,14 @@ msgstr[0] "%d Kategorie"
 msgstr[1] "%d Kategorien"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:188
+#: fg-joomla-to-wordpress.php:189
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
 msgstr[0] "%d Post"
 msgstr[1] "%d Posts"
 
-#: fg-joomla-to-wordpress.php:189
+#: fg-joomla-to-wordpress.php:190
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
@@ -264,7 +269,7 @@ msgstr[0] "%d Seite"
 msgstr[1] "%d Seiten"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:190
+#: fg-joomla-to-wordpress.php:191
 #, php-format
 msgid "%d media"
 msgid_plural "%d medias"
@@ -272,7 +277,7 @@ msgstr[0] "%d Medium"
 msgstr[1] "%d Medien"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:191
+#: fg-joomla-to-wordpress.php:192
 #, php-format
 msgid "%d tag"
 msgid_plural "%d tags"

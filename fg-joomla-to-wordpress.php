@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.5.0
+ * Version:     1.6.0
  * Author:      Frédéric GILLES
  */
 
@@ -52,7 +52,7 @@ if ( !class_exists('fgj2wp', false) ) {
 		public function init() {
 			load_plugin_textdomain( 'fgj2wp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		
-			register_importer('fgj2wp', __('Joomla 1.5 (FG)', 'fgj2wp'), __('Import categories, articles and medias (images, attachments) from a Joomla 1.5 database into WordPress.', 'fgj2wp'), array ($this, 'dispatch'));
+			register_importer('fgj2wp', __('Joomla (FG)', 'fgj2wp'), __('Import categories, articles and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp'), array ($this, 'dispatch'));
 			
 			// Suspend the cache during the migration to avoid exhausted memory problem
 			wp_suspend_cache_addition(true);
@@ -82,6 +82,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			// Default values
 			$this->plugin_options = array(
 				'url'					=> null,
+				'version'				=> '1.5',
 				'hostname'				=> 'localhost',
 				'port'					=> 3306,
 				'database'				=> null,
@@ -178,8 +179,8 @@ if ( !class_exists('fgj2wp', false) ) {
 			
 			$data = $this->plugin_options;
 			
-			$data['title'] = __('Import Joomla 1.5 (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp');
+			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6 and 1.7.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
 			$data['media_count'] = $media_count->inherit;
@@ -327,6 +328,7 @@ SQL;
 		private function validate_form_info() {
 			return array(
 				'url'					=> $_POST['url'],
+				'version'				=> $_POST['version'],
 				'hostname'				=> $_POST['hostname'],
 				'port'					=> (int) $_POST['port'],
 				'database'				=> $_POST['database'],
@@ -347,7 +349,11 @@ SQL;
 		 */
 		private function import_categories() {
 			$cat_count = 0;
-			$sections = $this->get_sections(); // Get the Joomla sections
+			if ( $this->plugin_options['version'] <= '1.5' ) {
+				$sections = $this->get_sections(); // Get the Joomla sections
+			} else {
+				$sections = array();
+			}
 			$categories = $this->get_categories(); // Get the Joomla categories
 			$categories = array_merge($sections, $categories);
 			if ( is_array($categories) ) {
@@ -552,11 +558,25 @@ SQL;
 			try {
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
-				$sql = "
-					SELECT c.title, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
-					FROM ${prefix}categories c
-					INNER JOIN ${prefix}sections AS s ON s.id = c.section
-				";
+				switch ( $this->plugin_options['version'] ) {
+					case "1.5":
+						$sql = "
+							SELECT c.title, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
+							FROM ${prefix}categories c
+							INNER JOIN ${prefix}sections AS s ON s.id = c.section
+						";
+						break;
+					
+					case "1.6":
+					default:
+						$sql = "
+							SELECT c.title, CONCAT('c', c.id, '-', c.alias) AS name, c.description, CONCAT('c', cp.id, '-', cp.alias) AS parent
+							FROM ${prefix}categories c
+							INNER JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
+							WHERE c.extension = 'com_content'
+						";
+						break;
+				}
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
@@ -584,11 +604,26 @@ SQL;
 
 			try {
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+				
 				$prefix = $this->plugin_options['prefix'];
+				
+				// The "name" column disappears in version 1.6+
+				if ( $this->plugin_options['version'] <= '1.5' ) {
+					$cat_field = 'IFNULL(c.alias, c.name)';
+				} else {
+					$cat_field = 'c.alias';
+				}
+				
+				// Hooks for adding extra cols and extra joins
+				$extra_cols = apply_filters('fgj2wp_get_posts_add_extra_cols', '');
+				$extra_joins = apply_filters('fgj2wp_get_posts_add_extra_joins', '');
+				
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc, p.ordering
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc, p.ordering
+					$extra_cols
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
+					$extra_joins
 					WHERE p.state >= 0 -- don't get the trash
 					AND p.id > '$last_id'
 					ORDER BY p.id
