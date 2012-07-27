@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.6.0
+ * Version:     1.6.1
  * Author:      Frédéric GILLES
  */
 
@@ -293,6 +293,9 @@ SQL;
 			// Hook for doing other actions after empty the database
 			do_action('fgj2wp_post_empty_database');
 			
+			// Update cache
+			$this->clean_cache();
+			
 			$this->optimize_database();
 			
 			$wpdb->hide_errors();
@@ -330,7 +333,7 @@ SQL;
 				'url'					=> $_POST['url'],
 				'version'				=> $_POST['version'],
 				'hostname'				=> $_POST['hostname'],
-				'port'					=> (int) $_POST['port'],
+				'port'					=> intval($_POST['port']),
 				'database'				=> $_POST['database'],
 				'username'				=> $_POST['username'],
 				'password'				=> $_POST['password'],
@@ -349,7 +352,7 @@ SQL;
 		 */
 		private function import_categories() {
 			$cat_count = 0;
-			if ( $this->plugin_options['version'] <= '1.5' ) {
+			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
 				$sections = $this->get_sections(); // Get the Joomla sections
 			} else {
 				$sections = array();
@@ -386,10 +389,18 @@ SQL;
 				
 				// Update cache
 				wp_update_term_count_now($terms, 'category');
-				delete_option("category_children");
-				clean_term_cache($terms, 'category');
+				$this->clean_cache($terms);
 			}
 			return $cat_count;
+		}
+		
+		/**
+		 * Clean the cache
+		 * 
+		 */
+		private function clean_cache($terms = array()) {
+			delete_option("category_children");
+			clean_term_cache($terms, 'category');
 		}
 
 		/**
@@ -530,7 +541,7 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
-					SELECT s.title, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS name, s.description
+					SELECT s.title, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS name, s.description
 					FROM ${prefix}sections s
 				";
 				$query = $db->query($sql);
@@ -559,15 +570,15 @@ SQL;
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				switch ( $this->plugin_options['version'] ) {
-					case "1.5":
+					case '1.5':
 						$sql = "
-							SELECT c.title, CONCAT('c', c.id, '-', IFNULL(c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IFNULL(s.alias, s.name)) AS parent
+							SELECT c.title, CONCAT('c', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS parent
 							FROM ${prefix}categories c
 							INNER JOIN ${prefix}sections AS s ON s.id = c.section
 						";
 						break;
 					
-					case "1.6":
+					case '1.6':
 					default:
 						$sql = "
 							SELECT c.title, CONCAT('c', c.id, '-', c.alias) AS name, c.description, CONCAT('c', cp.id, '-', cp.alias) AS parent
@@ -608,8 +619,8 @@ SQL;
 				$prefix = $this->plugin_options['prefix'];
 				
 				// The "name" column disappears in version 1.6+
-				if ( $this->plugin_options['version'] <= '1.5' ) {
-					$cat_field = 'IFNULL(c.alias, c.name)';
+				if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+					$cat_field = "IF(c.alias <> '', c.alias, c.name)";
 				} else {
 					$cat_field = 'c.alias';
 				}
