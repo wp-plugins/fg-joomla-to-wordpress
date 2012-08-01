@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.4.1
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -34,6 +34,8 @@ The **Premium version** includes these extra features:
 
 * migrates authors
 * SEO: redirects Joomla URLs to the new WordPress URLs
+* compatible with Joomla 1.0 (process {mosimages} and {mospagebreak})
+* migrates Joomla 1.0 static articles as pages
 
 It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -69,6 +71,10 @@ It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 - install WordPress on the same host as Joomla
 - install WordPress and the Joomla database on your localhost and do the migration on localhost
 
+= Does the migration process modify the Joomla site it migrates from? =
+
+* No, it only reads the Joomla database.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -83,6 +89,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.6.2 =
+* FAQ updated
 
 = 1.6.1 =
 * Fixed: clean the cache after emptying the database
@@ -151,6 +160,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+FAQ updated
 
 = 1.6.1 =
 Bug fixes

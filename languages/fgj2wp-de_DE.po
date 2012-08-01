@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 13:55+0100\n"
-"PO-Revision-Date: 2012-07-23 13:56+0100\n"
+"POT-Creation-Date: 2012-08-01 22:36+0100\n"
+"PO-Revision-Date: 2012-08-01 22:36+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -157,8 +157,12 @@ msgstr "mehrere Autoren Migration"
 msgid "SEO"
 msgstr "SEO"
 
+#: admin_build_page.tpl.php:125
+msgid "Joomla 1.0 compatible"
+msgstr "Joomla 1.0 kompatibel"
+
 # @ fgj2wp
-#: admin_build_page.tpl.php:131
+#: admin_build_page.tpl.php:132
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 

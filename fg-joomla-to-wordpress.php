@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.6.1
+ * Version:     1.6.2
  * Author:      Frédéric GILLES
  */
 
@@ -544,6 +544,8 @@ SQL;
 					SELECT s.title, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS name, s.description
 					FROM ${prefix}sections s
 				";
+				$sql = apply_filters('fgj2wp_get_sections_sql', $sql, $prefix);
+				
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
@@ -588,6 +590,8 @@ SQL;
 						";
 						break;
 				}
+				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
+				
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
@@ -640,6 +644,8 @@ SQL;
 					ORDER BY p.id
 					LIMIT $limit
 				";
+				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix);
+				
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
@@ -750,7 +756,7 @@ SQL;
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 
 							// Image Alt
-							if (preg_match('#alt="(.+?)"#', $other_attributes, $alt_matches) ) {
+							if (preg_match('#alt="(.*?)"#', $other_attributes, $alt_matches) ) {
 								$image_alt = wp_strip_all_tags(stripslashes($alt_matches[1]), true);
 								update_post_meta($attach_id, '_wp_attachment_image_alt', addslashes($image_alt)); // update_meta expects slashed
 							}
