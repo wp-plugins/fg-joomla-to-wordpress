@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-01 22:36+0100\n"
-"PO-Revision-Date: 2012-08-01 22:36+0100\n"
+"POT-Creation-Date: 2012-08-10 22:19+0100\n"
+"PO-Revision-Date: 2012-08-10 22:19+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -148,10 +148,9 @@ msgstr "Interne Links anpassen"
 msgid "Do you need extra features?"
 msgstr "Benötigen Sie zusätzliche Funktionen?"
 
-# @ fgj2wp
 #: admin_build_page.tpl.php:123
-msgid "multiple authors migration"
-msgstr "mehrere Autoren Migration"
+msgid "authors and all users migration"
+msgstr "Autoren und alle Anwender Migration"
 
 #: admin_build_page.tpl.php:124
 msgid "SEO"
@@ -161,8 +160,12 @@ msgstr "SEO"
 msgid "Joomla 1.0 compatible"
 msgstr "Joomla 1.0 kompatibel"
 
+#: admin_build_page.tpl.php:126
+msgid "Mambo 4.5 and 4.6 compatible"
+msgstr "Mambo 4.5 und 4.6 kompatibel"
+
 # @ fgj2wp
-#: admin_build_page.tpl.php:132
+#: admin_build_page.tpl.php:133
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
@@ -187,7 +190,7 @@ msgid "Couldn't delete content"
 msgstr "Konnte Inhalte nicht löschen"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:130
+#: fg-joomla-to-wordpress.php:133
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
@@ -195,7 +198,7 @@ msgstr[0] "Eine Kategorie importiert"
 msgstr[1] "%d Kategorien importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:137
+#: fg-joomla-to-wordpress.php:140
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
@@ -203,7 +206,7 @@ msgstr[0] "%d Seite importiert"
 msgstr[1] "%d Seiten importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:141
+#: fg-joomla-to-wordpress.php:144
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
@@ -211,7 +214,7 @@ msgstr[0] "Ein Post importiert"
 msgstr[1] "%d Posts importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:143
+#: fg-joomla-to-wordpress.php:146
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
@@ -219,7 +222,7 @@ msgstr[0] "Ein Medium importiert"
 msgstr[1] "%d Medien importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:148
+#: fg-joomla-to-wordpress.php:151
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
@@ -227,12 +230,12 @@ msgstr[0] "Ein Tag importiert"
 msgstr[1] "%d Tags importiert"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:152
+#: fg-joomla-to-wordpress.php:161
 msgid "Don't forget to modify internal links."
 msgstr "Vergessen Sie nicht, die internen Links anzupassen."
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:160
+#: fg-joomla-to-wordpress.php:169
 #, php-format
 msgid "%d internal link modified"
 msgid_plural "%d internal links modified"
@@ -240,17 +243,17 @@ msgstr[0] "Ein interner Link angepasst"
 msgstr[1] "%d interne Links angepasst"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:182
+#: fg-joomla-to-wordpress.php:191
 msgid "Import Joomla (FG)"
 msgstr "Import Joomla (FG)"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:183
+#: fg-joomla-to-wordpress.php:192
 msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6 and 1.7."
 msgstr "Dieses Plugin wird Abschnitte, Kategorien, Beiträge und Medien (Bilder, Anhänge) aus der Joomla-Datenbank zu WordPress importieren.<br />Kompatibel mit Joomla-Versionen 1.5, 1.6 und 1.7."
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:188
+#: fg-joomla-to-wordpress.php:197
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
@@ -258,14 +261,14 @@ msgstr[0] "%d Kategorie"
 msgstr[1] "%d Kategorien"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:189
+#: fg-joomla-to-wordpress.php:198
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
 msgstr[0] "%d Post"
 msgstr[1] "%d Posts"
 
-#: fg-joomla-to-wordpress.php:190
+#: fg-joomla-to-wordpress.php:199
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
@@ -273,7 +276,7 @@ msgstr[0] "%d Seite"
 msgstr[1] "%d Seiten"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:191
+#: fg-joomla-to-wordpress.php:200
 #, php-format
 msgid "%d media"
 msgid_plural "%d medias"
@@ -281,7 +284,7 @@ msgstr[0] "%d Medium"
 msgstr[1] "%d Medien"
 
 # @ fgj2wp
-#: fg-joomla-to-wordpress.php:192
+#: fg-joomla-to-wordpress.php:201
 #, php-format
 msgid "%d tag"
 msgid_plural "%d tags"

@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, wordpress, migrator, converter, import
+Tags: joomla, mambo, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.4.1
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -32,9 +32,9 @@ Major features include:
 
 The **Premium version** includes these extra features:
 
-* migrates authors
+* migrates authors and other users
 * SEO: redirects Joomla URLs to the new WordPress URLs
-* compatible with Joomla 1.0 (process {mosimages} and {mospagebreak})
+* compatible with **Joomla 1.0** and **Mambo 4.5 and 4.6** (process {mosimages} and {mospagebreak})
 * migrates Joomla 1.0 static articles as pages
 
 It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
@@ -89,6 +89,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.6.3 =
+* New hooks added
+* Description updated
 
 = 1.6.2 =
 * FAQ updated
@@ -160,6 +164,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.6.3 =
+New hooks added
+Description updated
 
 = 1.6.2 =
 FAQ updated

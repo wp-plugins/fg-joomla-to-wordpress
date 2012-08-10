@@ -120,9 +120,10 @@
 		<h3><?php _e('Do you need extra features?', 'fgj2wp'); ?></h3>
 		<p>
 		<ul style="list-style:disc inside">
-			<li><?php _e('multiple authors migration', 'fgj2wp'); ?></li>
+			<li><?php _e('authors and all users migration', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
+			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>
