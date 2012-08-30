@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-10 22:19+0100\n"
-"PO-Revision-Date: 2012-08-10 22:19+0100\n"
+"POT-Creation-Date: 2012-08-28 21:33+0100\n"
+"PO-Revision-Date: 2012-08-28 21:33+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -45,127 +45,131 @@ msgid "Joomla version"
 msgstr "Joomla Version"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:49
+#: admin_build_page.tpl.php:50
 msgid "Joomla database parameters"
 msgstr "Joomla Datenbankparameter"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:52
+#: admin_build_page.tpl.php:53
 msgid "Hostname"
 msgstr "Hostname"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:56
+#: admin_build_page.tpl.php:57
 msgid "Port"
 msgstr "Port"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:60
+#: admin_build_page.tpl.php:61
 msgid "Database"
 msgstr "Datenbank"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:64
+#: admin_build_page.tpl.php:65
 msgid "Username"
 msgstr "Benutzer"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:68
+#: admin_build_page.tpl.php:69
 msgid "Password"
 msgstr "Passwort"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:72
+#: admin_build_page.tpl.php:73
 msgid "Joomla Table Prefix"
 msgstr "Joomla Tabellen-Präfix"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:76
+#: admin_build_page.tpl.php:77
 msgid "Behavior"
 msgstr "Verhalten"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:79
+#: admin_build_page.tpl.php:80
 msgid "Posts with a \"read more\" split:"
 msgstr "Beiträge mit \"weiterlesen\"-Trennung:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:80
+#: admin_build_page.tpl.php:81
 msgid "Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is imported into the post content with a «read more» link."
 msgstr "Markiert: Der Joomla-Einleitungstext wird in den Anrisstext importiert. Nicht markiert: Einleitungstext wird mit einem «weiterlesen» Link in den Post importiert.."
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:80
+#: admin_build_page.tpl.php:81
 msgid "Import the text above the \"read more\" to the excerpt"
 msgstr "Den Text vor dem \"weiterlesen\" in den Anrisstext importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:83
+#: admin_build_page.tpl.php:84
 msgid "Medias:"
 msgstr "Medien:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:84
+#: admin_build_page.tpl.php:85
 msgid "Skip media"
 msgstr "Medien auslassen"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:87
+#: admin_build_page.tpl.php:88
 msgid "Meta keywords:"
 msgstr "Meta-Keywords:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:88
+#: admin_build_page.tpl.php:89
 msgid "Import meta keywords as tags"
 msgstr "Meta-Keywords als Tags importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:91
+#: admin_build_page.tpl.php:92
 msgid "Create pages:"
 msgstr "Seiten erstellen:"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:92
+#: admin_build_page.tpl.php:93
 msgid "Import as pages instead of blog posts (without categories)"
 msgstr "Beiträge als Seiten statt als Artikel importieren (ohne den Kategorien)"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:96
+#: admin_build_page.tpl.php:97
 msgid "Import content from Joomla to WordPress"
 msgstr "Inhalt von Joomla nach WordPress importieren"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:108
+#: admin_build_page.tpl.php:109
 msgid "After the migration"
 msgstr "Nach der Migration"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:112
+#: admin_build_page.tpl.php:113
 msgid "Modify internal links"
 msgstr "Interne Links anpassen"
 
-#: admin_build_page.tpl.php:120
+#: admin_build_page.tpl.php:121
 msgid "Do you need extra features?"
 msgstr "Benötigen Sie zusätzliche Funktionen?"
 
-#: admin_build_page.tpl.php:123
+#: admin_build_page.tpl.php:124
 msgid "authors and all users migration"
 msgstr "Autoren und alle Anwender Migration"
 
-#: admin_build_page.tpl.php:124
+#: admin_build_page.tpl.php:125
 msgid "SEO"
 msgstr "SEO"
 
-#: admin_build_page.tpl.php:125
+#: admin_build_page.tpl.php:126
 msgid "Joomla 1.0 compatible"
 msgstr "Joomla 1.0 kompatibel"
 
-#: admin_build_page.tpl.php:126
+#: admin_build_page.tpl.php:127
+msgid "Joomla 2.5 featured images"
+msgstr "Joomla 2.5 featured Bilder"
+
+#: admin_build_page.tpl.php:128
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "Mambo 4.5 und 4.6 kompatibel"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:133
+#: admin_build_page.tpl.php:135
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
@@ -249,8 +253,8 @@ msgstr "Import Joomla (FG)"
 
 # @ fgj2wp
 #: fg-joomla-to-wordpress.php:192
-msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6 and 1.7."
-msgstr "Dieses Plugin wird Abschnitte, Kategorien, Beiträge und Medien (Bilder, Anhänge) aus der Joomla-Datenbank zu WordPress importieren.<br />Kompatibel mit Joomla-Versionen 1.5, 1.6 und 1.7."
+msgid "This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7 and 2.5."
+msgstr "Dieses Plugin wird Abschnitte, Kategorien, Beiträge und Medien (Bilder, Anhänge) aus der Joomla-Datenbank zu WordPress importieren.<br />Kompatibel mit Joomla-Versionen 1.5, 1.6, 1.7 und 2.5."
 
 # @ fgj2wp
 #: fg-joomla-to-wordpress.php:197

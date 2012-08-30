@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import
 Requires at least: 3.3
 Tested up to: WP 3.4.1
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6 and 1.7** and **Wordpress 3.4.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7 and 2.5** and **Wordpress 3.4.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -36,6 +36,7 @@ The **Premium version** includes these extra features:
 * SEO: redirects Joomla URLs to the new WordPress URLs
 * compatible with **Joomla 1.0** and **Mambo 4.5 and 4.6** (process {mosimages} and {mospagebreak})
 * migrates Joomla 1.0 static articles as pages
+* migrates Joomla 2.5 featured images
 
 It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -89,6 +90,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.7.0 =
+* New: Compatibility with Joomla 2.5
 
 = 1.6.3 =
 * New hooks added
@@ -164,6 +168,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.7.0 =
+Compatibility with Joomla 2.5
 
 = 1.6.3 =
 New hooks added

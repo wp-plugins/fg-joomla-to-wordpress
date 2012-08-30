@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.6.3
+ * Version:     1.7.0
  * Author:      Frédéric GILLES
  */
 
@@ -33,7 +33,7 @@ if ( !function_exists( 'fgj2wp_load' ) ) {
 if ( !class_exists('fgj2wp', false) ) {
 	class fgj2wp extends WP_Importer {
 		
-		protected $plugin_options;			// Plug-in options
+		public $plugin_options;				// Plug-in options
 		protected $post_type = 'post';		// post or page
 		
 		/**
@@ -62,14 +62,14 @@ if ( !class_exists('fgj2wp', false) ) {
 		/**
 		 * Display admin notice
 		 */
-		protected function display_admin_notice( $message )	{
+		public function display_admin_notice( $message )	{
 			echo '<div class="updated"><p>['.__CLASS__.'] '.$message.'</p></div>';
 		}
 
 		/**
 		 * Display admin error
 		 */
-		protected function display_admin_error( $message )	{
+		public function display_admin_error( $message )	{
 			echo '<div class="error"><p>['.__CLASS__.'] '.$message.'</p></div>';
 		}
 
@@ -189,7 +189,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6 and 1.7.', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7 and 2.5.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
 			$data['media_count'] = $media_count->inherit;
@@ -590,6 +590,7 @@ SQL;
 						break;
 					
 					case '1.6':
+					case '2.5':
 					default:
 						$sql = "
 							SELECT c.title, CONCAT('c', c.id, '-', c.alias) AS name, c.description, CONCAT('c', cp.id, '-', cp.alias) AS parent
@@ -643,7 +644,7 @@ SQL;
 				$extra_joins = apply_filters('fgj2wp_get_posts_add_extra_joins', '');
 				
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS date, p.metakey, p.metadesc, p.ordering
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, IF(p.publish_up, p.publish_up, p.created) AS `date`, p.metakey, p.metadesc, p.ordering
 					$extra_cols
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
@@ -653,7 +654,7 @@ SQL;
 					ORDER BY p.id
 					LIMIT $limit
 				";
-				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix);
+				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix, $cat_field, $extra_cols, $extra_joins, $last_id, $limit);
 				
 				$query = $db->query($sql);
 				if ( is_object($query) ) {

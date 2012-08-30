@@ -42,6 +42,7 @@
 					<td><select id="version" name="version">
 							<option id="version_1_5" value="1.5"<?php print ($data['version'] == '1.5')? ' selected' : ''; ?>>1.5</option>
 							<option id="version_1_6" value="1.6"<?php print ($data['version'] == '1.6')? ' selected' : ''; ?>>1.6, 1.7</option>
+							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5</option>
 						</select>
 					</td>
 				</tr>
@@ -123,6 +124,7 @@
 			<li><?php _e('authors and all users migration', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
+			<li><?php _e('Joomla 2.5 featured images', 'fgj2wp'); ?></li>
 			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
