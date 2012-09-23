@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2
 Requires at least: 3.3
-Tested up to: WP 3.4.1
-Stable tag: 1.7.0
+Tested up to: WP 3.4.2
+Stable tag: 1.7.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7 and 2.5** and **Wordpress 3.4.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7 and 2.5** and **Wordpress 3.4.2** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -38,7 +38,17 @@ The **Premium version** includes these extra features:
 * migrates Joomla 1.0 static articles as pages
 * migrates Joomla 2.5 featured images
 
-It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
+The **K2 version ** includes all Premium features plus these extra features:
+
+* migrates K2 items
+* migrates K2 categories
+* migrates K2 tags
+* migrates K2 comments
+* migrates K2 images
+* migrates K2 attachments
+* migrates K2 custom fields
+
+The Premium and K2 versions can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 == Installation ==
 
@@ -76,6 +86,10 @@ It can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 * No, it only reads the Joomla database.
 
+= I get this error: Erreur !: SQLSTATE[HY000] [1193] Unknown system variable 'NAMES' =
+
+* It comes from MySQL 4.0. It will work if you move your database to MySQL 5.0 before running the migration.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -90,6 +104,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.7.1 =
+* FAQ updated
 
 = 1.7.0 =
 * New: Compatibility with Joomla 2.5

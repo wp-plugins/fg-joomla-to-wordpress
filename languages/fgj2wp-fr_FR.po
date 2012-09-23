@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-28 21:32+0100\n"
-"PO-Revision-Date: 2012-08-28 21:32+0100\n"
+"POT-Creation-Date: 2012-09-23 09:45+0100\n"
+"PO-Revision-Date: 2012-09-23 09:45+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: \n"
@@ -142,7 +142,11 @@ msgstr "images d'intro de Joomla 2.5"
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "compatible Mambo 4.5 et 4.6"
 
-#: admin_build_page.tpl.php:135
+#: admin_build_page.tpl.php:129
+msgid "K2 content"
+msgstr "contenu K2"
+
+#: admin_build_page.tpl.php:136
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Si vous avez trouvé cette extension utile et qu'elle vous a fait gagner de nombreuses heures ou jours, merci de voter pour elle sur <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton ci-dessous."
 

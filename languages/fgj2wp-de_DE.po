@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-28 21:33+0100\n"
-"PO-Revision-Date: 2012-08-28 21:33+0100\n"
+"POT-Creation-Date: 2012-09-23 09:47+0100\n"
+"PO-Revision-Date: 2012-09-23 09:47+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -168,8 +168,12 @@ msgstr "Joomla 2.5 featured Bilder"
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "Mambo 4.5 und 4.6 kompatibel"
 
+#: admin_build_page.tpl.php:129
+msgid "K2 content"
+msgstr "K2 Inhalte"
+
 # @ fgj2wp
-#: admin_build_page.tpl.php:135
+#: admin_build_page.tpl.php:136
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
