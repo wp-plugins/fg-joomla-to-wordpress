@@ -3,12 +3,14 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.7.1
+ * Version:     1.8.0
  * Author:      Frédéric GILLES
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
+require_once('compatibility.php');
 
 if ( !defined('WP_LOAD_IMPORTERS') )
 	return;
@@ -731,7 +733,7 @@ SQL;
 						$new_filename = $new_upload_dir . '/' . basename($filename);
 						
 						// print "Copy \"$old_filename\" => $new_filename<br />";
-						if ( !@copy($old_filename, $new_filename) ) {
+						if ( ! $this->download($old_filename, $new_filename) ) {
 							$error = error_get_last();
 							$error_message = $error['message'];
 							$this->display_admin_error("Can't copy $old_filename to $new_filename : $error_message");
@@ -964,6 +966,27 @@ SQL;
 				$old_id = $matches[2];
 			}
 			return $old_id;
+		}
+		
+		/**
+		 * Copy a remote file
+		 * in replacement to the copy function
+		 * 
+		 * @param string $url URL of the source file
+		 * @param string $path destination file
+		 * @return boolean
+		 */
+		private function download($url, $path) {
+			$fp = fopen($path, 'w');
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_FILE, $fp);
+
+			$return = curl_exec($ch);
+
+			curl_close($ch);
+			fclose($fp);
+			return $return;
 		}
 		
 	}

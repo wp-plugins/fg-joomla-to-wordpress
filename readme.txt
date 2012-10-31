@@ -2,9 +2,9 @@
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2
-Requires at least: 3.3
+Requires at least: 3.0
 Tested up to: WP 3.4.2
-Stable tag: 1.7.1
+Stable tag: 1.8.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -38,7 +38,7 @@ The **Premium version** includes these extra features:
 * migrates Joomla 1.0 static articles as pages
 * migrates Joomla 2.5 featured images
 
-The **K2 version ** includes all Premium features plus these extra features:
+The **K2 version** includes all Premium features plus these extra features:
 
 * migrates K2 items
 * migrates K2 categories
@@ -104,6 +104,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.8.0 =
+* New: Compatibility with PHP 5.1 (thanks to dmikam)
+* New: Compatibility with WordPress 3.0 (thanks to dmikam)
+* New: Better compatibility for copying media (uses cURL) (thanks to dmikam)
 
 = 1.7.1 =
 * FAQ updated
@@ -185,6 +190,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.8.0 =
+Compatibility with PHP 5.1
+Compatibility with WordPress 3.0
+Better compatibility for copying media (uses cURL)
 
 = 1.7.0 =
 Compatibility with Joomla 2.5
