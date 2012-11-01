@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.8.1
+ * Version:     1.8.2
  * Author:      Frédéric GILLES
  */
 
@@ -733,7 +733,7 @@ SQL;
 						$new_filename = $new_upload_dir . '/' . basename($filename);
 						
 						// print "Copy \"$old_filename\" => $new_filename<br />";
-						if ( ! $this->download($old_filename, $new_filename) ) {
+						if ( ! $this->remote_copy($old_filename, $new_filename) ) {
 							$error = error_get_last();
 							$error_message = $error['message'];
 							$this->display_admin_error("Can't copy $old_filename to $new_filename : $error_message");
@@ -976,23 +976,20 @@ SQL;
 		 * @param string $path destination file
 		 * @return boolean
 		 */
-		private function download($url, $path) {
-			$return = false;
+		private function remote_copy($url, $path) {
 			
-			// Test that cURL is loaded
-			if  ( !in_array  ('curl', get_loaded_extensions()) ) {
-				trigger_error("cURL is not loaded.", E_USER_WARNING);
-				return copy($url, $path); // Try the standard copy method
+			$response = wp_remote_get($url); // Uses WordPress HTTP API
+			
+			if ( is_wp_error($response) ) {
+				trigger_error($response->get_error_message(), E_USER_WARNING);
+				return false;
+			} elseif ( $response['response']['code'] != 200 ) {
+				trigger_error($response['response']['message'], E_USER_WARNING);
+				return false;
+			} else {
+				file_put_contents($path, wp_remote_retrieve_body($response));
+				return true;
 			}
-			$fp = fopen($path, 'w');
-
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_FILE, $fp);
-			$return = curl_exec($ch);
-			curl_close($ch);
-
-			fclose($fp);
-			return $return;
 		}
 		
 	}

@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2
 Requires at least: 3.0
 Tested up to: WP 3.4.2
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -105,6 +105,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Changelog ==
 
+= 1.8.2 =
+* New: Better compatibility for copying media: uses the WordPress HTTP API
+
 = 1.8.1 =
 * New: Better compatibility for copying media: uses the copy function if cURL is not loaded
 
@@ -193,6 +196,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.8.2 =
+Better compatibility for copying media
 
 = 1.8.1 =
 Better compatibility for copying media
