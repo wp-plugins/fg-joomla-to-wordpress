@@ -3,17 +3,17 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.8.0
+ * Version:     1.8.1
  * Author:      Frédéric GILLES
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-require_once('compatibility.php');
-
 if ( !defined('WP_LOAD_IMPORTERS') )
 	return;
+
+require_once 'compatibility.php';
 
 // Load Importer API
 require_once ABSPATH . 'wp-admin/includes/import.php';
@@ -970,21 +970,27 @@ SQL;
 		
 		/**
 		 * Copy a remote file
-		 * in replacement to the copy function
+		 * in replacement of the copy function
 		 * 
 		 * @param string $url URL of the source file
 		 * @param string $path destination file
 		 * @return boolean
 		 */
 		private function download($url, $path) {
+			$return = false;
+			
+			// Test that cURL is loaded
+			if  ( !in_array  ('curl', get_loaded_extensions()) ) {
+				trigger_error("cURL is not loaded.", E_USER_WARNING);
+				return copy($url, $path); // Try the standard copy method
+			}
 			$fp = fopen($path, 'w');
 
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_FILE, $fp);
-
 			$return = curl_exec($ch);
-
 			curl_close($ch);
+
 			fclose($fp);
 			return $return;
 		}
