@@ -6,10 +6,10 @@
 if (!function_exists('error_get_last')) {
 	function error_get_last() {
 		$__error_get_last_retval__ = array(
-			'type'        => 'simulated',
-			'message'     => 'simulated',
-			'file'        => 'simulated',
-			'line'        => 'simulated'
+			'type'        => '',
+			'message'     => '',
+			'file'        => '',
+			'line'        => ''
 		);
 		return $__error_get_last_retval__;
 	}
@@ -20,7 +20,7 @@ if (!function_exists('error_get_last')) {
  * Set a post thumbnail
  * for WordPress < 3.1
  */
-if (!function_exists('set_post_thumbnail')){
+if (!function_exists('set_post_thumbnail')) {
 	function set_post_thumbnail( $post, $thumbnail_id ) {
 		$post = get_post( $post );
 		$thumbnail_id = absint( $thumbnail_id );
@@ -33,4 +33,14 @@ if (!function_exists('set_post_thumbnail')){
 		return false;
 	}
 }
+
+/**
+ * Suspend the cache
+ * for WordPress < 3.3
+ */
+if (!function_exists('wp_suspend_cache_addition')) {
+	function wp_suspend_cache_addition() {
+	}
+}
+
 ?>

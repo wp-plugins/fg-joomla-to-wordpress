@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.8.2
+ * Version:     1.8.3
  * Author:      Frédéric GILLES
  */
 
@@ -109,10 +109,11 @@ if ( !class_exists('fgj2wp', false) ) {
 					case 'empty':
 						if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
 							if ($this->empty_database()) { // Empty WP database
-								$this->display_admin_notice(__('Categories, tags, posts, pages and medias deleted', 'fgj2wp'));
+								$this->display_admin_notice(__('Categories, tags, posts, comments, pages and medias deleted', 'fgj2wp'));
 							} else {
 								$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
 							}
+							wp_cache_flush();
 						}
 						break;
 						
@@ -161,6 +162,8 @@ if ( !class_exists('fgj2wp', false) ) {
 							do_action('fgj2wp_import_notices');
 							
 							$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
+							
+							wp_cache_flush();
 						}
 						break;
 
@@ -733,7 +736,7 @@ SQL;
 						$new_filename = $new_upload_dir . '/' . basename($filename);
 						
 						// print "Copy \"$old_filename\" => $new_filename<br />";
-						if ( ! $this->remote_copy($old_filename, $new_filename) ) {
+						if ( ! @$this->remote_copy($old_filename, $new_filename) ) {
 							$error = error_get_last();
 							$error_message = $error['message'];
 							$this->display_admin_error("Can't copy $old_filename to $new_filename : $error_message");

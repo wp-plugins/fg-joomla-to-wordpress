@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments
 Requires at least: 3.0
 Tested up to: WP 3.4.2
-Stable tag: 1.8.2
+Stable tag: 1.8.3
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -48,7 +48,11 @@ The **K2 module** is an extension of the Premium version. It includes these extr
 * migrates K2 attachments
 * migrates K2 custom fields
 
-The Premium version and the K2 module can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
+The **JComments module** is an extension of the Premium version. It includes these extra features:
+
+* migrates the comments from the JComments Joomla extension
+
+The Premium version and the modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 == Installation ==
 
@@ -104,6 +108,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.8.3 =
+* Fixed: Cache flushed after the migration
+* Fixed: Compatibility issue with WordPress < 3.3
 
 = 1.8.2 =
 * New: Better compatibility for copying media: uses the WordPress HTTP API
@@ -196,6 +204,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.8.3 =
+Cache flushed after the migration
+Fixed compatibility issue with WordPress < 3.3
 
 = 1.8.2 =
 Better compatibility for copying media
