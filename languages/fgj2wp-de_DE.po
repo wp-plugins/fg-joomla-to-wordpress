@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-03 09:43+0100\n"
-"PO-Revision-Date: 2012-11-03 09:44+0100\n"
+"POT-Creation-Date: 2012-11-29 21:15+0100\n"
+"PO-Revision-Date: 2012-11-29 21:15+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -173,7 +173,12 @@ msgid "K2 content"
 msgstr "K2 Inhalte"
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:136
+#: admin_build_page.tpl.php:130
+msgid "Flexicontent content"
+msgstr "Flexicontent Inhalte"
+
+# @ fgj2wp
+#: admin_build_page.tpl.php:137
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
