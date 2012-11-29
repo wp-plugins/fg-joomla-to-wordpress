@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, flexicontent
 Requires at least: 3.0
 Tested up to: WP 3.4.2
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -52,6 +52,10 @@ The **JComments module** is an extension of the Premium version. It includes the
 
 * migrates the comments from the JComments Joomla extension
 
+The **Flexicontent module** extends the Premium version. It includes these extra features:
+
+* migrates Flexicontent items/categories relations
+
 The Premium version and the modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 == Installation ==
@@ -94,6 +98,10 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 * It comes from MySQL 4.0. It will work if you move your database to MySQL 5.0 before running the migration.
 
+= None image get transferred into the WordPress uploads folder. I'm using Xampp on Windows. =
+
+* Xampp puts the htdocs in the applications folder which is write protected. You need to move the htdocs to a writeable folder.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -108,6 +116,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.8.4 =
+* FAQ updated
 
 = 1.8.3 =
 * Fixed: Cache flushed after the migration
@@ -204,6 +215,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.8.4 =
+FAQ updated
 
 = 1.8.3 =
 Cache flushed after the migration
