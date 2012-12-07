@@ -82,7 +82,8 @@
 				</tr>
 				<tr>
 					<th scope="row"><?php _e('Medias:', 'fgj2wp'); ?></th>
-					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label></td>
+					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label><br />
+					<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked to speed up the import.', 'fgj2wp'); ?></label></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php _e('Meta keywords:', 'fgj2wp'); ?></th>
