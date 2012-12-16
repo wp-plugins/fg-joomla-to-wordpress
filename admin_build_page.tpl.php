@@ -1,3 +1,12 @@
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		function hide_unhide_force_media() {
+			$("#force_media_import_box").toggle(!$("#skip_media").is(':checked'));
+		}
+		$("#skip_media").bind('click', hide_unhide_force_media);
+		hide_unhide_force_media();
+	});
+</script>
 <div class="wrap" style="float: left;">
 	<?php screen_icon(); ?>
 	<h2><?php print $data['title'] ?></h2>
@@ -12,29 +21,27 @@
 			<?php endforeach; ?>
 		</div>
 		
-		<form action="" method="post">
-			<input name="action" type="hidden" value="empty" />
+		<form action="" method="post" onsubmit="return confirm('<?php _e('All posts, categories, tags, medias, comments and pages will be deleted from WordPress.', 'fgj2wp'); ?>');">
 			<?php wp_nonce_field( 'empty', 'fgj2wp_nonce' ); ?>
 			
 			<table class="form-table">
 				<tr>
-					<th scope="row">&nbsp;</th>
-					<td><input class="button-primary" name="empty" value="<?php _e('Empty WordPress content', 'fgj2wp'); ?>" type="submit" /></td>
+					<th scope="row"><?php _e('If you want to rerun the import, you must empty the WordPress posts, categories, tags, medias, comments and pages.', 'fgj2wp'); ?></th>
+					<td><?php submit_button( __('Empty WordPress content', 'fgj2wp'), 'primary', 'empty' ); ?></td>
 				</tr>
 			</table>
 		</form>
 		
 		<form action="" method="post">
 
-			<input name="action" type="hidden" value="import" />
-			<?php wp_nonce_field( 'import', 'fgj2wp_nonce' ); ?>
+			<?php wp_nonce_field( 'parameters_form', 'fgj2wp_nonce' ); ?>
 
 			<table class="form-table">
 				<tr>
 					<th scope="row" colspan="2"><h3><?php _e('Joomla web site parameters', 'fgj2wp'); ?></h3></th>
 				</tr>
 				<tr>
-					<th scope="row"><label for="url"><?php _e('URL', 'fgj2wp'); ?></label></th>
+					<th scope="row"><label for="url"><?php _e('URL (beginning with http://)', 'fgj2wp'); ?></label></th>
 					<td><input id="url" name="url" type="text" size="50" value="<?php echo $data['url']; ?>" /></td>
 				</tr>
 				<tr>
@@ -74,6 +81,10 @@
 					<td><input id="prefix" name="prefix" type="text" size="50" value="<?php echo $data['prefix']; ?>" /></td>
 				</tr>
 				<tr>
+					<th scope="row">&nbsp;</th>
+					<td><?php submit_button( __('Test the connection', 'fgj2wp'), 'secondary', 'test' ); ?></td>
+				</tr>
+				<tr>
 					<th scope="row" colspan="2"><h3><?php _e('Behavior', 'fgj2wp'); ?></h3></th>
 				</tr>
 				<tr>
@@ -82,8 +93,10 @@
 				</tr>
 				<tr>
 					<th scope="row"><?php _e('Medias:', 'fgj2wp'); ?></th>
-					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label><br />
-					<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked to speed up the import.', 'fgj2wp'); ?></label></td>
+					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label>
+					<br />
+					<div id="force_media_import_box">
+					<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked if you have already transfered the media.<br />It will speed up the import.', 'fgj2wp'); ?></label></div></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php _e('Meta keywords:', 'fgj2wp'); ?></th>
@@ -95,14 +108,13 @@
 				</tr>
 				<tr>
 					<th scope="row">&nbsp;</th>
-					<td><input class="button-primary" name="submit" value="<?php _e('Import content from Joomla to WordPress', 'fgj2wp'); ?>" type="submit" /></td>
+					<td><?php submit_button( __('Import content from Joomla to WordPress', 'fgj2wp'), 'primary', 'import' ); ?></td>
 				</tr>
 			</table>
 		</form>
 		
 		<form action="" method="post">
 
-			<input name="action" type="hidden" value="modify_links" />
 			<?php wp_nonce_field( 'modify_links', 'fgj2wp_nonce' ); ?>
 
 			<table class="form-table">
@@ -110,8 +122,8 @@
 					<th scope="row" colspan="2"><h3><?php _e('After the migration', 'fgj2wp'); ?></h3></th>
 				</tr>
 				<tr>
-					<th scope="row">&nbsp;</th>
-					<td><input class="button-primary" name="submit" value="<?php _e('Modify internal links', 'fgj2wp'); ?>" type="submit" /></td>
+					<th scope="row"><?php _e('If you have links between articles, you need to modify internal links.', 'fgj2wp'); ?></th>
+					<td><?php submit_button( __('Modify internal links', 'fgj2wp'), 'primary', 'modify_links' ); ?></td>
 				</tr>
 			</table>
 			

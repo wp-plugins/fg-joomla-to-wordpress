@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.8.5
+ * Version:     1.9.0
  * Author:      Frédéric GILLES
  */
 
@@ -46,6 +46,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$this->plugin_options = array();
 
 			add_action( 'init', array (&$this, 'init') ); // Hook on init
+			add_action( 'admin_enqueue_scripts', array (&$this, 'enqueue_scripts') );
 		}
 
 		/**
@@ -60,7 +61,14 @@ if ( !class_exists('fgj2wp', false) ) {
 			wp_suspend_cache_addition(true);
 			wp_suspend_cache_invalidation(true);
 		}
-
+		
+		/**
+		 * Loads Javascripts in the admin
+		 */
+		public function enqueue_scripts() {
+			wp_enqueue_script('jquery');
+		}
+		
 		/**
 		 * Display admin notice
 		 */
@@ -102,79 +110,47 @@ if ( !class_exists('fgj2wp', false) ) {
 				$this->plugin_options = array_merge($this->plugin_options, $options);
 			}
 			
-			if ( isset($_POST['action']) ) {
-				
-				switch ( $_POST['action'] ) {
+			if ( isset($_POST['empty']) ) {
 
-					// Delete content
-					case 'empty':
-						if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
-							if ($this->empty_database()) { // Empty WP database
-								$this->display_admin_notice(__('Categories, tags, posts, comments, pages and medias deleted', 'fgj2wp'));
-							} else {
-								$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
-							}
-							wp_cache_flush();
-						}
-						break;
-						
-					// Import content
-					case 'import':
-						if ( check_admin_referer( 'import', 'fgj2wp_nonce' ) ) { // Security check
-							
-							// Set database options
-							$this->plugin_options = array_merge($this->plugin_options, $this->validate_form_info());
-							update_option('fgj2wp_options', $this->plugin_options);
-							
-							$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
+				// Delete content
+				if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
+					if ($this->empty_database()) { // Empty WP database
+						$this->display_admin_notice(__('Categories, tags, posts, comments, pages and medias deleted', 'fgj2wp'));
+					} else {
+						$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
+					}
+					wp_cache_flush();
+				}
+			}
+			
+			elseif ( isset($_POST['test']) ) {
 				
-							// Hook for doing other actions before the import
-							do_action('fgj2wp_pre_import');
-							
-							// Categories
-							if ($this->post_type == 'post') {
-								$cat_count = $this->import_categories();
-								$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
-							}
-							
-							// Posts and medias
-							$result = $this->import_posts();
-							switch ($this->post_type) {
-								case 'page':
-									$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-									break;
-								case 'post':
-								default:
-									$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-							}
-							$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
-							
-							// Tags
-							if ($this->post_type == 'post') {
-								if ( $this->plugin_options['meta_keywords_in_tags'] ) {
-									$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
-								}
-							}
-							
-							// Hook for doing other actions after the import
-							do_action('fgj2wp_post_import');
-							
-							// Hook for other notices
-							do_action('fgj2wp_import_notices');
-							
-							$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
-							
-							wp_cache_flush();
-						}
-						break;
+				// Save database options
+				$this->save_plugin_options();
+				
+				// Test the database connection
+				if ( check_admin_referer( 'parameters_form', 'fgj2wp_nonce' ) ) { // Security check
+					$this->test_database_connection();
+				}
+			}
+			
+			elseif ( isset($_POST['import']) ) {
+				
+				// Save database options
+				$this->save_plugin_options();
+				
+				// Import content
+				if ( check_admin_referer( 'parameters_form', 'fgj2wp_nonce' ) ) { // Security check
+					$this->import();
+				}
+			}
+			
+			elseif ( isset($_POST['modify_links']) ) {
 
-					// Modify internal links
-					case 'modify_links':
-						if ( check_admin_referer( 'modify_links', 'fgj2wp_nonce' ) ) { // Security check
-							$result = $this->modify_links();
-							$this->display_admin_notice(sprintf(_n('%d internal link modified', '%d internal links modified', $result['links_count'], 'fgj2wp'), $result['links_count']));
-						}
-						break;
+				// Modify internal links
+				if ( check_admin_referer( 'modify_links', 'fgj2wp_nonce' ) ) { // Security check
+					$result = $this->modify_links();
+					$this->display_admin_notice(sprintf(_n('%d internal link modified', '%d internal links modified', $result['links_count'], 'fgj2wp'), $result['links_count']));
 				}
 			}
 			
@@ -243,7 +219,7 @@ WHERE comment_id IN
 		)
 	);
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 
 			$sql = <<<SQL
 -- Delete Comments
@@ -256,7 +232,7 @@ WHERE comment_post_ID IN
 	OR post_title = 'Brouillon auto'
 	);
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 
 			$sql = <<<SQL
 -- Delete Term relashionships
@@ -269,7 +245,7 @@ WHERE `object_id` IN
 	OR post_title = 'Brouillon auto'
 	);
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 
 			$sql = <<<SQL
 -- Delete Post meta
@@ -282,7 +258,7 @@ WHERE post_id IN
 	OR post_title = 'Brouillon auto'
 	);
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 
 			$sql = <<<SQL
 -- Delete Posts
@@ -291,7 +267,7 @@ WHERE post_type IN ('post', 'page', 'attachment', 'revision')
 OR post_status = 'trash'
 OR post_title = 'Brouillon auto';
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 
 			$sql = <<<SQL
 -- Delete Categories and Tags
@@ -300,7 +276,7 @@ WHERE t.term_id = tt.term_id
 AND t.term_id > 1 -- non-classe
 AND tt.taxonomy IN ('category', 'post_tag')
 SQL;
-			$result &= $wpdb->query($wpdb->prepare($sql));
+			$result &= $wpdb->query($sql);
 			
 			// Reset the Joomla last imported post ID
 			update_option('fgj2wp_last_id', 0);
@@ -335,9 +311,45 @@ OPTIMIZE TABLE
 `$wpdb->term_relationships` ,
 `$wpdb->term_taxonomy`
 SQL;
-			$wpdb->query($wpdb->prepare($sql));
+			$wpdb->query($sql);
 		}
-			
+		
+		/**
+		 * Test the database connection
+		 * 
+		 * @return boolean
+		 */
+		function test_database_connection() {
+			try {
+				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+				
+				$prefix = $this->plugin_options['prefix'];
+				
+				// Test that the "content" table exists
+				$result = $db->query("DESC ${prefix}content");
+				if ( !is_a($result, 'PDOStatement') ) {
+					$errorInfo = $db->errorInfo();
+					throw new PDOException($errorInfo[2], $errorInfo[1]);
+				}
+				
+				$this->display_admin_notice(__('Connected with success to the Joomla database', 'fgj2wp'));
+				return true;
+				
+			} catch ( PDOException $e ) {
+				$this->display_admin_error(__('Couldn\'t connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.', 'fgj2wp') . '<br />' . $e->getMessage());
+				return false;
+			}
+		}
+		
+		/**
+		 * Save the plugin options
+		 *
+		 */
+		private function save_plugin_options() {
+			$this->plugin_options = array_merge($this->plugin_options, $this->validate_form_info());
+			update_option('fgj2wp_options', $this->plugin_options);			
+		}
+		
 		/**
 		 * Validate POST info
 		 *
@@ -359,6 +371,53 @@ SQL;
 				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
 				'import_as_pages'		=> !empty($_POST['import_as_pages']),
 			);
+		}
+		
+		/**
+		 * Import
+		 *
+		 */
+		private function import() {
+			
+			$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
+
+			// Hook for doing other actions before the import
+			do_action('fgj2wp_pre_import');
+			
+			// Categories
+			if ($this->post_type == 'post') {
+				$cat_count = $this->import_categories();
+				$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
+			}
+			
+			// Posts and medias
+			$result = $this->import_posts();
+			switch ($this->post_type) {
+				case 'page':
+					$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+					break;
+				case 'post':
+				default:
+					$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+			}
+			$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+			
+			// Tags
+			if ($this->post_type == 'post') {
+				if ( $this->plugin_options['meta_keywords_in_tags'] ) {
+					$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+				}
+			}
+			
+			// Hook for doing other actions after the import
+			do_action('fgj2wp_post_import');
+			
+			// Hook for other notices
+			do_action('fgj2wp_import_notices');
+			
+			$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
+			
+			wp_cache_flush();
 		}
 
 		/**
@@ -576,9 +635,11 @@ SQL;
 					}
 				}
 				$db = null;
+				
+				$sections = apply_filters('fgj2wp_get_sections', $sections);
+				
 			} catch ( PDOException $e ) {
-				print "Erreur !: " . $e->getMessage() . "<br />";
-				die();
+				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
 			return $sections;		
 		}
@@ -623,9 +684,11 @@ SQL;
 					}
 				}
 				$db = null;
+				
+				$categories = apply_filters('fgj2wp_get_categories', $categories);
+				
 			} catch ( PDOException $e ) {
-				print "Erreur !: " . $e->getMessage() . "<br />";
-				die();
+				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
 			return $categories;		
 		}
@@ -678,8 +741,7 @@ SQL;
 				}
 				$db = null;
 			} catch ( PDOException $e ) {
-				print "Erreur !: " . $e->getMessage() . "<br />";
-				die();
+				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
 			return $posts;		
 		}
