@@ -21,13 +21,15 @@
 			<?php endforeach; ?>
 		</div>
 		
-		<form action="" method="post" onsubmit="return confirm('<?php _e('All posts, categories, tags, medias, comments and pages will be deleted from WordPress.', 'fgj2wp'); ?>');">
+		<form action="" method="post" onsubmit="return check_empty_content_option()">
 			<?php wp_nonce_field( 'empty', 'fgj2wp_nonce' ); ?>
 			
 			<table class="form-table">
 				<tr>
-					<th scope="row"><?php _e('If you want to rerun the import, you must empty the WordPress posts, categories, tags, medias, comments and pages.', 'fgj2wp'); ?></th>
-					<td><?php submit_button( __('Empty WordPress content', 'fgj2wp'), 'primary', 'empty' ); ?></td>
+					<th scope="row"><?php _e('If you want to rerun the import, you must empty the WordPress content with the button hereafter.', 'fgj2wp'); ?></th>
+					<td><input type="radio" name="empty_action" id="empty_action_newposts" value="newposts" /> <label for="empty_action_newposts"><?php _e('Remove only new imported posts', 'fgj2wp'); ?></label><br />
+					<input type="radio" name="empty_action" id="empty_action_all" value="all" /> <label for="empty_action_all"><?php _e('Remove all posts, categories, tags, medias, comments and pages', 'fgj2wp'); ?></label><br />
+					<?php submit_button( __('Empty WordPress content', 'fgj2wp'), 'primary', 'empty' ); ?></td>
 				</tr>
 			</table>
 		</form>
@@ -49,7 +51,7 @@
 					<td><select id="version" name="version">
 							<option id="version_1_5" value="1.5"<?php print ($data['version'] == '1.5')? ' selected' : ''; ?>>1.5</option>
 							<option id="version_1_6" value="1.6"<?php print ($data['version'] == '1.6')? ' selected' : ''; ?>>1.6, 1.7</option>
-							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5</option>
+							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0</option>
 						</select>
 					</td>
 				</tr>
@@ -135,12 +137,14 @@
 		<p>
 		<ul style="list-style:disc inside">
 			<li><?php _e('authors and all users migration', 'fgj2wp'); ?></li>
+			<li><?php _e('Joomla views counts migration', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
-			<li><?php _e('Joomla 2.5 featured images', 'fgj2wp'); ?></li>
+			<li><?php _e('Joomla 2.5+ featured images', 'fgj2wp'); ?></li>
 			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('K2 content', 'fgj2wp'); ?></li>
 			<li><?php _e('Flexicontent content', 'fgj2wp'); ?></li>
+			<li><?php _e('Jcomments comments', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>
@@ -160,3 +164,22 @@
 		</div>
 	</div>	
 </div>
+<script type="text/javascript">
+	function check_empty_content_option() {
+		var confirm_message;
+		var action = jQuery('input:radio[name=empty_action]:checked').val();
+		switch ( action ) {
+			case 'newposts':
+				confirm_message = '<?php _e('All new imported posts or pages and their comments will be deleted from WordPress.', 'fgj2wp'); ?>';
+				break;
+			case 'all':
+				confirm_message = '<?php _e('All posts, categories, tags, medias, comments and pages will be deleted from WordPress.', 'fgj2wp'); ?>';
+				break;
+			default:
+				alert('<?php _e('Please select a remove option.', 'fgj2wp'); ?>');
+				return false;
+				break;
+		}
+		return confirm(confirm_message);
+	}
+</script>

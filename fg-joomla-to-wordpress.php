@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.9.1
+ * Version:     1.10.0
  * Author:      Frédéric GILLES
  */
 
@@ -114,10 +114,10 @@ if ( !class_exists('fgj2wp', false) ) {
 
 				// Delete content
 				if ( check_admin_referer( 'empty', 'fgj2wp_nonce' ) ) { // Security check
-					if ($this->empty_database()) { // Empty WP database
-						$this->display_admin_notice(__('Categories, tags, posts, comments, pages and medias deleted', 'fgj2wp'));
+					if ($this->empty_database($_POST['empty_action'])) { // Empty WP database
+						$this->display_admin_notice(__('WordPress content removed', 'fgj2wp'));
 					} else {
-						$this->display_admin_error(__('Couldn\'t delete content', 'fgj2wp'));
+						$this->display_admin_error(__('Couldn\'t remove content', 'fgj2wp'));
 					}
 					wp_cache_flush();
 				}
@@ -171,7 +171,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7 and 2.5.', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
 			$data['media_count'] = $media_count->inherit;
@@ -196,13 +196,27 @@ if ( !class_exists('fgj2wp', false) ) {
 		/**
 		 * Delete all posts, medias and categories from the database
 		 *
+		 * @string $action: newposts = removes only new imported posts
+		 * 					all = removes all
 		 * @return boolean
 		 */
-		private function empty_database() {
+		private function empty_database($action) {
 			global $wpdb;
 			$result = true;
 			
 			$wpdb->show_errors();
+			
+			// WordPress post ID to start the deletion
+			if ( $action == 'all' ) {
+				$start_id = 1;
+				update_option('fgj2wp_start_id', $start_id);
+			} else {
+				$start_id = intval(get_option('fgj2wp_start_id'));
+				if ( $start_id == 0) {
+					$start_id = $this->get_next_post_autoincrement();
+					update_option('fgj2wp_start_id', $start_id);
+				}
+			}
 			
 			$sql = <<<SQL
 -- Delete Comments meta
@@ -213,9 +227,10 @@ WHERE comment_id IN
 	WHERE comment_post_ID IN
 		(
 		SELECT ID FROM $wpdb->posts
-		WHERE post_type IN ('post', 'page', 'attachment', 'revision')
+		WHERE (post_type IN ('post', 'page', 'attachment', 'revision')
 		OR post_status = 'trash'
-		OR post_title = 'Brouillon auto'
+		OR post_title = 'Brouillon auto')
+		AND ID >= $start_id
 		)
 	);
 SQL;
@@ -227,9 +242,10 @@ DELETE FROM $wpdb->comments
 WHERE comment_post_ID IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
+	WHERE (post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
-	OR post_title = 'Brouillon auto'
+	OR post_title = 'Brouillon auto')
+	AND ID >= $start_id
 	);
 SQL;
 			$result &= $wpdb->query($sql);
@@ -240,9 +256,10 @@ DELETE FROM $wpdb->term_relationships
 WHERE `object_id` IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
+	WHERE (post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
-	OR post_title = 'Brouillon auto'
+	OR post_title = 'Brouillon auto')
+	AND ID >= $start_id
 	);
 SQL;
 			$result &= $wpdb->query($sql);
@@ -253,9 +270,10 @@ DELETE FROM $wpdb->postmeta
 WHERE post_id IN
 	(
 	SELECT ID FROM $wpdb->posts
-	WHERE post_type IN ('post', 'page', 'attachment', 'revision')
+	WHERE (post_type IN ('post', 'page', 'attachment', 'revision')
 	OR post_status = 'trash'
-	OR post_title = 'Brouillon auto'
+	OR post_title = 'Brouillon auto')
+	AND ID >= $start_id
 	);
 SQL;
 			$result &= $wpdb->query($sql);
@@ -263,26 +281,32 @@ SQL;
 			$sql = <<<SQL
 -- Delete Posts
 DELETE FROM $wpdb->posts
-WHERE post_type IN ('post', 'page', 'attachment', 'revision')
+WHERE (post_type IN ('post', 'page', 'attachment', 'revision')
 OR post_status = 'trash'
-OR post_title = 'Brouillon auto';
+OR post_title = 'Brouillon auto')
+AND ID >= $start_id;
 SQL;
 			$result &= $wpdb->query($sql);
 
-			$sql = <<<SQL
+			if ( $action == 'all' ) {
+				$sql = <<<SQL
 -- Delete Categories and Tags
 DELETE t, tt FROM $wpdb->terms t, $wpdb->term_taxonomy tt
 WHERE t.term_id = tt.term_id
 AND t.term_id > 1 -- non-classe
 AND tt.taxonomy IN ('category', 'post_tag')
 SQL;
-			$result &= $wpdb->query($sql);
+				$result &= $wpdb->query($sql);
+				
+				// Hook for doing other actions after emptying the database
+				do_action('fgj2wp_post_empty_database');
+			}
 			
 			// Reset the Joomla last imported post ID
-			update_option('fgj2wp_last_id', 0);
+			update_option('fgj2wp_last_joomla_id', 0);
 			
-			// Hook for doing other actions after empty the database
-			do_action('fgj2wp_post_empty_database');
+			// Re-count categories and tags items
+			$this->terms_count();
 			
 			// Update cache
 			$this->clean_cache();
@@ -590,7 +614,7 @@ SQL;
 							add_post_meta($new_post_id, '_fgj2wp_old_id', $post['id'], true);
 							
 							// Increment the Joomla last imported post ID
-							update_option('fgj2wp_last_id', $post['id']);
+							update_option('fgj2wp_last_joomla_id', $post['id']);
 
 							$posts_count++;
 							
@@ -702,7 +726,7 @@ SQL;
 		protected function get_posts($limit=1000) {
 			$posts = array();
 			
-			$last_id = (int)get_option('fgj2wp_last_id'); // to restore the import where it left
+			$last_joomla_id = (int)get_option('fgj2wp_last_joomla_id'); // to restore the import where it left
 
 			try {
 				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
@@ -727,11 +751,11 @@ SQL;
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 					$extra_joins
 					WHERE p.state >= 0 -- don't get the trash
-					AND p.id > '$last_id'
+					AND p.id > '$last_joomla_id'
 					ORDER BY p.id
 					LIMIT $limit
 				";
-				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix, $cat_field, $extra_cols, $extra_joins, $last_id, $limit);
+				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix, $cat_field, $extra_cols, $extra_joins, $last_joomla_id, $limit);
 				
 				$query = $db->query($sql);
 				if ( is_object($query) ) {
@@ -1076,6 +1100,51 @@ SQL;
 			}
 		}
 		
+		/**
+		 * Recount the items for a taxonomy
+		 * 
+		 * @return boolean
+		 */
+		private function terms_tax_count($taxonomy) {
+			$terms = get_terms(array($taxonomy));
+			// Get the term taxonomies
+			$terms_taxonomies = array();
+			foreach ( $terms as $term ) {
+				$terms_taxonomies[] = $term->term_taxonomy_id;
+			}
+			if ( !empty($terms_taxonomies) ) {
+				return wp_update_term_count_now($terms_taxonomies, $taxonomy);
+			} else {
+				return true;
+			}
+		}
+		
+		/**
+		 * Recount the items for each category and tag
+		 * 
+		 * @return boolean
+		 */
+		private function terms_count() {
+			$result = $this->terms_tax_count('category');
+			$result |= $this->terms_tax_count('post_tag');
+		}
+		
+		/**
+		 * Get the next post autoincrement
+		 * 
+		 * @return int post ID
+		 */
+		private function get_next_post_autoincrement() {
+			global $wpdb;
+			
+			$sql = "SHOW TABLE STATUS LIKE '$wpdb->posts'";
+			$row = $wpdb->get_row($sql);
+			if ( $row ) {
+				return $row->Auto_increment;
+			} else {
+				return 0;
+			}
+		}
 	}
 }
 ?>
