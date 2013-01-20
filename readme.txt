@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, flexicontent, postviews
 Requires at least: 3.0
 Tested up to: WP 3.5.0
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -87,6 +87,10 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 * PDO and PDO_MySQL libraries are needed. You must enable them in php.ini.
 
+= I get this error: PHP Fatal error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' =
+
+* You have to enable PDO_MySQL in php.ini. That means uncomment the line extension=pdo_mysql.so in php.ini
+
 = I get the message: "SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
 
 * First verify your login and password to your Joomla database.
@@ -121,6 +125,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.10.1 =
+* New: Add a hook for extra options
+* Fixed: Move the fgj2wp_post_empty_database hook
+* FAQ updated
 
 = 1.10.0 =
 * New: Compatibility with Joomla 3.0
@@ -236,6 +245,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.10.1 =
+Fixed: Move the fgj2wp_post_empty_database hook
 
 = 1.10.0 =
 Compatibility with Joomla 3.0
