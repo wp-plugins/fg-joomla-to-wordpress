@@ -145,6 +145,7 @@
 			<li><?php _e('K2 content', 'fgj2wp'); ?></li>
 			<li><?php _e('Flexicontent content', 'fgj2wp'); ?></li>
 			<li><?php _e('Jcomments comments', 'fgj2wp'); ?></li>
+			<li><?php _e('Jomcomment comments', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>

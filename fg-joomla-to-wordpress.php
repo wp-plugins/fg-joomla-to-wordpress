@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.10.1
+ * Version:     1.10.2
  * Author:      Frédéric GILLES
  */
 
@@ -1004,15 +1004,15 @@ SQL;
 								$link = $match[2];
 								// Is it an internal link ?
 								if ( $this->is_internal_link($link) ) {
-									$old_id = $this->get_joomla_id_in_link($link);
+									$meta_key_value = $this->get_joomla_id_in_link($link);
 									// Can we find an ID in the link ?
-									if ( $old_id != 0 ) {
+									if ( $meta_key_value['meta_value'] != 0 ) {
 										// Get the linked post
 										$linked_posts = get_posts(array(
 											'numberposts'	=> 1,
 											'post_type'		=> $this->post_type,
-											'meta_key'		=> '_fgj2wp_old_id',
-											'meta_value'	=> $old_id,
+											'meta_key'		=> $meta_key_value['meta_key'],
+											'meta_value'	=> $meta_key_value['meta_value'],
 										));
 										if ( count($linked_posts) > 0 ) {
 											$new_link = get_permalink($linked_posts[0]->ID);
@@ -1053,19 +1053,27 @@ SQL;
 		 * Get the Joomla ID in a link
 		 *
 		 * @param string $link
-		 * @return int
+		 * @return array('meta_key' => $meta_key, 'meta_value' => $meta_value)
 		 */
 		private function get_joomla_id_in_link($link) {
-			$old_id = 0;
-			// Without URL rewriting
-			if ( preg_match("#id=(\d+)#", $link, $matches) ) {
-				$old_id = $matches[1];
+			$meta_key_value = array(
+				'meta_key'		=> '',
+				'meta_value'	=> 0);
+			$meta_key_value = apply_filters('fgj2wp_pre_get_joomla_id_in_link', $meta_key_value, $link);
+			if ($meta_key_value['meta_value'] == 0) {
+				$meta_key_value['meta_key'] = '_fgj2wp_old_id';
+				// Without URL rewriting
+				if ( preg_match("#id=(\d+)#", $link, $matches) ) {
+					$meta_key_value['meta_value'] = $matches[1];
+				}
+				// With URL rewriting
+				elseif ( preg_match("#(.*)/(\d+)-(.*)#", $link, $matches) ) {
+					$meta_key_value['meta_value'] = $matches[2];
+				} else {
+					$meta_key_value = apply_filters('fgj2wp_post_get_joomla_id_in_link', $meta_key_value);
+				}
 			}
-			// With URL rewriting
-			elseif ( preg_match("#(.*)/(\d+)-(.*)#", $link, $matches) ) {
-				$old_id = $matches[2];
-			}
-			return $old_id;
+			return $meta_key_value;
 		}
 		
 		/**

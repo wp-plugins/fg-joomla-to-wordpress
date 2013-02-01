@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, flexicontent, postviews
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews
 Requires at least: 3.0
-Tested up to: WP 3.5.0
-Stable tag: 1.10.1
+Tested up to: WP 3.5.1
+Stable tag: 1.10.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0** and **Wordpress 3.5** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0** and **Wordpress 3.5.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -55,6 +55,10 @@ The **WP-PostViews module** is an extension of the Premium version. It includes 
 The **JComments module** is an extension of the Premium version. It includes these extra features:
 
 * migrates the comments from the JComments Joomla extension
+
+The **JomComment module** is an extension of the Premium version. It includes these extra features:
+
+* migrates the comments from the JomComment Joomla extension
 
 The **Flexicontent module** extends the Premium version. It includes these extra features:
 
@@ -125,6 +129,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.10.2 =
+* Tested with WordPress 3.5.1
+* New: Add hooks in the modify_links method
 
 = 1.10.1 =
 * New: Add a hook for extra options
@@ -245,6 +253,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.10.2 =
+Works with WordPress 3.5.1
 
 = 1.10.1 =
 Fixed: Move the fgj2wp_post_empty_database hook

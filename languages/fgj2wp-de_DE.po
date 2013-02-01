@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress v1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-13 22:27+0100\n"
-"PO-Revision-Date: 2013-01-13 22:52+0100\n"
+"POT-Creation-Date: 2013-01-27 00:28+0100\n"
+"PO-Revision-Date: 2013-01-27 00:28+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: \n"
 "Language: \n"
@@ -214,22 +214,26 @@ msgstr "Flexicontent Inhalte"
 msgid "Jcomments comments"
 msgstr "JComments Kommentare"
 
+#: admin_build_page.tpl.php:148
+msgid "Jomcomment comments"
+msgstr "JomComment Kommentare"
+
 # @ fgj2wp
-#: admin_build_page.tpl.php:154
+#: admin_build_page.tpl.php:155
 msgid "If you found this plugin useful and it saved you many hours or days, please rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. You can also make a donation using the button below."
 msgstr "Wenn Sie dieses Plugin mögen und es Ihnen viele Stunden oder gar Tage erspart hat, bitten bewerten Sie es unter <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/\">FG Joomla to WordPress</a>. Sie können auch den Spendenbutton benutzen, um eine kleine Spende zu geben."
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:173
+#: admin_build_page.tpl.php:174
 msgid "All new imported posts or pages and their comments will be deleted from WordPress."
 msgstr "Alle neuen importierten Beiträge oder Seiten, und ihre Kommentare werden von WordPress gelöscht werden."
 
 # @ fgj2wp
-#: admin_build_page.tpl.php:176
+#: admin_build_page.tpl.php:177
 msgid "All posts, categories, tags, medias, comments and pages will be deleted from WordPress."
 msgstr "Alle Beiträge, Kategorien, Schlagworte, Medien, Kommentare und Seiten von WordPress gelöscht werden."
 
-#: admin_build_page.tpl.php:179
+#: admin_build_page.tpl.php:180
 msgid "Please select a remove option."
 msgstr "Bitte wählen Sie eine Option entfernen."
 
