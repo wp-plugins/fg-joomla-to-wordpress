@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.10.2
+ * Version:     1.10.3
  * Author:      Frédéric GILLES
  */
 
@@ -371,7 +371,10 @@ SQL;
 		 */
 		private function save_plugin_options() {
 			$this->plugin_options = array_merge($this->plugin_options, $this->validate_form_info());
-			update_option('fgj2wp_options', $this->plugin_options);			
+			update_option('fgj2wp_options', $this->plugin_options);
+			
+			// Hook for doing other actions after saving the options
+			do_action('fgj2wp_post_save_plugin_options');
 		}
 		
 		/**
@@ -532,8 +535,11 @@ SQL;
 						
 						// Medias
 						if ( !$this->plugin_options['skip_media'] ) {
+							// Extra featured image
+							$featured_image = '';
+							list($featured_image, $post) = apply_filters('fgj2wp_pre_import_media', $featured_image, $post);
 							// Import media
-							$result = $this->import_media($post['introtext'] . $post['fulltext'], $post['date']);
+							$result = $this->import_media($featured_image . $post['introtext'] . $post['fulltext'], $post['date']);
 							$post_media = $result['media'];
 							$media_count += $result['media_count'];
 						} else {
@@ -696,6 +702,7 @@ SQL;
 							FROM ${prefix}categories c
 							INNER JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
 							WHERE c.extension = 'com_content'
+							ORDER BY c.lft
 						";
 						break;
 				}
