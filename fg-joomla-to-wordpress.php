@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.10.4
+ * Version:     1.10.6
  * Author:      Frédéric GILLES
  */
 
@@ -469,23 +469,33 @@ SQL;
 						continue; // Do not import already imported category
 					}
 					
-					//Parent category
-					$parent_id = 0;
-					if ( !empty($category['parent']) ) {
-						$idObj = get_category_by_slug($category['parent']);
-						$parent_id = $idObj->term_id;
-					}
-					
 					// Insert the category
 					$new_category = array(
 						'cat_name' 				=> $category['title'],
 						'category_description'	=> $category['description'],
-						'category_nicename'		=> $category['name'],
-						'category_parent'		=> $parent_id,
+						'category_nicename'		=> $category['name'], // slug
 					);
 					if ( $cat_id = wp_insert_category($new_category) ) {
 						$cat_count++;
 						$terms[] = $cat_id;
+					}
+				}
+				
+				// Update the categories with their parent ids
+				// We need to do it in a second step because the children categories
+				// may have been imported before their parent
+				foreach ( $categories as $category ) {
+					$cat = get_category_by_slug($category['name']);
+					if ( $cat ) {
+						// Parent category
+						if ( !empty($category['parent']) ) {
+							$parent_cat = get_category_by_slug($category['parent']);
+							if ( $parent_cat ) {
+								wp_update_term($cat->term_id, 'category', array(
+									'parent' => $parent_cat->term_id
+								));
+							}
+						}
 					}
 				}
 				
@@ -863,7 +873,10 @@ SQL;
 						}
 						$attach_id = $attachment->ID;
 						
-						$media[$filename] = $post_name;
+						$media[$filename] = array(
+							'id'	=> $attach_id,
+							'name'	=> $post_name,
+						);
 						
 						if ( preg_match('/image/', $filetype['type']) ) { // Images
 							// you must first include the image.php file
@@ -935,7 +948,8 @@ SQL;
 		 */
 		private function process_content_media_links($content, $post_media) {
 			if ( is_array($post_media) ) {
-				foreach ( $post_media as $old_filename => $post_media_name ) {
+				foreach ( $post_media as $old_filename => $media ) {
+					$post_media_name = $media['name'];
 					$attachment = $this->get_attachment_from_name($post_media_name);
 					if ( $attachment ) {
 						if ( preg_match('/image/', $attachment->post_mime_type) ) {
@@ -966,7 +980,8 @@ SQL;
 		public function add_post_media($post_id, $post_data, $post_media) {
 			$thumbnail_is_set = false;
 			if ( is_array($post_media) ) {
-				foreach ( $post_media as $old_filename => $post_media_name ) {
+				foreach ( $post_media as $old_filename => $media ) {
+					$post_media_name = $media['name'];
 					$attachment = $this->get_attachment_from_name($post_media_name);
 					$attachment->post_parent = $post_id; // Attach the post to the media
 					$attachment->post_date = $post_data['post_date'] ;// Define the media's date
