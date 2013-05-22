@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.10.6
+ * Version:     1.11.0
  * Author:      Frédéric GILLES
  */
 
@@ -101,6 +101,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'prefix'				=> 'jos_',
 				'introtext_in_excerpt'	=> 1,
 				'skip_media'			=> 0,
+				'import_external'		=> 0,
 				'force_media_import'	=> 0,
 				'meta_keywords_in_tags'	=> 0,
 				'import_as_pages'		=> 0,
@@ -394,6 +395,7 @@ SQL;
 				'prefix'				=> $_POST['prefix'],
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
 				'skip_media'			=> !empty($_POST['skip_media']),
+				'import_external'		=> !empty($_POST['import_external']),
 				'force_media_import'	=> !empty($_POST['force_media_import']),
 				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
 				'import_as_pages'		=> !empty($_POST['import_as_pages']),
@@ -525,7 +527,6 @@ SQL;
 		private function import_posts() {
 			$posts_count = 0;
 			$media_count = 0;
-			$tags_count = 0;
 			$imported_tags = array();
 			$step = 1000; // to limit the results
 			
@@ -830,11 +831,10 @@ SQL;
 						
 						// Upload the file from the Joomla web site to WordPress upload dir
 						if ( preg_match('/^http/', $filename) ) {
-							if ( preg_match('#^' . $this->plugin_options['url'] . '#', $filename) ) {
-								// Local file
+							if ( preg_match('#^' . $this->plugin_options['url'] . '#', $filename) // Local file
+								|| ($this->plugin_options['import_external'] == 1) ) { // External file 
 								$old_filename = $filename;
 							} else {
-								// Don't import external file
 								continue;
 							}
 						} else {

@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews
 Requires at least: 3.0
 Tested up to: WP 3.5.1
-Stable tag: 1.10.6
+Stable tag: 1.11.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -21,7 +21,8 @@ Major features include:
 * migrates Joomla sections as categories
 * migrates categories as sub-categories
 * migrates Joomla posts
-* uploads all the posts media in WP uploads directories (in option)
+* uploads all the posts media in WP uploads directories (as an option)
+* uploads external media (as an option)
 * modifies the post content to keep the media links
 * resizes images according to the sizes defined in WP
 * defines the thumbnail to be the first post image
@@ -123,12 +124,17 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 1. Parameters screen
 
 == Translations ==
-* French (fr_FR)
 * English (default)
-* German (de_DE) by LWille
+* French (fr_FR)
+* German (de_DE)
+* Russian (ru_RU)
 * other can be translated
 
 == Changelog ==
+
+= 1.11.0 =
+* New: Import external media (as an option)
+* New translation: Russian (Thanks to Julia N.)
 
 = 1.10.6 =
 * Fixed: Categories hierarchy lost when parent categories had an id greater than their children
