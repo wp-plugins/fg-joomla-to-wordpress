@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.11.0
+ * Version:     1.12.0
  * Author:      Frédéric GILLES
  */
 
@@ -101,6 +101,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'prefix'				=> 'jos_',
 				'introtext_in_excerpt'	=> 1,
 				'skip_media'			=> 0,
+				'import_featured'		=> 1,
 				'import_external'		=> 0,
 				'force_media_import'	=> 0,
 				'meta_keywords_in_tags'	=> 0,
@@ -143,6 +144,15 @@ if ( !class_exists('fgj2wp', false) ) {
 				// Import content
 				if ( check_admin_referer( 'parameters_form', 'fgj2wp_nonce' ) ) { // Security check
 					$this->import();
+				}
+			}
+			
+			elseif ( isset($_POST['remove_cat_prefix']) ) {
+
+				// Remove the prefixes from the categories
+				if ( check_admin_referer( 'remove_cat_prefix', 'fgj2wp_nonce' ) ) { // Security check
+					$result = $this->remove_category_prefix();
+					$this->display_admin_notice(__('Prefixes removed from categories', 'fgj2wp'));
 				}
 			}
 			
@@ -395,6 +405,7 @@ SQL;
 				'prefix'				=> $_POST['prefix'],
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
 				'skip_media'			=> !empty($_POST['skip_media']),
+				'import_featured'		=> !empty($_POST['import_featured']),
 				'import_external'		=> !empty($_POST['import_external']),
 				'force_media_import'	=> !empty($_POST['force_media_import']),
 				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
@@ -625,7 +636,7 @@ SQL;
 						$new_post_id = wp_insert_post($new_post);
 						if ( $new_post_id ) { 
 							// Add links between the post and its medias
-							$this->add_post_media($new_post_id, $new_post, $post_media);
+							$this->add_post_media($new_post_id, $new_post, $post_media, $this->plugin_options['import_featured']);
 							
 							// Add the Joomla ID as a post meta in order to modify links after
 							add_post_meta($new_post_id, '_fgj2wp_old_id', $post['id'], true);
@@ -976,8 +987,9 @@ SQL;
 		 * @param int $post_id Post ID
 		 * @param array $post_data Post data
 		 * @param array $post_media Post medias
+		 * @param boolean $set_featured_image Set the featured image?
 		 */
-		public function add_post_media($post_id, $post_data, $post_media) {
+		public function add_post_media($post_id, $post_data, $post_media, $set_featured_image=true) {
 			$thumbnail_is_set = false;
 			if ( is_array($post_media) ) {
 				foreach ( $post_media as $old_filename => $media ) {
@@ -987,8 +999,8 @@ SQL;
 					$attachment->post_date = $post_data['post_date'] ;// Define the media's date
 					wp_update_post($attachment);
 
-					// Set the thumbnail to be the first image
-					if ( !$thumbnail_is_set ) {
+					// Set the featured image. If not defined, it is the first image of the content.
+					if ( $set_featured_image && !$thumbnail_is_set ) {
 						set_post_thumbnail($post_id, $attachment->ID);
 						$thumbnail_is_set = true;
 					}
@@ -1173,6 +1185,22 @@ SQL;
 				return $row->Auto_increment;
 			} else {
 				return 0;
+			}
+		}
+		
+		/**
+		 * Remove the prefixes categories
+		 */
+		private function remove_category_prefix() {
+			$categories = get_terms( 'category', array('hide_empty' => 0) );
+			if ( !empty($categories) ) {
+				foreach ( $categories as $cat ) {
+					if ( preg_match('/^(s|ck?)\d+-(.*)/', $cat->slug, $matches) ) {
+						wp_update_term($cat->term_id, 'category', array(
+							'slug' => $matches[2]
+						));
+					}
+				}
 			}
 		}
 	}

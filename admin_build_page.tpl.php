@@ -1,10 +1,10 @@
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
-		function hide_unhide_force_media() {
-			$("#force_media_import_box").toggle(!$("#skip_media").is(':checked'));
+		function hide_unhide_media() {
+			$("#media_import_box").toggle(!$("#skip_media").is(':checked'));
 		}
-		$("#skip_media").bind('click', hide_unhide_force_media);
-		hide_unhide_force_media();
+		$("#skip_media").bind('click', hide_unhide_media);
+		hide_unhide_media();
 	});
 </script>
 <div class="wrap" style="float: left;">
@@ -97,7 +97,9 @@
 					<th scope="row"><?php _e('Medias:', 'fgj2wp'); ?></th>
 					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label>
 					<br />
-					<div id="force_media_import_box">
+					<div id="media_import_box">
+						<input id="import_featured" name="import_featured" type="checkbox" value="1" <?php checked($data['import_featured'], 1); ?> /> <label for="import_featured"><?php _e('Import first image as featured image', 'fgj2wp'); ?></label>
+						<br />
 						<input id="import_external" name="import_external" type="checkbox" value="1" <?php checked($data['import_external'], 1); ?> /> <label for="import_external"><?php _e('Import external media', 'fgj2wp'); ?></label>
 						<br />
 						<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked if you have already transfered the media.<br />It will speed up the import.', 'fgj2wp'); ?></label>
@@ -118,21 +120,29 @@
 			</table>
 		</form>
 		
-		<form action="" method="post">
-
-			<?php wp_nonce_field( 'modify_links', 'fgj2wp_nonce' ); ?>
-
-			<table class="form-table">
-				<tr>
-					<th scope="row" colspan="2"><h3><?php _e('After the migration', 'fgj2wp'); ?></h3></th>
-				</tr>
-				<tr>
-					<th scope="row"><?php _e('If you have links between articles, you need to modify internal links.', 'fgj2wp'); ?></th>
-					<td><?php submit_button( __('Modify internal links', 'fgj2wp'), 'primary', 'modify_links' ); ?></td>
-				</tr>
-			</table>
-			
-		</form>
+		<table class="form-table">
+			<tr>
+				<th scope="row" colspan="2"><h3><?php _e('After the migration', 'fgj2wp'); ?></h3></th>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('During the migration, prefixes have been added to the categories slugs to avoid categories duplicates. This button will remove these prefixes which are useless after the migration.', 'fgj2wp'); ?></th>
+				<td>
+					<form method="post">
+						<?php wp_nonce_field( 'remove_cat_prefix', 'fgj2wp_nonce' ); ?>
+						<?php submit_button( __('Remove the prefixes from the categories', 'fgj2wp'), 'primary', 'remove_cat_prefix' ); ?>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><?php _e('If you have links between articles, you need to modify internal links.', 'fgj2wp'); ?></th>
+				<td>
+					<form method="post">
+						<?php wp_nonce_field( 'modify_links', 'fgj2wp_nonce' ); ?>
+						<?php submit_button( __('Modify internal links', 'fgj2wp'), 'primary', 'modify_links' ); ?>
+					</form>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
 	<div style="float:right; width:300px;">
@@ -141,7 +151,7 @@
 		<ul style="list-style:disc inside">
 			<li><?php _e('authors and all users migration', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla views counts migration', 'fgj2wp'); ?></li>
-			<li><?php _e('SEO', 'fgj2wp'); ?></li>
+			<li><?php _e('SEO: redirects standard Joomla URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 2.5+ featured images', 'fgj2wp'); ?></li>
 			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
