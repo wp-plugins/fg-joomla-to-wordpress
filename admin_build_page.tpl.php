@@ -154,6 +154,7 @@
 			<li><?php _e('menus migration', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla views counts migration', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO: keeps Joomla IDs or redirects standard Joomla URLs', 'fgj2wp'); ?></li>
+			<li><?php _e('SEO: Keeps sh404sef URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 2.5+ featured images', 'fgj2wp'); ?></li>
 			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
@@ -161,6 +162,9 @@
 			<li><?php _e('Flexicontent content', 'fgj2wp'); ?></li>
 			<li><?php _e('Jcomments comments', 'fgj2wp'); ?></li>
 			<li><?php _e('Jomcomment comments', 'fgj2wp'); ?></li>
+			<li><?php _e('Joomlatags tags', 'fgj2wp'); ?></li>
+			<li><?php _e('Attachments', 'fgj2wp'); ?></li>
+			<li><?php _e('Rokbox images', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>

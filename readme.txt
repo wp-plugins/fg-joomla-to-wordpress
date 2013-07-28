@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox
 Requires at least: 3.0
 Tested up to: WP 3.5.2
-Stable tag: 1.13.0
+Stable tag: 1.14.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -27,11 +27,14 @@ Major features include:
 * resizes images according to the sizes defined in WP
 * defines the featured image to be the first post image
 * keeps the alt image attribute
+* keeps the image caption
 * modifies the internal links
 * migrates meta keywords as tags
 * can import Joomla articles as posts or pages
 
 No need to subscribe to an external web site.
+
+= Premium version =
 
 The **Premium version** includes these extra features:
 
@@ -42,32 +45,57 @@ The **Premium version** includes these extra features:
 * migrates Joomla 1.0 static articles as pages
 * migrates Joomla 2.5+ featured images
 
-The **K2 module** is an extension of the Premium version. It includes these extra features:
+= Add-ons =
+
+The following add-ons are extensions of the Premium version.
+
+The **K2 module** includes these features:
 
 * migrates K2 items
 * migrates K2 categories
 * migrates K2 tags
 * migrates K2 comments
 * migrates K2 images
+* migrates K2 images galleries
+* migrates K2 videos
 * migrates K2 attachments
 * migrates K2 custom fields
+* migrates K2 authors
 
-The **WP-PostViews module** is an extension of the Premium version. It includes these extra features:
+The **sh404sef module** includes these features:
+
+* keeps or redirects the URLs from the Joomla extension sh404sef
+
+The **WP-PostViews module** includes these features:
 
 * migrates the Joomla views counts. This module requires the WP-PostViews plugin.
 
-The **JComments module** is an extension of the Premium version. It includes these extra features:
+The **JComments module** includes these features:
 
 * migrates the comments from the JComments Joomla extension
 
-The **JomComment module** is an extension of the Premium version. It includes these extra features:
+The **JomComment module** includes these features:
 
 * migrates the comments from the JomComment Joomla extension
 
-The **Flexicontent module** extends the Premium version. It includes these extra features:
+The **Joomlatags module** includes these features:
+
+* migrates the tags from the Joomlatags extension
+
+The **Attachments module** includes these features:
+
+* migrates the attachments from the Attachments Joomla extension
+
+The **Rokbox module** includes these features:
+
+* migrates the images from the Rokbox Joomla extension
+
+The **Flexicontent module** includes these features:
 
 * migrates Flexicontent items/categories relations
 * migrates Flexicontent tags
+* migrates Flexicontent images
+* migrates Flexicontent custom fields
 
 The Premium version and the modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -79,17 +107,27 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 == Frequently Asked Questions ==
 
+= The migration stops and I get the message: "Fatal error: Allowed memory size of XXXXXX bytes exhausted" =
+
+* You can run the migration again. It will continue where it stopped.
+* You can add: `define('WP_MEMORY_LIMIT', '64M');` in your wp-config.php file to increase the memory allowed by WordPress
+* You can also increase the memory limit in php.ini if you have write access to this file (ie: memory_limit = 128M).
+
+= The media are not imported =
+
+* Check the URL field that you filled in the plugin settings. It must be your Joomla home page URL and must start with http://
+
+= The media are not imported and I get the error message: "Warning: copy() [function.copy]: URL file-access is disabled in the server configuration" =
+
+* The PHP directive "Allow URL fopen" must be turned on in php.ini to copy the medias. If your remote host doesn't allow this directive, you will have to do the migration on localhost.
+
+= Nothing is imported at all =
+
+* Check your Joomla version. The Joomla 1.0 database has got a different structure from the other versions of Joomla. Importing Joomla 1.0 database is a Premium feature.
+
 = All the posts are not migrated. Why ? =
 
 * The archived posts or posts put in trash are not migrated. But unpublished posts are migrated as drafts.
-
-= The migration stops and I get the message: "Fatal error: Allowed memory size of XXXXXX bytes exhausted" =
-
-* You can run the migration again. It will continue where it stopped. You can also increase the memory limit in php.ini if you have write access to this file.
-
-= The media are not migrated and I get the error message: "Warning: copy() [function.copy]: URL file-access is disabled in the server configuration" =
-
-* The PHP directive "Allow URL fopen" must be turned on in php.ini to copy the medias. If your remote host doesn't allow this directive, you will have to do the migration on localhost.
 
 = I get the message: "Fatal error: Class 'PDO' not found" =
 
@@ -134,6 +172,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.14.0 =
+* New: Import images captions
+* Improve speed of processing the image links
+* Update the FAQ
 
 = 1.13.0 =
 * Tested with WordPress 3.5.2
@@ -285,6 +328,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Upgrade Notice ==
 
+= 1.14.0 =
+New: Import images captions
+Improve speed of processing the image links
+
 = 1.13.0 =
 Works with WordPress 3.5.2
 New: Add a button to save the settings
@@ -411,5 +458,3 @@ You can now skip the images import. And even if you keep on importing the images
 
 = 1.0.0 =
 Initial version
-
-`<?php code(); // goes in backticks ?>`

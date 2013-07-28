@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-30 22:28+0100\n"
-"PO-Revision-Date: 2013-06-30 22:30+0100\n"
+"POT-Creation-Date: 2013-07-27 06:57+0100\n"
+"PO-Revision-Date: 2013-07-27 07:00+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -144,7 +144,7 @@ msgstr "Mots-clefs :"
 
 #: admin_build_page.tpl.php:110
 msgid "Import meta keywords as tags"
-msgstr "Importer les mots-clefs"
+msgstr "Importer les meta keywords en tant que mots-clefs"
 
 #: admin_build_page.tpl.php:113
 msgid "Create pages:"
@@ -211,34 +211,50 @@ msgid "SEO: keeps Joomla IDs or redirects standard Joomla URLs"
 msgstr "SEO : garde les IDs de Joomla ou redirige les URLs standards de Joomla"
 
 #: admin_build_page.tpl.php:157
+msgid "SEO: Keeps sh404sef URLs"
+msgstr "SEO : garde les URLs sh404sef"
+
+#: admin_build_page.tpl.php:158
 msgid "Joomla 1.0 compatible"
 msgstr "compatible Joomla 1.0"
 
-#: admin_build_page.tpl.php:158
+#: admin_build_page.tpl.php:159
 msgid "Joomla 2.5+ featured images"
 msgstr "images d'intro de Joomla 2.5+"
 
-#: admin_build_page.tpl.php:159
+#: admin_build_page.tpl.php:160
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "compatible Mambo 4.5 et 4.6"
 
-#: admin_build_page.tpl.php:160
+#: admin_build_page.tpl.php:161
 msgid "K2 content"
 msgstr "contenu K2"
 
-#: admin_build_page.tpl.php:161
+#: admin_build_page.tpl.php:162
 msgid "Flexicontent content"
 msgstr "contenu Flexicontent"
 
-#: admin_build_page.tpl.php:162
+#: admin_build_page.tpl.php:163
 msgid "Jcomments comments"
 msgstr "commentaires Jcomments"
 
-#: admin_build_page.tpl.php:163
+#: admin_build_page.tpl.php:164
 msgid "Jomcomment comments"
 msgstr "commentaires Jomcomment"
 
-#: admin_build_page.tpl.php:170
+#: admin_build_page.tpl.php:165
+msgid "Joomlatags tags"
+msgstr "mots-clefs Joomlatags"
+
+#: admin_build_page.tpl.php:166
+msgid "Attachments"
+msgstr "fichiers joints Attachments"
+
+#: admin_build_page.tpl.php:167
+msgid "Rokbox images"
+msgstr "images Rokbox"
+
+#: admin_build_page.tpl.php:174
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -251,7 +267,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:189
+#: admin_build_page.tpl.php:193
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -259,11 +275,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:192
+#: admin_build_page.tpl.php:196
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:195
+#: admin_build_page.tpl.php:199
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 

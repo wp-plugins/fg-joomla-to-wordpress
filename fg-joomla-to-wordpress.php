@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.13.0
+ * Version:     1.14.0
  * Author:      Frédéric GILLES
  */
 
@@ -657,6 +657,7 @@ SQL;
 						$new_post = apply_filters('fgj2wp_pre_insert_post', $new_post, $post);
 						
 						$new_post_id = wp_insert_post($new_post);
+						
 						if ( $new_post_id ) { 
 							// Add links between the post and its medias
 							$this->add_post_media($new_post_id, $new_post, $post_media, $this->plugin_options['import_featured']);
@@ -895,6 +896,7 @@ SQL;
 						$attachment = $this->get_attachment_from_name($post_name);
 						if ( !$attachment ) {
 							$attachment_data = array(
+								'post_date'			=> $post_date,
 								'post_mime_type'	=> $filetype['type'],
 								'post_name'			=> $post_name,
 								'post_title'		=> $post_name,
@@ -982,26 +984,102 @@ SQL;
 		 */
 		private function process_content_media_links($content, $post_media) {
 			if ( is_array($post_media) ) {
-				foreach ( $post_media as $old_filename => $media ) {
-					$post_media_name = $media['name'];
+				
+				// Get the attachments attributes
+				$attachments_found = false;
+				foreach ( $post_media as $old_filename => &$media_var ) {
+					$post_media_name = $media_var['name'];
 					$attachment = $this->get_attachment_from_name($post_media_name);
 					if ( $attachment ) {
+						$media_var['attachment_id'] = $attachment->ID;
+						$media_var['old_filename_without_spaces'] = str_replace(" ", "%20", $old_filename); // for filenames with spaces
 						if ( preg_match('/image/', $attachment->post_mime_type) ) {
 							// Image
 							$image_src = wp_get_attachment_image_src($attachment->ID, 'full');
-							$url = $image_src[0];
+							$media_var['new_url'] = $image_src[0];
+							$media_var['width'] = $image_src[1];
+							$media_var['height'] = $image_src[2];
 						} else {
 							// Other media
-							$url = wp_get_attachment_url($attachment->ID);
+							$media_var['new_url'] = wp_get_attachment_url($attachment->ID);
 						}
-						$url = str_replace(" ", "%20", $url); // for filenames with spaces
-						$content = str_replace($old_filename, $url, $content);
-						$old_filename = str_replace(" ", "%20", $old_filename); // for filenames with spaces
-						$content = str_replace($old_filename, $url, $content);
+						$attachments_found = true;
 					}
+				}
+				if ( $attachments_found ) {
+				
+					// Remove the links from the content
+					$this->post_link_count = 0;
+					$this->post_link = array();
+					$content = preg_replace_callback('#<(a) (.*?)(href)=(.*?)</a>#i', array($this, 'remove_links'), $content);
+					$content = preg_replace_callback('#<(img) (.*?)(src)=(.*?)>#i', array($this, 'remove_links'), $content);
+					
+					// Process the stored medias links
+					foreach ($this->post_link as &$link) {
+						$new_link = $link['old_link'];
+						$new_link = preg_replace('/(class|width|height)=".*?" /i', '', $new_link);
+						$alignment = '';
+						if ( preg_match('/(align="|float: )(left|right)/', $new_link, $matches) ) {
+							$alignment = 'align' . $matches[2];
+						}
+						if ( preg_match_all('#(src|href)="(.*?)"#i', $new_link, $matches, PREG_SET_ORDER) ) {
+							foreach ( $matches as $match ) {
+								$old_filename = $match[2];
+								if ( array_key_exists($old_filename, $post_media) ) {
+									$media = $post_media[$old_filename];
+									if ( array_key_exists('new_url', $media) ) {
+										if ( (strpos($new_link, $old_filename) > 0) || (strpos($new_link, $media['old_filename_without_spaces']) > 0) ) {
+											$new_link = str_replace($old_filename, $media['new_url'], $new_link);
+											$new_link = str_replace($media['old_filename_without_spaces'], $media['new_url'], $new_link);
+											
+											if ( array_key_exists('width', $media) ) { // images only
+												// Caption shortcode
+												if ( preg_match('/class="caption"(.*?)title="(.*?)"/', $link['old_link'], $matches) ) {
+													$align_value = ($alignment != '')? $alignment : 'alignnone';
+													$new_img_field = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]';
+													$alignment = ''; // reset the alignment to not use it again in the img
+													$new_link = $new_img_field . $new_link . $matches[2] . '[/caption]';
+												}
+												
+												$align_class = ($alignment != '')? $alignment . ' ' : '';
+												$new_link = preg_replace('#<img(.*) />#', '<img class="' . $align_class . 'size-full wp-image-' . $media['attachment_id'] . '"' . "$1" . ' width="' . $media['width'] . '" height="' . $media['height'] . '" />', $new_link);
+											}
+										}
+									}
+								}
+							}
+						}
+						$link['new_link'] = $new_link;
+					}
+					
+					// Reinsert the converted medias links
+					$content = preg_replace_callback('#__fg_link_(\d+)__#', array($this, 'restore_links'), $content);
 				}
 			}
 			return $content;
+		}
+		
+		/**
+		 * Remove all the links from the content and replace them with a specific tag
+		 * 
+		 * @param array $matches Result of the preg_match
+		 * @return string Replacement
+		 */
+		private function remove_links($matches) {
+			$this->post_link[] = array('old_link' => $matches[0]);
+			return '__fg_link_' . $this->post_link_count++ . '__';
+		}
+
+		/**
+		 * Restore the links in the content and replace them with the new calculated link
+		 * 
+		 * @param array $matches Result of the preg_match
+		 * @return string Replacement
+		 */
+		private function restore_links($matches) {
+			$link = $this->post_link[$matches[1]];
+			$new_link = array_key_exists('new_link', $link)? $link['new_link'] : $link['old_link'];
+			return $new_link;
 		}
 
 		/**
