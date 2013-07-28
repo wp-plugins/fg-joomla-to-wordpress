@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox
 Requires at least: 3.0
 Tested up to: WP 3.5.2
-Stable tag: 1.14.0
+Stable tag: 1.14.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -173,6 +173,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Changelog ==
 
+= 1.14.1 =
+* Fixed: The caption shortcode is imported twice if the image has a link a-href pointing to a different image
+
 = 1.14.0 =
 * New: Import images captions
 * Improve speed of processing the image links
@@ -327,6 +330,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.14.1 =
+Fixed: The caption shortcode is imported twice if the image has a link a-href pointing to a different image
 
 = 1.14.0 =
 New: Import images captions

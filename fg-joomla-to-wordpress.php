@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.14.0
+ * Version:     1.14.1
  * Author:      Frédéric GILLES
  */
 
@@ -1023,22 +1023,21 @@ SQL;
 							$alignment = 'align' . $matches[2];
 						}
 						if ( preg_match_all('#(src|href)="(.*?)"#i', $new_link, $matches, PREG_SET_ORDER) ) {
+							$caption = '';
 							foreach ( $matches as $match ) {
 								$old_filename = $match[2];
+								$link_type = ($match[1] == 'src')? 'img': 'a';
 								if ( array_key_exists($old_filename, $post_media) ) {
 									$media = $post_media[$old_filename];
 									if ( array_key_exists('new_url', $media) ) {
 										if ( (strpos($new_link, $old_filename) > 0) || (strpos($new_link, $media['old_filename_without_spaces']) > 0) ) {
-											$new_link = str_replace($old_filename, $media['new_url'], $new_link);
-											$new_link = str_replace($media['old_filename_without_spaces'], $media['new_url'], $new_link);
+											$new_link = preg_replace('#('.$old_filename.'|'.$media['old_filename_without_spaces'].')#', $media['new_url'], $new_link, 1);
 											
-											if ( array_key_exists('width', $media) ) { // images only
+											if ( $link_type == 'img' ) { // images only
 												// Caption shortcode
-												if ( preg_match('/class="caption"(.*?)title="(.*?)"/', $link['old_link'], $matches) ) {
+												if ( preg_match('/class="caption"(.*?)title="(.*?)"/', $link['old_link'], $matches_caption) ) {
 													$align_value = ($alignment != '')? $alignment : 'alignnone';
-													$new_img_field = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]';
-													$alignment = ''; // reset the alignment to not use it again in the img
-													$new_link = $new_img_field . $new_link . $matches[2] . '[/caption]';
+													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $matches_caption[2] . '[/caption]';
 												}
 												
 												$align_class = ($alignment != '')? $alignment . ' ' : '';
@@ -1047,6 +1046,11 @@ SQL;
 										}
 									}
 								}
+							}
+							
+							// Add the caption
+							if ( $caption != '' ) {
+								$new_link = sprintf($caption, $new_link);
 							}
 						}
 						$link['new_link'] = $new_link;
