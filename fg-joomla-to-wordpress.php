@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.14.1
+ * Version:     1.14.2
  * Author:      Frédéric GILLES
  */
 
@@ -99,7 +99,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'username'				=> 'root',
 				'password'				=> '',
 				'prefix'				=> 'jos_',
-				'introtext_in_excerpt'	=> 1,
+				'introtext_in_excerpt'	=> 0,
 				'skip_media'			=> 0,
 				'import_featured'		=> 1,
 				'import_external'		=> 0,
@@ -1017,7 +1017,6 @@ SQL;
 					// Process the stored medias links
 					foreach ($this->post_link as &$link) {
 						$new_link = $link['old_link'];
-						$new_link = preg_replace('/(class|width|height)=".*?" /i', '', $new_link);
 						$alignment = '';
 						if ( preg_match('/(align="|float: )(left|right)/', $new_link, $matches) ) {
 							$alignment = 'align' . $matches[2];
@@ -1035,13 +1034,13 @@ SQL;
 											
 											if ( $link_type == 'img' ) { // images only
 												// Caption shortcode
-												if ( preg_match('/class="caption"(.*?)title="(.*?)"/', $link['old_link'], $matches_caption) ) {
+												if ( preg_match('/class=".*caption.*?".*?title="(.*?)"/', $link['old_link'], $matches_caption) ) {
 													$align_value = ($alignment != '')? $alignment : 'alignnone';
-													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $matches_caption[2] . '[/caption]';
+													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $matches_caption[1] . '[/caption]';
 												}
 												
 												$align_class = ($alignment != '')? $alignment . ' ' : '';
-												$new_link = preg_replace('#<img(.*) />#', '<img class="' . $align_class . 'size-full wp-image-' . $media['attachment_id'] . '"' . "$1" . ' width="' . $media['width'] . '" height="' . $media['height'] . '" />', $new_link);
+												$new_link = preg_replace('#<img(.*?)( class="(.*?)")?(.*) />#', "<img$1 class=\"$3 " . $align_class . 'size-full wp-image-' . $media['attachment_id'] . "\"$4" . ' width="' . $media['width'] . '" height="' . $media['height'] . '" />', $new_link);
 											}
 										}
 									}
