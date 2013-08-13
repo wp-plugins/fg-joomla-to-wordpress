@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.14.2
+ * Version:     1.15.0
  * Author:      Frédéric GILLES
  */
 
@@ -803,7 +803,7 @@ SQL;
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
 					$extra_joins
-					WHERE p.state >= 0 -- don't get the trash
+					WHERE p.state >= -1 -- don't get the trash
 					AND p.id > '$last_joomla_id'
 					ORDER BY p.id
 					LIMIT $limit

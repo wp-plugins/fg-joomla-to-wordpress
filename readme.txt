@@ -3,8 +3,8 @@ Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox
 Requires at least: 3.0
-Tested up to: WP 3.5.2
-Stable tag: 1.14.2
+Tested up to: WP 3.6
+Stable tag: 1.15.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,13 +14,13 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0** and **Wordpress 3.5.2** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0** and **Wordpress 3.6** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
 * migrates Joomla sections as categories
 * migrates categories as sub-categories
-* migrates Joomla posts
+* migrates Joomla posts (published, unpublished and archived)
 * uploads all the posts media in WP uploads directories (as an option)
 * uploads external media (as an option)
 * modifies the post content to keep the media links
@@ -127,7 +127,7 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 = All the posts are not migrated. Why ? =
 
-* The archived posts or posts put in trash are not migrated. But unpublished posts are migrated as drafts.
+* The posts put in trash are not migrated. But unpublished and archived posts are migrated as drafts.
 
 = I get the message: "Fatal error: Class 'PDO' not found" =
 
@@ -172,6 +172,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.15.0 =
+* New: Import archived posts as drafts
+* Tested with WordPress 3.6
 
 = 1.14.2 =
 * Fixed: The HTML classes were lost in the a-href and img tags
@@ -334,6 +338,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.15.0 =
+New: Import archived posts as drafts
+Works with WordPress 3.6
 
 = 1.14.2 =
 Fixed: The HTML classes were lost in the a-href and img tags
