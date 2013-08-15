@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena
 Requires at least: 3.0
 Tested up to: WP 3.6
-Stable tag: 1.15.0
+Stable tag: 1.15.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -61,6 +61,11 @@ The **K2 module** includes these features:
 * migrates K2 attachments
 * migrates K2 custom fields
 * migrates K2 authors
+
+The **Kunena module** includes these features:
+
+* migrates Kunena forums to bbPress
+* migrates Kunena messages
 
 The **sh404sef module** includes these features:
 
@@ -172,6 +177,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.15.1 =
+* New: Option to not import archived posts or to import them as drafts or as published posts
 
 = 1.15.0 =
 * New: Import archived posts as drafts
@@ -338,6 +346,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.15.1 =
+New: Option to not import archived posts or to import them as drafts or as published posts
 
 = 1.15.0 =
 New: Import archived posts as drafts

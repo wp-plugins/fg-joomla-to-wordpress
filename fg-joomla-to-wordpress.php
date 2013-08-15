@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.15.0
+ * Version:     1.15.1
  * Author:      Frédéric GILLES
  */
 
@@ -100,6 +100,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'password'				=> '',
 				'prefix'				=> 'jos_',
 				'introtext_in_excerpt'	=> 0,
+				'archived_posts'		=> 'not_imported',
 				'skip_media'			=> 0,
 				'import_featured'		=> 1,
 				'import_external'		=> 0,
@@ -423,6 +424,7 @@ SQL;
 				'password'				=> $_POST['password'],
 				'prefix'				=> $_POST['prefix'],
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
+				'archived_posts'		=> $_POST['archived_posts'],
 				'skip_media'			=> !empty($_POST['skip_media']),
 				'import_featured'		=> !empty($_POST['import_featured']),
 				'import_external'		=> !empty($_POST['import_external']),
@@ -575,6 +577,12 @@ SQL;
 				if ( is_array($posts) ) {
 					foreach ( $posts as $post ) {
 						
+						// Archived posts not imported
+						if ( ($this->plugin_options['archived_posts'] == 'not_imported') && ($post['state'] == -1) ) {
+							update_option('fgj2wp_last_joomla_id', $post['id']);
+							continue;
+						}
+						
 						// Hook for modifying the Joomla post before processing
 						$post = apply_filters('fgj2wp_pre_process_post', $post);
 						
@@ -630,7 +638,16 @@ SQL;
 						$content = $this->process_content($content, $post_media);
 						
 						// Status
-						$status = ($post['state'] == 1)? 'publish' : 'draft';
+						switch ( $post['state'] ) {
+							case 1: // published post
+								$status = 'publish';
+								break;
+							case -1: // archived post
+								$status = ($this->plugin_options['archived_posts'] == 'published')? 'publish' : 'draft';
+								break;
+							default:
+								$status = 'draft';
+						}
 						
 						// Tags
 						$tags = array();
