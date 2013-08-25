@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.15.1
+ * Version:     1.15.2
  * Author:      Frédéric GILLES
  */
 
@@ -213,6 +213,23 @@ if ( !class_exists('fgj2wp', false) ) {
 		}
 
 		/**
+		 * Open the connection on Joomla database
+		 *
+		 * return boolean Connection successful or not
+		 */
+		protected function joomla_connect() {
+			global $joomla_db;
+			
+			try {
+				$joomla_db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+			} catch ( PDOException $e ) {
+				$this->display_admin_error(__('Couldn\'t connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.', 'fgj2wp') . '<br />' . $e->getMessage());
+				return false;
+			}
+			return true;
+		}
+		
+		/**
 		 * Delete all posts, medias and categories from the database
 		 *
 		 * @param string $action:	newposts = removes only new imported posts
@@ -375,24 +392,27 @@ SQL;
 		 * @return boolean
 		 */
 		function test_database_connection() {
-			try {
-				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-				
-				$prefix = $this->plugin_options['prefix'];
-				
-				// Test that the "content" table exists
-				$result = $db->query("DESC ${prefix}content");
-				if ( !is_a($result, 'PDOStatement') ) {
-					$errorInfo = $db->errorInfo();
-					throw new PDOException($errorInfo[2], $errorInfo[1]);
+			global $joomla_db;
+			
+			if ( $this->joomla_connect() ) {
+				try {
+					$prefix = $this->plugin_options['prefix'];
+					
+					// Test that the "content" table exists
+					$result = $joomla_db->query("DESC ${prefix}content");
+					if ( !is_a($result, 'PDOStatement') ) {
+						$errorInfo = $joomla_db->errorInfo();
+						throw new PDOException($errorInfo[2], $errorInfo[1]);
+					}
+					
+					$this->display_admin_notice(__('Connected with success to the Joomla database', 'fgj2wp'));
+					return true;
+					
+				} catch ( PDOException $e ) {
+					$this->display_admin_error(__('Couldn\'t connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.', 'fgj2wp') . '<br />' . $e->getMessage());
+					return false;
 				}
-				
-				$this->display_admin_notice(__('Connected with success to the Joomla database', 'fgj2wp'));
-				return true;
-				
-			} catch ( PDOException $e ) {
-				$this->display_admin_error(__('Couldn\'t connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.', 'fgj2wp') . '<br />' . $e->getMessage());
-				return false;
+				$joomla_db = null;
 			}
 		}
 		
@@ -439,50 +459,56 @@ SQL;
 		 *
 		 */
 		private function import() {
+			global $joomla_db;
 			
-			// Check prerequesites before the import
-			$do_import = apply_filters('fgj2wp_pre_import_check', true);
-			if ( !$do_import) return;
-			
-			$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
+			if ( $this->joomla_connect() ) {
+				
+				// Check prerequesites before the import
+				$do_import = apply_filters('fgj2wp_pre_import_check', true);
+				if ( !$do_import) return;
+				
+				$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
 
-			// Hook for doing other actions before the import
-			do_action('fgj2wp_pre_import');
-			
-			// Categories
-			if ($this->post_type == 'post') {
-				$cat_count = $this->import_categories();
-				$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
-			}
-			
-			// Posts and medias
-			$result = $this->import_posts();
-			switch ($this->post_type) {
-				case 'page':
-					$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-					break;
-				case 'post':
-				default:
-					$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-			}
-			$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
-			
-			// Tags
-			if ($this->post_type == 'post') {
-				if ( $this->plugin_options['meta_keywords_in_tags'] ) {
-					$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+				// Hook for doing other actions before the import
+				do_action('fgj2wp_pre_import');
+				
+				// Categories
+				if ($this->post_type == 'post') {
+					$cat_count = $this->import_categories();
+					$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
 				}
+				
+				// Posts and medias
+				$result = $this->import_posts();
+				switch ($this->post_type) {
+					case 'page':
+						$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+						break;
+					case 'post':
+					default:
+						$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+				}
+				$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+				
+				// Tags
+				if ($this->post_type == 'post') {
+					if ( $this->plugin_options['meta_keywords_in_tags'] ) {
+						$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+					}
+				}
+				
+				// Hook for doing other actions after the import
+				do_action('fgj2wp_post_import');
+				
+				// Hook for other notices
+				do_action('fgj2wp_import_notices');
+				
+				$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
+				
+				$joomla_db = null;
+
+				wp_cache_flush();
 			}
-			
-			// Hook for doing other actions after the import
-			do_action('fgj2wp_post_import');
-			
-			// Hook for other notices
-			do_action('fgj2wp_import_notices');
-			
-			$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
-			
-			wp_cache_flush();
 		}
 
 		/**
@@ -710,10 +736,10 @@ SQL;
 		 * @return array of Sections
 		 */
 		private function get_sections() {
+			global $joomla_db;
 			$sections = array();
 
 			try {
-				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				$sql = "
 					SELECT s.title, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS name, s.description
@@ -721,13 +747,12 @@ SQL;
 				";
 				$sql = apply_filters('fgj2wp_get_sections_sql', $sql, $prefix);
 				
-				$query = $db->query($sql);
+				$query = $joomla_db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$sections[] = $row;
 					}
 				}
-				$db = null;
 				
 				$sections = apply_filters('fgj2wp_get_sections', $sections);
 				
@@ -743,10 +768,10 @@ SQL;
 		 * @return array of Categories
 		 */
 		private function get_categories() {
+			global $joomla_db;
 			$categories = array();
 
 			try {
-				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$prefix = $this->plugin_options['prefix'];
 				switch ( $this->plugin_options['version'] ) {
 					case '1.5':
@@ -771,13 +796,12 @@ SQL;
 				}
 				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
 				
-				$query = $db->query($sql);
+				$query = $joomla_db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$categories[] = $row;
 					}
 				}
-				$db = null;
 				
 				$categories = apply_filters('fgj2wp_get_categories', $categories);
 				
@@ -794,13 +818,12 @@ SQL;
 		 * @return array of Posts
 		 */
 		protected function get_posts($limit=1000) {
+			global $joomla_db;
 			$posts = array();
 			
 			$last_joomla_id = (int)get_option('fgj2wp_last_joomla_id'); // to restore the import where it left
 
 			try {
-				$db = new PDO('mysql:host=' . $this->plugin_options['hostname'] . ';port=' . $this->plugin_options['port'] . ';dbname=' . $this->plugin_options['database'], $this->plugin_options['username'], $this->plugin_options['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-				
 				$prefix = $this->plugin_options['prefix'];
 				
 				// The "name" column disappears in version 1.6+
@@ -827,13 +850,12 @@ SQL;
 				";
 				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix, $cat_field, $extra_cols, $extra_joins, $last_joomla_id, $limit);
 				
-				$query = $db->query($sql);
+				$query = $joomla_db->query($sql);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$posts[] = $row;
 					}
 				}
-				$db = null;
 			} catch ( PDOException $e ) {
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
