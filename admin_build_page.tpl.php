@@ -110,6 +110,8 @@
 						<br />
 						<input id="import_external" name="import_external" type="checkbox" value="1" <?php checked($data['import_external'], 1); ?> /> <label for="import_external"><?php _e('Import external media', 'fgj2wp'); ?></label>
 						<br />
+						<input id="import_duplicates" name="import_duplicates" type="checkbox" value="1" <?php checked($data['import_duplicates'], 1); ?> /> <label for="import_duplicates" title="<?php _e('Checked: download the media with their full path in order to import media with identical names.', 'fgj2wp'); ?>"><?php _e('Import media with duplicate names', 'fgj2wp'); ?></label>
+						<br />
 						<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked if you have already transfered the media.<br />It will speed up the import.', 'fgj2wp'); ?></label>
 					</div></td>
 				</tr>

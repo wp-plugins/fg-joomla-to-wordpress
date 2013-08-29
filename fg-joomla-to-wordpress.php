@@ -3,10 +3,10 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.15.2
+ * Version:     1.16.0
  * Author:      Frédéric GILLES
  */
-
+<?php
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -104,6 +104,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'skip_media'			=> 0,
 				'import_featured'		=> 1,
 				'import_external'		=> 0,
+				'import_duplicates'		=> 0,
 				'force_media_import'	=> 0,
 				'meta_keywords_in_tags'	=> 0,
 				'import_as_pages'		=> 0,
@@ -448,6 +449,7 @@ SQL;
 				'skip_media'			=> !empty($_POST['skip_media']),
 				'import_featured'		=> !empty($_POST['import_featured']),
 				'import_external'		=> !empty($_POST['import_external']),
+				'import_duplicates'		=> !empty($_POST['import_duplicates']),
 				'force_media_import'	=> !empty($_POST['force_media_import']),
 				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
 				'import_as_pages'		=> !empty($_POST['import_as_pages']),
@@ -919,17 +921,26 @@ SQL;
 						$uploads = wp_upload_dir($date);
 						$new_upload_dir = $uploads['path'];
 						
-						$new_filename = $new_upload_dir . '/' . basename($filename);
+						$new_filename = $filename;
+						if ( $this->plugin_options['import_duplicates'] == 1 ) {
+							// Images with duplicate names
+							$new_filename = preg_replace('#.*images/stories/#', '', $new_filename);
+							$new_filename = preg_replace('#.*media/k2#', 'k2', $new_filename);
+							$new_filename = str_replace('http://', '', $new_filename);
+							$new_filename = str_replace('/', '_', $new_filename);
+						}
 						
-						// print "Copy \"$old_filename\" => $new_filename<br />";
-						if ( ! @$this->remote_copy($old_filename, $new_filename) ) {
+						$new_full_filename = $new_upload_dir . '/' . basename($new_filename);
+						
+						// print "Copy \"$old_filename\" => $new_full_filename<br />";
+						if ( ! @$this->remote_copy($old_filename, $new_full_filename) ) {
 							$error = error_get_last();
 							$error_message = $error['message'];
-							$this->display_admin_error("Can't copy $old_filename to $new_filename : $error_message");
+							$this->display_admin_error("Can't copy $old_filename to $new_full_filename : $error_message");
 							continue;
 						}
-
-						$post_name = preg_replace('/\.[^.]+$/', '', basename($filename));
+						
+						$post_name = preg_replace('/\.[^.]+$/', '', basename($new_filename));
 						
 						// If the attachment does not exist yet, insert it in the database
 						$attachment = $this->get_attachment_from_name($post_name);
@@ -941,7 +952,7 @@ SQL;
 								'post_title'		=> $post_name,
 								'post_status'		=> 'inherit'
 							);
-							$attach_id = wp_insert_attachment($attachment_data, $new_filename);
+							$attach_id = wp_insert_attachment($attachment_data, $new_full_filename);
 							$attachment = get_post($attach_id);
 							$post_name = $attachment->post_name; // Get the real post name
 							$media_count++;
@@ -957,7 +968,7 @@ SQL;
 							// you must first include the image.php file
 							// for the function wp_generate_attachment_metadata() to work
 							require_once(ABSPATH . 'wp-admin/includes/image.php');
-							$attach_data = wp_generate_attachment_metadata( $attach_id, $new_filename );
+							$attach_data = wp_generate_attachment_metadata( $attach_id, $new_full_filename );
 							wp_update_attachment_metadata( $attach_id, $attach_data );
 
 							// Image Alt

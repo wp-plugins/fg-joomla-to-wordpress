@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena
 Requires at least: 3.0
 Tested up to: WP 3.6
-Stable tag: 1.15.2
+Stable tag: 1.16.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -162,6 +162,10 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 * Xampp puts the htdocs in the applications folder which is write protected. You need to move the htdocs to a writeable folder.
 
+= How to import content from one section as posts and another section as pages? =
+
+* You can use the Convert Post Types plugin after the migration.
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -174,9 +178,15 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * French (fr_FR)
 * German (de_DE)
 * Russian (ru_RU)
+* Polish (pl_PL)
 * other can be translated
 
 == Changelog ==
+
+= 1.16.0 =
+* New: Option to import images with duplicate names
+* New translation: Polish (Thanks to Łukasz Z.)
+* FAQ updated
 
 = 1.15.2 =
 * Optimize the Joomla connection
@@ -349,6 +359,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.16.0 =
+New: Option to import images with duplicate names
+New translation: Polish
 
 = 1.15.2 =
 Optimize the Joomla connection
