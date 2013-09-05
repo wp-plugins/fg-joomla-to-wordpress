@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.16.1
+ * Version:     1.17.0
  * Author:      Frédéric GILLES
  */
 
@@ -102,7 +102,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'introtext_in_excerpt'	=> 0,
 				'archived_posts'		=> 'not_imported',
 				'skip_media'			=> 0,
-				'import_featured'		=> 1,
+				'first_image'			=> 'as_is_and_featured',
 				'import_external'		=> 0,
 				'import_duplicates'		=> 0,
 				'force_media_import'	=> 0,
@@ -435,8 +435,13 @@ SQL;
 		 * @return array Form parameters
 		 */
 		private function validate_form_info() {
+			// Add http:// before the URL if it is missing
+			$url = $_POST['url'];
+			if ( !empty($url) && (preg_match('#^https?://#', $url) == 0) ) {
+				$url = 'http://' . $url;
+			}
 			return array(
-				'url'					=> $_POST['url'],
+				'url'					=> $url,
 				'version'				=> $_POST['version'],
 				'hostname'				=> $_POST['hostname'],
 				'port'					=> intval($_POST['port']),
@@ -447,7 +452,7 @@ SQL;
 				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
 				'archived_posts'		=> $_POST['archived_posts'],
 				'skip_media'			=> !empty($_POST['skip_media']),
-				'import_featured'		=> !empty($_POST['import_featured']),
+				'first_image'			=> $_POST['first_image'],
 				'import_external'		=> !empty($_POST['import_external']),
 				'import_duplicates'		=> !empty($_POST['import_duplicates']),
 				'force_media_import'	=> !empty($_POST['force_media_import']),
@@ -705,7 +710,7 @@ SQL;
 						
 						if ( $new_post_id ) { 
 							// Add links between the post and its medias
-							$this->add_post_media($new_post_id, $new_post, $post_media, $this->plugin_options['import_featured']);
+							$this->add_post_media($new_post_id, $new_post, $post_media, $this->plugin_options['first_image'] != 'as_is');
 							
 							// Add the Joomla ID as a post meta in order to modify links after
 							add_post_meta($new_post_id, '_fgj2wp_old_id', $post['id'], true);
@@ -1065,7 +1070,15 @@ SQL;
 					$content = preg_replace_callback('#<(img) (.*?)(src)=(.*?)>#i', array($this, 'remove_links'), $content);
 					
 					// Process the stored medias links
+					$first_image_removed = false;
 					foreach ($this->post_link as &$link) {
+						
+						// Remove the first image from the content
+						if ( ($this->plugin_options['first_image'] == 'as_featured') && !$first_image_removed && preg_match('#^<img#', $link['old_link']) ) {
+							$link['new_link'] = '';
+							$first_image_removed = true;
+							continue;
+						}
 						$new_link = $link['old_link'];
 						$alignment = '';
 						if ( preg_match('/(align="|float: )(left|right)/', $new_link, $matches) ) {

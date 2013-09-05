@@ -106,7 +106,10 @@
 					<td><input id="skip_media" name="skip_media" type="checkbox" value="1" <?php checked($data['skip_media'], 1); ?> /> <label for="skip_media" ><?php _e('Skip media', 'fgj2wp'); ?></label>
 					<br />
 					<div id="media_import_box">
-						<input id="import_featured" name="import_featured" type="checkbox" value="1" <?php checked($data['import_featured'], 1); ?> /> <label for="import_featured"><?php _e('Import first image as featured image', 'fgj2wp'); ?></label>
+						<?php _e('Import first image:', 'fgj2wp'); ?>&nbsp;
+						<input id="first_image_as_is" name="first_image" type="radio" value="as_is" <?php checked($data['first_image'], 'as_is'); ?> /> <label for="first_image_as_is" title="<?php _e('The first image will be kept in the post content', 'fgj2wp'); ?>"><?php _e('as is', 'fgj2wp'); ?></label>&nbsp;&nbsp;
+						<input id="first_image_as_featured" name="first_image" type="radio" value="as_featured" <?php checked($data['first_image'], 'as_featured'); ?> /> <label for="first_image_as_featured" title="<?php _e('The first image will be removed from the post content and imported as the featured image only', 'fgj2wp'); ?>"><?php _e('as featured only', 'fgj2wp'); ?></label>&nbsp;&nbsp;
+						<input id="first_image_as_is_and_featured" name="first_image" type="radio" value="as_is_and_featured" <?php checked($data['first_image'], 'as_is_and_featured'); ?> /> <label for="first_image_as_is_and_featured" title="<?php _e('The first image will be kept in the post content and imported as the featured image', 'fgj2wp'); ?>"><?php _e('as is and as featured', 'fgj2wp'); ?></label>
 						<br />
 						<input id="import_external" name="import_external" type="checkbox" value="1" <?php checked($data['import_external'], 1); ?> /> <label for="import_external"><?php _e('Import external media', 'fgj2wp'); ?></label>
 						<br />

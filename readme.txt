@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena
 Requires at least: 3.0
 Tested up to: WP 3.6
-Stable tag: 1.16.1
+Stable tag: 1.17.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -112,6 +112,15 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 
 == Frequently Asked Questions ==
 
+= I get the message: "[fgj2wp] Couldn't connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.
+SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
+
+* First verify your login and password to your Joomla database.
+* If Joomla and WordPress are not installed on the same host, you can do this:
+- export the Joomla database to a SQL file (with phpMyAdmin for example)
+- import this SQL file on the same database as WordPress
+- run the migration by using WordPress database credentials (host, user, password, database) instead of the Joomla ones in the plugin settings.
+
 = The migration stops and I get the message: "Fatal error: Allowed memory size of XXXXXX bytes exhausted" =
 
 * You can run the migration again. It will continue where it stopped.
@@ -141,14 +150,6 @@ The Premium version and the modules can be purchased on: http://www.fredericgill
 = I get this error: PHP Fatal error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' =
 
 * You have to enable PDO_MySQL in php.ini. That means uncomment the line extension=pdo_mysql.so in php.ini
-
-= I get the message: "SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
-
-* First verify your login and password to your Joomla database.
-* You must give access to the WordPress host on your Joomla database.
-* If your provider doesn't allow external IP to access your database, you have two solutions:
-- install WordPress on the same host as Joomla
-- install WordPress and the Joomla database on your localhost and do the migration on localhost
 
 = Does the migration process modify the Joomla site it migrates from? =
 
@@ -182,6 +183,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.17.0 =
+* New: Add automatically http:// at the beginning of the URL if it is missing
+* New: Option for the first image import
+* FAQ updated
 
 = 1.16.1 =
 * Fixed: syntax error, "unexpected '<'" in version 1.16.0
@@ -362,6 +368,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.17.0 =
+New: Add automatically http:// at the beginning of the URL if it is missing
+New: Option for the first image import
 
 = 1.16.1 =
 Fixed: syntax error, "unexpected '<'" in version 1.16.0
