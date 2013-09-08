@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca
 Requires at least: 3.0
 Tested up to: WP 3.6
-Stable tag: 1.17.0
+Stable tag: 1.18.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0** and **Wordpress 3.6** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 and 3.1** and **Wordpress 3.6** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -38,7 +38,7 @@ No need to subscribe to an external web site.
 
 The **Premium version** includes these extra features:
 
-* migrates authors and other users
+* migrates authors and other users with their passwords
 * migrates the navigation menus
 * SEO: keeps the Joomla articles IDs or redirects Joomla URLs to the new WordPress URLs
 * compatible with **Joomla 1.0** and **Mambo 4.5 and 4.6** (process {mosimages} and {mospagebreak})
@@ -101,6 +101,10 @@ The **Flexicontent module** includes these features:
 * migrates Flexicontent tags
 * migrates Flexicontent images
 * migrates Flexicontent custom fields
+
+The **Phocagallery module** includes these features:
+
+* migrates the categories and the images from the Phocagallery Joomla extension
 
 The Premium version and the modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -184,13 +188,17 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Changelog ==
 
+= 1.18.0 =
+* New: Compatibility with Joomla 3.1
+* Fixed: Remove extra newlines
+
 = 1.17.0 =
 * New: Add automatically http:// at the beginning of the URL if it is missing
 * New: Option for the first image import
 * FAQ updated
 
 = 1.16.1 =
-* Fixed: syntax error, "unexpected '<'" in version 1.16.0
+* Fixed: syntax error, "unexpected '&lt;'" in version 1.16.0
 
 = 1.16.0 =
 * New: Option to import images with duplicate names
@@ -369,12 +377,16 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Upgrade Notice ==
 
+= 1.18.0 =
+New: Compatibility with Joomla 3.1
+Fixed: Remove extra newlines
+
 = 1.17.0 =
 New: Add automatically http:// at the beginning of the URL if it is missing
 New: Option for the first image import
 
 = 1.16.1 =
-Fixed: syntax error, "unexpected '<'" in version 1.16.0
+Fixed: syntax error, "unexpected '&lt;'" in version 1.16.0
 
 = 1.16.0 =
 New: Option to import images with duplicate names

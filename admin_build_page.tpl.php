@@ -51,7 +51,7 @@
 					<td><select id="version" name="version">
 							<option id="version_1_5" value="1.5"<?php print ($data['version'] == '1.5')? ' selected' : ''; ?>>1.5</option>
 							<option id="version_1_6" value="1.6"<?php print ($data['version'] == '1.6')? ' selected' : ''; ?>>1.6, 1.7</option>
-							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0</option>
+							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0, 3.1</option>
 						</select>
 					</td>
 				</tr>
@@ -179,6 +179,7 @@
 			<li><?php _e('Joomlatags tags', 'fgj2wp'); ?></li>
 			<li><?php _e('Attachments', 'fgj2wp'); ?></li>
 			<li><?php _e('Rokbox images', 'fgj2wp'); ?></li>
+			<li><?php _e('Phocagallery images', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>

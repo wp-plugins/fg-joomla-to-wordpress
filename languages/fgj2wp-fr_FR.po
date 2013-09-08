@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-04 21:08+0100\n"
-"PO-Revision-Date: 2013-09-04 21:13+0100\n"
+"POT-Creation-Date: 2013-09-08 07:51+0100\n"
+"PO-Revision-Date: 2013-09-08 07:53+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -329,7 +329,11 @@ msgstr "fichiers joints Attachments"
 msgid "Rokbox images"
 msgstr "images Rokbox"
 
-#: admin_build_page.tpl.php:188
+#: admin_build_page.tpl.php:182
+msgid "Phocagallery images"
+msgstr "images Phocagallery"
+
+#: admin_build_page.tpl.php:189
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -342,7 +346,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:207
+#: admin_build_page.tpl.php:208
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -350,11 +354,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:210
+#: admin_build_page.tpl.php:211
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:213
+#: admin_build_page.tpl.php:214
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -401,11 +405,11 @@ msgstr "Import Joomla (FG)"
 msgid ""
 "This plugin will import sections, categories, posts and medias (images, "
 "attachments) from a Joomla database into WordPress.<br />Compatible with "
-"Joomla versions 1.5, 1.6, 1.7, 2.5 and 3.0."
+"Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 and 3.1."
 msgstr ""
 "Cette extension va importer les sections, les catégories, les articles et "
 "les médias (images, fichiers attachés) depuis une base Joomla vers WordPress."
-"<br />Compatible avec Joomla versions 1.5, 1.6, 1.7, 2.5 et 3.0."
+"<br />Compatible avec Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 et 3.1."
 
 #: fg-joomla-to-wordpress.php:199
 #, php-format
