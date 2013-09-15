@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.18.0
+ * Version:     1.19.0
  * Author:      Frédéric GILLES
  */
 
@@ -99,7 +99,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'username'				=> 'root',
 				'password'				=> '',
 				'prefix'				=> 'jos_',
-				'introtext_in_excerpt'	=> 0,
+				'introtext'				=> 'in_content',
 				'archived_posts'		=> 'not_imported',
 				'skip_media'			=> 0,
 				'first_image'			=> 'as_is_and_featured',
@@ -449,7 +449,7 @@ SQL;
 				'username'				=> $_POST['username'],
 				'password'				=> $_POST['password'],
 				'prefix'				=> $_POST['prefix'],
-				'introtext_in_excerpt'	=> !empty($_POST['introtext_in_excerpt']),
+				'introtext'				=> $_POST['introtext'],
 				'archived_posts'		=> $_POST['archived_posts'],
 				'skip_media'			=> !empty($_POST['skip_media']),
 				'first_image'			=> $_POST['first_image'],
@@ -619,6 +619,9 @@ SQL;
 						// Hook for modifying the Joomla post before processing
 						$post = apply_filters('fgj2wp_pre_process_post', $post);
 						
+						// Attribs
+						$post_attribs = $this->convert_post_attribs_to_array($post['attribs']);
+						
 						// Medias
 						if ( !$this->plugin_options['skip_media'] ) {
 							// Extra featured image
@@ -655,10 +658,16 @@ SQL;
 							$content = $post['introtext'];
 						} else {
 							// Posts with a "Read more" link
-							if ( $this->plugin_options['introtext_in_excerpt'] ) {
+							if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($post_attribs['show_intro'] !== '1'))
+								|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($post_attribs['show_intro'] == '0')) ) {
 								// Introtext imported in excerpt
 								$excerpt = $post['introtext'];
 								$content = $post['fulltext'];
+							} elseif ( (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($post_attribs['show_intro'] !== '0'))
+								|| (($this->plugin_options['introtext'] == 'in_excerpt') && ($post_attribs['show_intro'] == '1')) ) {
+								// Introtext imported in excerpt and in content
+								$excerpt = $post['introtext'];
+								$content = $post['introtext'] . "\n" . $post['fulltext'];
 							} else {
 								// Introtext imported in post content with a "Read more" tag
 								$excerpt = '';
@@ -845,7 +854,7 @@ SQL;
 				$extra_joins = apply_filters('fgj2wp_get_posts_add_extra_joins', '');
 				
 				$sql = "
-					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, p.created AS `date`, p.metakey, p.metadesc, p.ordering
+					SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, p.created AS `date`, p.attribs, p.metakey, p.metadesc, p.ordering
 					$extra_cols
 					FROM ${prefix}content p
 					LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
@@ -867,6 +876,21 @@ SQL;
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
 			return $posts;		
+		}
+		
+		/**
+		 * Return the post attribs in an array
+		 *
+		 * @param string $attribs Post attribs as a string
+		 * @return array Post attribs as an array
+		 */
+		function convert_post_attribs_to_array($attribs) {
+			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+				$post_attribs = parse_ini_string($attribs);
+			} else {
+				$post_attribs = json_decode($attribs, true);
+			}
+			return $post_attribs;
 		}
 		
 		/**
@@ -1024,6 +1048,9 @@ SQL;
 			
 			if ( !empty($content) ) {
 				$content = str_replace(array("\r", "\n"), array('', ''), $content);
+				
+				// Replace page breaks
+				$content = preg_replace("#<hr([^>]*?)class=\"system-pagebreak\"(.*?)/>#", "<!--nextpage-->", $content);
 				
 				// Replace media URLs with the new URLs
 				$content = $this->process_content_media_links($content, $post_media);

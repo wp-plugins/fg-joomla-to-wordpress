@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-08 07:51+0100\n"
-"PO-Revision-Date: 2013-09-08 07:53+0100\n"
+"POT-Creation-Date: 2013-09-14 06:25+0100\n"
+"PO-Revision-Date: 2013-09-14 06:37+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -90,82 +90,103 @@ msgid "Behavior"
 msgstr "Comportement"
 
 #: admin_build_page.tpl.php:93
-msgid "Posts with a \"read more\" split:"
-msgstr "Articles avec «Lire la suite» :"
+msgid "Import introtext:"
+msgstr "Importer le texte d'introduction :"
 
-#: admin_build_page.tpl.php:94
+#: admin_build_page.tpl.php:95
 msgid ""
-"Checked: the Joomla introtext is imported into the excerpt. Unchecked: it is "
-"imported into the post content with a «read more» link."
+"The text before the «Read more» split will be imported into the excerpt."
 msgstr ""
-"Coché : le texte d'introduction de Joomla est importé dans l'extrait. "
-"Décoché : il est importé dans le contenu de l'article avec un lien «Lire la "
-"suite»."
+"Le texte situé avant la marque «Lire la suite» sera importé dans l'extrait."
 
-#: admin_build_page.tpl.php:94
-msgid "Import the text above the \"read more\" to the excerpt"
-msgstr "Importer le texte d'introduction dans l'extrait"
+#: admin_build_page.tpl.php:95
+msgid "to the excerpt"
+msgstr "dans l'extrait"
+
+#: admin_build_page.tpl.php:96
+msgid ""
+"The text before the «Read more» split will be imported into the post content "
+"with a «read more» link."
+msgstr ""
+"Le texte situé avant la marque «Lire la suite» sera importé dans le contenu "
+"de l'article avec un lien «Lire la suite»."
+
+#: admin_build_page.tpl.php:96
+msgid "to the content"
+msgstr "dans le contenu de l'article"
 
 #: admin_build_page.tpl.php:97
-msgid "Archived posts"
-msgstr "Articles archivés"
+msgid ""
+"The text before the «Read more» split will be imported into both the excerpt "
+"and the post content."
+msgstr ""
+"Le texte situé avant la marque «Lire la suite» sera importé dans l'extrait "
+"et dans le contenu de l'article."
 
-#: admin_build_page.tpl.php:99
+#: admin_build_page.tpl.php:97
+msgid "to both"
+msgstr "dans les deux"
+
+#: admin_build_page.tpl.php:101
+msgid "Archived posts:"
+msgstr "Articles archivés :"
+
+#: admin_build_page.tpl.php:103
 msgid "Do not import archived posts"
 msgstr "Ne pas importer les articles archivés"
 
-#: admin_build_page.tpl.php:99
+#: admin_build_page.tpl.php:103
 msgid "Not imported"
 msgstr "Non importés"
 
-#: admin_build_page.tpl.php:100
+#: admin_build_page.tpl.php:104
 msgid "Import archived posts as drafts"
 msgstr "Importer les articles archivés comme brouillons"
 
-#: admin_build_page.tpl.php:100
+#: admin_build_page.tpl.php:104
 msgid "Import as drafts"
 msgstr "Importer comme brouillons"
 
-#: admin_build_page.tpl.php:101
+#: admin_build_page.tpl.php:105
 msgid "Import archived posts as published posts"
 msgstr "Importer les articles archivés comme articles publiés"
 
-#: admin_build_page.tpl.php:101
+#: admin_build_page.tpl.php:105
 msgid "Import as published posts"
 msgstr "Importer comme articles publiés"
 
-#: admin_build_page.tpl.php:105
+#: admin_build_page.tpl.php:109
 msgid "Medias:"
 msgstr "Médias :"
 
-#: admin_build_page.tpl.php:106
+#: admin_build_page.tpl.php:110
 msgid "Skip media"
 msgstr "Ne pas importer les médias"
 
-#: admin_build_page.tpl.php:109
+#: admin_build_page.tpl.php:113
 msgid "Import first image:"
 msgstr "Importer la première image :"
 
-#: admin_build_page.tpl.php:110
+#: admin_build_page.tpl.php:114
 msgid "The first image will be kept in the post content"
 msgstr "La première image sera conservée dans le contenu"
 
-#: admin_build_page.tpl.php:110
+#: admin_build_page.tpl.php:114
 msgid "as is"
 msgstr "tel quelle"
 
-#: admin_build_page.tpl.php:111
+#: admin_build_page.tpl.php:115
 msgid ""
 "The first image will be removed from the post content and imported as the "
 "featured image only"
 msgstr ""
 "La première image sera supprimée du contenu et importée en image à la une"
 
-#: admin_build_page.tpl.php:111
+#: admin_build_page.tpl.php:115
 msgid "as featured only"
 msgstr "en tant qu'image à la une seulement"
 
-#: admin_build_page.tpl.php:112
+#: admin_build_page.tpl.php:116
 msgid ""
 "The first image will be kept in the post content and imported as the "
 "featured image"
@@ -173,15 +194,15 @@ msgstr ""
 "La première image sera conservée dans le contenu et importée en image à la "
 "une"
 
-#: admin_build_page.tpl.php:112
+#: admin_build_page.tpl.php:116
 msgid "as is and as featured"
 msgstr "tel quelle et en tant qu'image à la une"
 
-#: admin_build_page.tpl.php:114
+#: admin_build_page.tpl.php:118
 msgid "Import external media"
 msgstr "Importer les médias externes"
 
-#: admin_build_page.tpl.php:116
+#: admin_build_page.tpl.php:120
 msgid ""
 "Checked: download the media with their full path in order to import media "
 "with identical names."
@@ -189,11 +210,11 @@ msgstr ""
 "Coché : télécharge les médias avec leur nom complet afin d'importer les "
 "médias comportant des noms identiques."
 
-#: admin_build_page.tpl.php:116
+#: admin_build_page.tpl.php:120
 msgid "Import media with duplicate names"
 msgstr "Importer les médias avec des noms identiques"
 
-#: admin_build_page.tpl.php:118
+#: admin_build_page.tpl.php:122
 msgid ""
 "Checked: download the media even if it has already been imported. Unchecked: "
 "Download only media which were not already imported."
@@ -201,7 +222,7 @@ msgstr ""
 "Coché : télécharge les médias même s'ils ont déjà été importés. Décoché : "
 "télécharge uniquement les médias qui n'ont pas déjà été importés."
 
-#: admin_build_page.tpl.php:118
+#: admin_build_page.tpl.php:122
 msgid ""
 "Force media import. Leave unchecked if you have already transfered the media."
 "<br />It will speed up the import."
@@ -209,35 +230,35 @@ msgstr ""
 "Forcer l'import des médias. Laisser décoché si vous avez déjà transféré les "
 "médias. <br />Cela accélérera l'import."
 
-#: admin_build_page.tpl.php:122
+#: admin_build_page.tpl.php:126
 msgid "Meta keywords:"
 msgstr "Mots-clefs :"
 
-#: admin_build_page.tpl.php:123
+#: admin_build_page.tpl.php:127
 msgid "Import meta keywords as tags"
 msgstr "Importer les meta keywords en tant que mots-clefs"
 
-#: admin_build_page.tpl.php:126
+#: admin_build_page.tpl.php:130
 msgid "Create pages:"
 msgstr "Créer des pages :"
 
-#: admin_build_page.tpl.php:127
+#: admin_build_page.tpl.php:131
 msgid "Import as pages instead of blog posts (without categories)"
 msgstr "Importer en tant que pages au lieu d'articles (sans les catégories)"
 
-#: admin_build_page.tpl.php:131
+#: admin_build_page.tpl.php:135
 msgid "Save settings"
 msgstr "Enregistrer les paramètres"
 
-#: admin_build_page.tpl.php:132
+#: admin_build_page.tpl.php:136
 msgid "Import content from Joomla to WordPress"
 msgstr "Importer le contenu de Joomla vers WordPress"
 
-#: admin_build_page.tpl.php:139
+#: admin_build_page.tpl.php:143
 msgid "After the migration"
 msgstr "Après la migration"
 
-#: admin_build_page.tpl.php:142
+#: admin_build_page.tpl.php:146
 msgid ""
 "During the migration, prefixes have been added to the categories slugs to "
 "avoid categories duplicates. This button will remove these prefixes which "
@@ -247,93 +268,101 @@ msgstr ""
 "pour éviter les doublons. Ce bouton supprimera ces préfixes qui sont "
 "inutiles après la migration."
 
-#: admin_build_page.tpl.php:146
+#: admin_build_page.tpl.php:150
 msgid "Remove the prefixes from the categories"
 msgstr "Supprimer les préfixes des catégories"
 
-#: admin_build_page.tpl.php:151
+#: admin_build_page.tpl.php:155
 msgid "If you have links between articles, you need to modify internal links."
 msgstr ""
 "Si vous avez des liens entre articles, vous avez besoin de modifier les "
 "liens internes."
 
-#: admin_build_page.tpl.php:155
+#: admin_build_page.tpl.php:159
 msgid "Modify internal links"
 msgstr "Modifier les liens internes"
 
-#: admin_build_page.tpl.php:163
+#: admin_build_page.tpl.php:167
 msgid "Do you need extra features?"
 msgstr "Vous avez besoin de fonctionnalités supplémentaires ?"
 
-#: admin_build_page.tpl.php:166
+#: admin_build_page.tpl.php:170
 msgid "authors and all users migration"
 msgstr "migration des auteurs et de tous les utilisateurs"
 
-#: admin_build_page.tpl.php:167
+#: admin_build_page.tpl.php:171
 msgid "menus migration"
 msgstr "migration des menus"
 
-#: admin_build_page.tpl.php:168
-msgid "Joomla views counts migration"
-msgstr "migration des compteurs de vues de Joomla"
-
-#: admin_build_page.tpl.php:169
+#: admin_build_page.tpl.php:172
 msgid "SEO: keeps Joomla IDs or redirects standard Joomla URLs"
 msgstr "SEO : garde les IDs de Joomla ou redirige les URLs standards de Joomla"
 
-#: admin_build_page.tpl.php:170
+#: admin_build_page.tpl.php:173
+msgid "SEO: Keeps meta description and meta keywords"
+msgstr "SEO : Garde les meta description et meta keywords"
+
+#: admin_build_page.tpl.php:174
 msgid "SEO: Keeps sh404sef URLs"
 msgstr "SEO : garde les URLs sh404sef"
 
-#: admin_build_page.tpl.php:171
+#: admin_build_page.tpl.php:175
+msgid "SEO: Keeps JoomSEF URLs"
+msgstr "SEO : garde les URLs JoomSEF"
+
+#: admin_build_page.tpl.php:176
+msgid "Joomla views counts migration"
+msgstr "migration des compteurs de vues de Joomla"
+
+#: admin_build_page.tpl.php:177
 msgid "Joomla 1.0 compatible"
 msgstr "compatible Joomla 1.0"
 
-#: admin_build_page.tpl.php:172
+#: admin_build_page.tpl.php:178
 msgid "Joomla 2.5+ featured images"
 msgstr "images d'intro de Joomla 2.5+"
 
-#: admin_build_page.tpl.php:173
+#: admin_build_page.tpl.php:179
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "compatible Mambo 4.5 et 4.6"
 
-#: admin_build_page.tpl.php:174
+#: admin_build_page.tpl.php:180
 msgid "K2 content"
 msgstr "contenu K2"
 
-#: admin_build_page.tpl.php:175
+#: admin_build_page.tpl.php:181
 msgid "Kunena forum to bbPress"
 msgstr "Forum Kunena vers bbPress"
 
-#: admin_build_page.tpl.php:176
+#: admin_build_page.tpl.php:182
 msgid "Flexicontent content"
 msgstr "contenu Flexicontent"
 
-#: admin_build_page.tpl.php:177
+#: admin_build_page.tpl.php:183
 msgid "Jcomments comments"
 msgstr "commentaires Jcomments"
 
-#: admin_build_page.tpl.php:178
+#: admin_build_page.tpl.php:184
 msgid "Jomcomment comments"
 msgstr "commentaires Jomcomment"
 
-#: admin_build_page.tpl.php:179
+#: admin_build_page.tpl.php:185
 msgid "Joomlatags tags"
 msgstr "mots-clefs Joomlatags"
 
-#: admin_build_page.tpl.php:180
+#: admin_build_page.tpl.php:186
 msgid "Attachments"
 msgstr "fichiers joints Attachments"
 
-#: admin_build_page.tpl.php:181
+#: admin_build_page.tpl.php:187
 msgid "Rokbox images"
 msgstr "images Rokbox"
 
-#: admin_build_page.tpl.php:182
+#: admin_build_page.tpl.php:188
 msgid "Phocagallery images"
 msgstr "images Phocagallery"
 
-#: admin_build_page.tpl.php:189
+#: admin_build_page.tpl.php:195
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -346,7 +375,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:208
+#: admin_build_page.tpl.php:214
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -354,11 +383,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:211
+#: admin_build_page.tpl.php:217
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:214
+#: admin_build_page.tpl.php:220
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -498,10 +527,13 @@ msgstr[1] "%d mots-clefs importés"
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:767 fg-joomla-to-wordpress.php:816
-#: fg-joomla-to-wordpress.php:867
+#: fg-joomla-to-wordpress.php:773 fg-joomla-to-wordpress.php:822
+#: fg-joomla-to-wordpress.php:873
 msgid "Error:"
 msgstr "Erreur :"
+
+#~ msgid "Posts with a \"read more\" split:"
+#~ msgstr "Articles avec «Lire la suite» :"
 
 #~ msgid "Remove all posts, categories, tags, medias, comments and pages"
 #~ msgstr ""

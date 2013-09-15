@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef
 Requires at least: 3.0
-Tested up to: WP 3.6
-Stable tag: 1.18.0
+Tested up to: WP 3.6.1
+Stable tag: 1.19.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 and 3.1** and **Wordpress 3.6** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 and 3.1** and **Wordpress 3.6.1** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -30,6 +30,7 @@ Major features include:
 * keeps the image caption
 * modifies the internal links
 * migrates meta keywords as tags
+* migrates page breaks
 * can import Joomla articles as posts or pages
 
 No need to subscribe to an external web site.
@@ -40,6 +41,7 @@ The **Premium version** includes these extra features:
 
 * migrates authors and other users with their passwords
 * migrates the navigation menus
+* SEO: migrates the meta description and the meta keywords
 * SEO: keeps the Joomla articles IDs or redirects Joomla URLs to the new WordPress URLs
 * compatible with **Joomla 1.0** and **Mambo 4.5 and 4.6** (process {mosimages} and {mospagebreak})
 * migrates Joomla 1.0 static articles as pages
@@ -70,6 +72,10 @@ The **Kunena module** includes these features:
 The **sh404sef module** includes these features:
 
 * keeps or redirects the URLs from the Joomla extension sh404sef
+
+The **JoomSEF module** includes these features:
+
+* keeps or redirects the URLs from the Joomla extension JoomSEF
 
 The **WP-PostViews module** includes these features:
 
@@ -187,6 +193,12 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.19.0 =
+* New: Import the page breaks
+* New: Option to import the Joomla introtext in the post and in the excerpt
+* New: Use the show_intro article parameter to import the introtext in the content or not
+* Tested with WordPress 3.6.1
 
 = 1.18.0 =
 * New: Compatibility with Joomla 3.1
@@ -376,6 +388,12 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.19.0 =
+New: Import the page breaks
+New: Option to import the Joomla introtext in the post and in the excerpt
+New: Use the show_intro article parameter to import the introtext in the content or not
+Tested with WordPress 3.6.1
 
 = 1.18.0 =
 New: Compatibility with Joomla 3.1
