@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.19.0
+ * Version:     1.19.3
  * Author:      Frédéric GILLES
  */
 
@@ -658,13 +658,14 @@ SQL;
 							$content = $post['introtext'];
 						} else {
 							// Posts with a "Read more" link
-							if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($post_attribs['show_intro'] !== '1'))
-								|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($post_attribs['show_intro'] == '0')) ) {
+							$show_intro = array_key_exists('show_intro', $post_attribs)? $post_attribs['show_intro'] : '';
+							if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro !== '1'))
+								|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro == '0')) ) {
 								// Introtext imported in excerpt
 								$excerpt = $post['introtext'];
 								$content = $post['fulltext'];
-							} elseif ( (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($post_attribs['show_intro'] !== '0'))
-								|| (($this->plugin_options['introtext'] == 'in_excerpt') && ($post_attribs['show_intro'] == '1')) ) {
+							} elseif ( (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro !== '0'))
+								|| (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro == '1')) ) {
 								// Introtext imported in excerpt and in content
 								$excerpt = $post['introtext'];
 								$content = $post['introtext'] . "\n" . $post['fulltext'];
@@ -885,7 +886,8 @@ SQL;
 		 * @return array Post attribs as an array
 		 */
 		function convert_post_attribs_to_array($attribs) {
-			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+			$attribs = trim($attribs);
+			if ( (substr($attribs, 0, 1) != '{') && (substr($attribs, -1, 1) != '}') ) {
 				$post_attribs = parse_ini_string($attribs);
 			} else {
 				$post_attribs = json_decode($attribs, true);
@@ -979,7 +981,8 @@ SQL;
 								'post_mime_type'	=> $filetype['type'],
 								'post_name'			=> $post_name,
 								'post_title'		=> $post_name,
-								'post_status'		=> 'inherit'
+								'post_status'		=> 'inherit',
+								'post_content'		=> '',
 							);
 							$attach_id = wp_insert_attachment($attachment_data, $new_full_filename);
 							$attachment = get_post($attach_id);
@@ -1047,7 +1050,7 @@ SQL;
 		public function process_content($content, $post_media) {
 			
 			if ( !empty($content) ) {
-				$content = str_replace(array("\r", "\n"), array('', ''), $content);
+				$content = str_replace(array("\r", "\n"), array('', ' '), $content);
 				
 				// Replace page breaks
 				$content = preg_replace("#<hr([^>]*?)class=\"system-pagebreak\"(.*?)/>#", "<!--nextpage-->", $content);

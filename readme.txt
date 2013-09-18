@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef
 Requires at least: 3.0
 Tested up to: WP 3.6.1
-Stable tag: 1.19.0
+Stable tag: 1.19.3
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -47,72 +47,25 @@ The **Premium version** includes these extra features:
 * migrates Joomla 1.0 static articles as pages
 * migrates Joomla 2.5+ featured images
 
+The Premium version can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
+
 = Add-ons =
 
-The following add-ons are extensions of the Premium version.
+The Premium version allows the use of add-ons that enhance functionality:
+* K2
+* Flexicontent
+* Kunena forum
+* sh404sef
+* JoomSEF
+* WP-PostViews (keep Joomla hits)
+* JComments
+* JomComment
+* Joomlatags
+* Attachments
+* Rokbox
+* Phocagallery
 
-The **K2 module** includes these features:
-
-* migrates K2 items
-* migrates K2 categories
-* migrates K2 tags
-* migrates K2 comments
-* migrates K2 images
-* migrates K2 images galleries
-* migrates K2 videos
-* migrates K2 attachments
-* migrates K2 custom fields
-* migrates K2 authors
-
-The **Kunena module** includes these features:
-
-* migrates Kunena forums to bbPress
-* migrates Kunena messages
-
-The **sh404sef module** includes these features:
-
-* keeps or redirects the URLs from the Joomla extension sh404sef
-
-The **JoomSEF module** includes these features:
-
-* keeps or redirects the URLs from the Joomla extension JoomSEF
-
-The **WP-PostViews module** includes these features:
-
-* migrates the Joomla views counts. This module requires the WP-PostViews plugin.
-
-The **JComments module** includes these features:
-
-* migrates the comments from the JComments Joomla extension
-
-The **JomComment module** includes these features:
-
-* migrates the comments from the JomComment Joomla extension
-
-The **Joomlatags module** includes these features:
-
-* migrates the tags from the Joomlatags extension
-
-The **Attachments module** includes these features:
-
-* migrates the attachments from the Attachments Joomla extension
-
-The **Rokbox module** includes these features:
-
-* migrates the images from the Rokbox Joomla extension
-
-The **Flexicontent module** includes these features:
-
-* migrates Flexicontent items/categories relations
-* migrates Flexicontent tags
-* migrates Flexicontent images
-* migrates Flexicontent custom fields
-
-The **Phocagallery module** includes these features:
-
-* migrates the categories and the images from the Phocagallery Joomla extension
-
-The Premium version and the modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
+These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
 == Installation ==
 
@@ -193,6 +146,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.19.3 =
+* Fixed: Some spaces were removed (due to the extra newlines removal)
+* Fixed: Better rule for the convert_post_attribs_to_array function
+* Fixed: "WordPress database error Field 'post_content' doesn't have a default value"
 
 = 1.19.0 =
 * New: Import the page breaks
@@ -388,6 +346,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.19.3 =
+Fixed: Some spaces were removed (due to the extra newlines removal)
+Fixed: Better rule for the convert_post_attribs_to_array function
+Fixed: "WordPress database error Field 'post_content' doesn't have a default value"
 
 = 1.19.0 =
 New: Import the page breaks
