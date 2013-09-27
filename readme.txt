@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef
 Requires at least: 3.0
 Tested up to: WP 3.6.1
-Stable tag: 1.19.3
+Stable tag: 1.20.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -52,6 +52,7 @@ The Premium version can be purchased on: http://www.fredericgilles.net/fg-joomla
 = Add-ons =
 
 The Premium version allows the use of add-ons that enhance functionality:
+
 * K2
 * Flexicontent
 * Kunena forum
@@ -75,8 +76,7 @@ These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wo
 
 == Frequently Asked Questions ==
 
-= I get the message: "[fgj2wp] Couldn't connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.
-SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
+= I get the message: "[fgj2wp] Couldn't connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database. SQLSTATE[28000] [1045] Access denied for user 'xxx'@'localhost' (using password: YES)" =
 
 * First verify your login and password to your Joomla database.
 * If Joomla and WordPress are not installed on the same host, you can do this:
@@ -146,6 +146,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.20.1 =
+* Fixed: Use the modified post date if the creation date is empty
+* Fixed: Warning: array_key_exists() [function.array-key-exists]: The second argument should be either an array or an object
 
 = 1.19.3 =
 * Fixed: Some spaces were removed (due to the extra newlines removal)
@@ -346,6 +350,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.20.1 =
+Fixed: Use the modified post date if the creation date is empty
+Fixed: Warning: array_key_exists() [function.array-key-exists]: The second argument should be either an array or an object
 
 = 1.19.3 =
 Fixed: Some spaces were removed (due to the extra newlines removal)

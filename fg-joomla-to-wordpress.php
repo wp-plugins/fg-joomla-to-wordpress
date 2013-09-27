@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.19.3
+ * Version:     1.20.1
  * Author:      Frédéric GILLES
  */
 
@@ -622,13 +622,16 @@ SQL;
 						// Attribs
 						$post_attribs = $this->convert_post_attribs_to_array($post['attribs']);
 						
+						// Date
+						$post_date = ($post['date'] != '0000-00-00 00:00:00')? $post['date']: $post['modified'];
+						
 						// Medias
 						if ( !$this->plugin_options['skip_media'] ) {
 							// Extra featured image
 							$featured_image = '';
 							list($featured_image, $post) = apply_filters('fgj2wp_pre_import_media', array($featured_image, $post));
 							// Import media
-							$result = $this->import_media($featured_image . $post['introtext'] . $post['fulltext'], $post['date']);
+							$result = $this->import_media($featured_image . $post['introtext'] . $post['fulltext'], $post_date);
 							$post_media = $result['media'];
 							$media_count += $result['media_count'];
 						} else {
@@ -658,7 +661,7 @@ SQL;
 							$content = $post['introtext'];
 						} else {
 							// Posts with a "Read more" link
-							$show_intro = array_key_exists('show_intro', $post_attribs)? $post_attribs['show_intro'] : '';
+							$show_intro = (is_array($post_attribs) && array_key_exists('show_intro', $post_attribs))? $post_attribs['show_intro'] : '';
 							if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro !== '1'))
 								|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro == '0')) ) {
 								// Introtext imported in excerpt
@@ -703,7 +706,7 @@ SQL;
 						$new_post = array(
 							'post_category'		=> $categories_ids,
 							'post_content'		=> $content,
-							'post_date'			=> $post['date'],
+							'post_date'			=> $post_date,
 							'post_excerpt'		=> $excerpt,
 							'post_status'		=> $status,
 							'post_title'		=> $post['title'],
