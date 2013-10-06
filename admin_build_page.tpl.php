@@ -173,6 +173,7 @@
 			<li><?php _e('SEO: Keeps meta description and meta keywords', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO: Keeps sh404sef URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO: Keeps JoomSEF URLs', 'fgj2wp'); ?></li>
+			<li><?php _e('SEO: Keeps OpenSEF URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla views counts migration', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 2.5+ featured images', 'fgj2wp'); ?></li>

@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef
 Requires at least: 3.0
 Tested up to: WP 3.6.1
-Stable tag: 1.20.1
+Stable tag: 1.21.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -58,6 +58,7 @@ The Premium version allows the use of add-ons that enhance functionality:
 * Kunena forum
 * sh404sef
 * JoomSEF
+* OpenSEF
 * WP-PostViews (keep Joomla hits)
 * JComments
 * JomComment
@@ -140,12 +141,16 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 == Translations ==
 * English (default)
 * French (fr_FR)
+* Spanish (es_ES)
 * German (de_DE)
 * Russian (ru_RU)
 * Polish (pl_PL)
 * other can be translated
 
 == Changelog ==
+
+= 1.21.0 =
+New translation: Spanish (thanks to Bradis García L.)
 
 = 1.20.1 =
 * Fixed: Use the modified post date if the creation date is empty

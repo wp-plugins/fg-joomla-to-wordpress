@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.20.1
+ * Version:     1.21.0
  * Author:      Frédéric GILLES
  */
 
@@ -470,6 +470,8 @@ SQL;
 			
 			if ( $this->joomla_connect() ) {
 				
+				$time_start = microtime(true);
+				
 				// Check prerequesites before the import
 				$do_import = apply_filters('fgj2wp_pre_import_check', true);
 				if ( !$do_import) return;
@@ -509,6 +511,13 @@ SQL;
 				
 				// Hook for other notices
 				do_action('fgj2wp_import_notices');
+				
+				// Debug info
+				if ( defined('WP_DEBUG') && WP_DEBUG ) {
+					$this->display_admin_notice(sprintf("Memory used: %s bytes<br />\n", number_format(memory_get_usage())));
+					$time_end = microtime(true);
+					$this->display_admin_notice(sprintf("Duration: %d sec<br />\n", $time_end - $time_start));
+				}
 				
 				$this->display_admin_notice(__("Don't forget to modify internal links.", 'fgj2wp'));
 				
@@ -619,9 +628,6 @@ SQL;
 						// Hook for modifying the Joomla post before processing
 						$post = apply_filters('fgj2wp_pre_process_post', $post);
 						
-						// Attribs
-						$post_attribs = $this->convert_post_attribs_to_array($post['attribs']);
-						
 						// Date
 						$post_date = ($post['date'] != '0000-00-00 00:00:00')? $post['date']: $post['modified'];
 						
@@ -655,29 +661,7 @@ SQL;
 						}
 						
 						// Define excerpt and post content
-						if ( empty($post['fulltext']) ) {
-							// Posts without a "Read more" link
-							$excerpt = '';
-							$content = $post['introtext'];
-						} else {
-							// Posts with a "Read more" link
-							$show_intro = (is_array($post_attribs) && array_key_exists('show_intro', $post_attribs))? $post_attribs['show_intro'] : '';
-							if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro !== '1'))
-								|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro == '0')) ) {
-								// Introtext imported in excerpt
-								$excerpt = $post['introtext'];
-								$content = $post['fulltext'];
-							} elseif ( (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro !== '0'))
-								|| (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro == '1')) ) {
-								// Introtext imported in excerpt and in content
-								$excerpt = $post['introtext'];
-								$content = $post['introtext'] . "\n" . $post['fulltext'];
-							} else {
-								// Introtext imported in post content with a "Read more" tag
-								$excerpt = '';
-								$content = $post['introtext'] . "\n<!--more-->\n" . $post['fulltext'];
-							}
-						}
+						list($excerpt, $content) = $this->set_excerpt_content($post);
 						
 						// Process content
 						$excerpt = $this->process_content($excerpt, $post_media);
@@ -880,6 +864,43 @@ SQL;
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
 			return $posts;		
+		}
+		
+		/**
+		 * Return the excerpt and the content of a post
+		 *
+		 * @param array $post Post data
+		 * @return array ($excerpt, $content)
+		 */
+		public function set_excerpt_content($post) {
+			$excerpt = '';
+			$content = '';
+			
+			// Attribs
+			$post_attribs = $this->convert_post_attribs_to_array(array_key_exists('attribs', $post)? $post['attribs']: '');
+			
+			if ( empty($post['fulltext']) ) {
+				// Posts without a "Read more" link
+				$content = $post['introtext'];
+			} else {
+				// Posts with a "Read more" link
+				$show_intro = (is_array($post_attribs) && array_key_exists('show_intro', $post_attribs))? $post_attribs['show_intro'] : '';
+				if ( (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro !== '1'))
+					|| (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro == '0')) ) {
+					// Introtext imported in excerpt
+					$excerpt = $post['introtext'];
+					$content = $post['fulltext'];
+				} elseif ( (($this->plugin_options['introtext'] == 'in_excerpt_and_content') && ($show_intro !== '0'))
+					|| (($this->plugin_options['introtext'] == 'in_excerpt') && ($show_intro == '1')) ) {
+					// Introtext imported in excerpt and in content
+					$excerpt = $post['introtext'];
+					$content = $post['introtext'] . "\n" . $post['fulltext'];
+				} else {
+					// Introtext imported in post content with a "Read more" tag
+					$content = $post['introtext'] . "\n<!--more-->\n" . $post['fulltext'];
+				}
+			}
+			return array($excerpt, $content);
 		}
 		
 		/**
