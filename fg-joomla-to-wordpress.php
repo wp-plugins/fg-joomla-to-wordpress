@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.21.0
+ * Version:     1.21.3
  * Author:      Frédéric GILLES
  */
 
@@ -192,6 +192,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
 			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 and 3.1.', 'fgj2wp');
+			$data['description'] .= "<br />\n" . __('For any issue, please read the <a href="http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/" target="_blank">FAQ</a> first.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
 			$data['media_count'] = $media_count->inherit;
@@ -1154,8 +1155,9 @@ SQL;
 											if ( $link_type == 'img' ) { // images only
 												// Caption shortcode
 												if ( preg_match('/class=".*caption.*?".*?title="(.*?)"/', $link['old_link'], $matches_caption) ) {
+													$caption_value = str_replace('%', '%%', $matches_caption[1]);
 													$align_value = ($alignment != '')? $alignment : 'alignnone';
-													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $matches_caption[1] . '[/caption]';
+													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $caption_value . '[/caption]';
 												}
 												
 												$align_class = ($alignment != '')? $alignment . ' ' : '';

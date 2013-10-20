@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef
+Tags: joomla, mambo, wordpress, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog
 Requires at least: 3.0
 Tested up to: WP 3.6.1
-Stable tag: 1.21.0
+Stable tag: 1.21.3
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -54,6 +54,7 @@ The Premium version can be purchased on: http://www.fredericgilles.net/fg-joomla
 The Premium version allows the use of add-ons that enhance functionality:
 
 * K2
+* EasyBlog
 * Flexicontent
 * Kunena forum
 * sh404sef
@@ -71,8 +72,8 @@ These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wo
 
 == Installation ==
 
-1.  Extract plugin zip file and load up to your wp-content/plugin directory
-2.  Activate Plugin in the Admin => Plugins Menu
+1.  Install the plugin in the Admin => Plugins menu => Add New => Upload => Select the zip file => Install Now
+2.  Activate the plugin in the Admin => Plugins menu
 3.  Run the importer in Tools > Import > Joomla (FG)
 
 == Frequently Asked Questions ==
@@ -149,8 +150,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Changelog ==
 
+= 1.21.3 =
+* Fixed: "Warning: sprintf(): Too few arguments" message for image captions with %
+
 = 1.21.0 =
-New translation: Spanish (thanks to Bradis García L.)
+* New translation: Spanish (thanks to Bradis García L.)
 
 = 1.20.1 =
 * Fixed: Use the modified post date if the creation date is empty
@@ -355,6 +359,12 @@ New translation: Spanish (thanks to Bradis García L.)
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.21.3 =
+Fixed: "Warning: sprintf(): Too few arguments" message for image captions with %
+
+= 1.21.0 =
+New translation: Spanish (thanks to Bradis García L.)
 
 = 1.20.1 =
 Fixed: Use the modified post date if the creation date is empty

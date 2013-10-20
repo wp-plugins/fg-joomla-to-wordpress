@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-29 12:24+0100\n"
-"PO-Revision-Date: 2013-09-29 12:24+0100\n"
+"POT-Creation-Date: 2013-10-20 08:43+0100\n"
+"PO-Revision-Date: 2013-10-20 08:46+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -335,38 +335,42 @@ msgid "K2 content"
 msgstr "contenu K2"
 
 #: admin_build_page.tpl.php:182
+msgid "EasyBlog content"
+msgstr "contenu EasyBlog"
+
+#: admin_build_page.tpl.php:183
 msgid "Kunena forum to bbPress"
 msgstr "Forum Kunena vers bbPress"
 
-#: admin_build_page.tpl.php:183
+#: admin_build_page.tpl.php:184
 msgid "Flexicontent content"
 msgstr "contenu Flexicontent"
 
-#: admin_build_page.tpl.php:184
+#: admin_build_page.tpl.php:185
 msgid "Jcomments comments"
 msgstr "commentaires Jcomments"
 
-#: admin_build_page.tpl.php:185
+#: admin_build_page.tpl.php:186
 msgid "Jomcomment comments"
 msgstr "commentaires Jomcomment"
 
-#: admin_build_page.tpl.php:186
+#: admin_build_page.tpl.php:187
 msgid "Joomlatags tags"
 msgstr "mots-clefs Joomlatags"
 
-#: admin_build_page.tpl.php:187
+#: admin_build_page.tpl.php:188
 msgid "Attachments"
 msgstr "fichiers joints Attachments"
 
-#: admin_build_page.tpl.php:188
+#: admin_build_page.tpl.php:189
 msgid "Rokbox images"
 msgstr "images Rokbox"
 
-#: admin_build_page.tpl.php:189
+#: admin_build_page.tpl.php:190
 msgid "Phocagallery images"
 msgstr "images Phocagallery"
 
-#: admin_build_page.tpl.php:196
+#: admin_build_page.tpl.php:197
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -379,7 +383,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:215
+#: admin_build_page.tpl.php:216
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -387,11 +391,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:218
+#: admin_build_page.tpl.php:219
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:221
+#: admin_build_page.tpl.php:222
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -444,42 +448,51 @@ msgstr ""
 "les médias (images, fichiers attachés) depuis une base Joomla vers WordPress."
 "<br />Compatible avec Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0 et 3.1."
 
-#: fg-joomla-to-wordpress.php:199
+#: fg-joomla-to-wordpress.php:195
+msgid ""
+"For any issue, please read the <a href=\"http://wordpress.org/plugins/fg-"
+"joomla-to-wordpress/faq/\" target=\"_blank\">FAQ</a> first."
+msgstr ""
+"En cas de problème, veuillez d'abord vous référez à la <a href=\"http://"
+"wordpress.org/plugins/fg-joomla-to-wordpress/faq/\" target=\"_blank\">FAQ</"
+"a>."
+
+#: fg-joomla-to-wordpress.php:200
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
 msgstr[0] "%d catégorie"
 msgstr[1] "%d catégories"
 
-#: fg-joomla-to-wordpress.php:200
+#: fg-joomla-to-wordpress.php:201
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
 msgstr[0] "%d article"
 msgstr[1] "%d articles"
 
-#: fg-joomla-to-wordpress.php:201
+#: fg-joomla-to-wordpress.php:202
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: fg-joomla-to-wordpress.php:202
+#: fg-joomla-to-wordpress.php:203
 #, php-format
 msgid "%d media"
 msgid_plural "%d medias"
 msgstr[0] "%d média"
 msgstr[1] "%d médias"
 
-#: fg-joomla-to-wordpress.php:203
+#: fg-joomla-to-wordpress.php:204
 #, php-format
 msgid "%d tag"
 msgid_plural "%d tags"
 msgstr[0] "%d mot-clef"
 msgstr[1] "%d mots-clefs"
 
-#: fg-joomla-to-wordpress.php:227 fg-joomla-to-wordpress.php:413
+#: fg-joomla-to-wordpress.php:228 fg-joomla-to-wordpress.php:414
 msgid ""
 "Couldn't connect to the Joomla database. Please check your parameters. And "
 "be sure the WordPress server can access the Joomla database."
@@ -488,51 +501,51 @@ msgstr ""
 "vos paramètres. Et soyez certains que le serveur WordPress ait accès à la "
 "base de données de Joomla."
 
-#: fg-joomla-to-wordpress.php:409
+#: fg-joomla-to-wordpress.php:410
 msgid "Connected with success to the Joomla database"
 msgstr "Connecté avec succès à la base de données Joomla"
 
-#: fg-joomla-to-wordpress.php:485
+#: fg-joomla-to-wordpress.php:488
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:492
+#: fg-joomla-to-wordpress.php:495
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
 msgstr[0] "%d page importée"
 msgstr[1] "%d pages importées"
 
-#: fg-joomla-to-wordpress.php:496
+#: fg-joomla-to-wordpress.php:499
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:498
+#: fg-joomla-to-wordpress.php:501
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
 msgstr[0] "%d média importé"
 msgstr[1] "%d médias importés"
 
-#: fg-joomla-to-wordpress.php:503
+#: fg-joomla-to-wordpress.php:506
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
 msgstr[0] "%d mot-clef importé"
 msgstr[1] "%d mots-clefs importés"
 
-#: fg-joomla-to-wordpress.php:513
+#: fg-joomla-to-wordpress.php:523
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:780 fg-joomla-to-wordpress.php:829
-#: fg-joomla-to-wordpress.php:880
+#: fg-joomla-to-wordpress.php:765 fg-joomla-to-wordpress.php:814
+#: fg-joomla-to-wordpress.php:865
 msgid "Error:"
 msgstr "Erreur :"
 
