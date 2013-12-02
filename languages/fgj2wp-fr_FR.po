@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 19:49+0100\n"
-"PO-Revision-Date: 2013-11-24 19:50+0100\n"
+"POT-Creation-Date: 2013-11-24 21:43+0100\n"
+"PO-Revision-Date: 2013-11-24 21:44+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -508,7 +508,11 @@ msgid_plural "%d tags"
 msgstr[0] "%d mot-clef"
 msgstr[1] "%d mots-clefs"
 
-#: fg-joomla-to-wordpress.php:237 fg-joomla-to-wordpress.php:423
+#: fg-joomla-to-wordpress.php:232
+msgid "PDO is required. Please enable it."
+msgstr "PDO est requis. Veuillez l'activer."
+
+#: fg-joomla-to-wordpress.php:241 fg-joomla-to-wordpress.php:427
 msgid ""
 "Couldn't connect to the Joomla database. Please check your parameters. And "
 "be sure the WordPress server can access the Joomla database."
@@ -517,51 +521,51 @@ msgstr ""
 "vos paramètres. Et soyez certains que le serveur WordPress ait accès à la "
 "base de données de Joomla."
 
-#: fg-joomla-to-wordpress.php:419
+#: fg-joomla-to-wordpress.php:423
 msgid "Connected with success to the Joomla database"
 msgstr "Connecté avec succès à la base de données Joomla"
 
-#: fg-joomla-to-wordpress.php:496
+#: fg-joomla-to-wordpress.php:500
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:502
+#: fg-joomla-to-wordpress.php:506
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
 msgstr[0] "%d page importée"
 msgstr[1] "%d pages importées"
 
-#: fg-joomla-to-wordpress.php:506
+#: fg-joomla-to-wordpress.php:510
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:508
+#: fg-joomla-to-wordpress.php:512
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
 msgstr[0] "%d média importé"
 msgstr[1] "%d médias importés"
 
-#: fg-joomla-to-wordpress.php:513
+#: fg-joomla-to-wordpress.php:517
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
 msgstr[0] "%d mot-clef importé"
 msgstr[1] "%d mots-clefs importés"
 
-#: fg-joomla-to-wordpress.php:530
+#: fg-joomla-to-wordpress.php:534
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:772 fg-joomla-to-wordpress.php:821
-#: fg-joomla-to-wordpress.php:872
+#: fg-joomla-to-wordpress.php:776 fg-joomla-to-wordpress.php:825
+#: fg-joomla-to-wordpress.php:876
 msgid "Error:"
 msgstr "Erreur :"
 
