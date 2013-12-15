@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.22.5
+ * Version:     1.22.6
  * Author:      Frédéric GILLES
  */
 
@@ -284,9 +284,7 @@ SQL;
 				// Remove only new imported posts
 				// WordPress post ID to start the deletion
 				$start_id = intval(get_option('fgj2wp_start_id'));
-				if ( $start_id == 0) {
-					$start_id = $this->get_next_post_autoincrement();
-					update_option('fgj2wp_start_id', $start_id);
+				if ( $start_id != 0) {
 					
 					$sql_queries[] = <<<SQL
 -- Delete Comments meta
@@ -621,6 +619,13 @@ SQL;
 			$step = 1000; // to limit the results
 			
 			$tab_categories = $this->tab_categories(); // Get the categories list
+			
+			// Set the WordPress post ID to start the deletion (used when we want to remove only the new imported posts)
+			$start_id = intval(get_option('fgj2wp_start_id'));
+			if ( $start_id == 0) {
+				$start_id = $this->get_next_post_autoincrement();
+				update_option('fgj2wp_start_id', $start_id);
+			}
 			
 			// Hook for doing other actions before the import
 			do_action('fgj2wp_pre_import_posts');

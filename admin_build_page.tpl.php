@@ -13,7 +13,7 @@
 	
 	<p><?php print $data['description'] ?></p>
 	
-	<div style="float: left;">
+	<div style="float:left; max-width:724px;">
 		<div style="border: 1px solid #cccccc; background: #faebd7; margin: 10px; padding: 2px 10px;">
 			<h3><?php _e('WordPress database', 'fgj2wp') ?></h3>
 			<?php foreach ( $data['database_info'] as $data_row ): ?>
@@ -163,7 +163,7 @@
 		</table>
 	</div>
 	
-	<div style="float:right; width:300px;">
+	<div style="float:left; width:300px;">
 		<h3><?php _e('Do you need extra features?', 'fgj2wp'); ?></h3>
 		<p>
 		<ul style="list-style:disc inside">
