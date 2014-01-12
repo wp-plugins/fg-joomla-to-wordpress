@@ -1,3 +1,7 @@
+<?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+?>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		function hide_unhide_media() {
@@ -51,7 +55,7 @@
 					<td><select id="version" name="version">
 							<option id="version_1_5" value="1.5"<?php print ($data['version'] == '1.5')? ' selected' : ''; ?>>1.5</option>
 							<option id="version_1_6" value="1.6"<?php print ($data['version'] == '1.6')? ' selected' : ''; ?>>1.6, 1.7</option>
-							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0, 3.1</option>
+							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0, 3.1, 3.2</option>
 						</select>
 					</td>
 				</tr>
@@ -119,7 +123,7 @@
 						<br />
 						<input id="import_duplicates" name="import_duplicates" type="checkbox" value="1" <?php checked($data['import_duplicates'], 1); ?> /> <label for="import_duplicates" title="<?php _e('Checked: download the media with their full path in order to import media with identical names.', 'fgj2wp'); ?>"><?php _e('Import media with duplicate names', 'fgj2wp'); ?></label>
 						<br />
-						<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Leave unchecked if you have already transfered the media.<br />It will speed up the import.', 'fgj2wp'); ?></label>
+						<input id="force_media_import" name="force_media_import" type="checkbox" value="1" <?php checked($data['force_media_import'], 1); ?> /> <label for="force_media_import" title="<?php _e('Checked: download the media even if it has already been imported. Unchecked: Download only media which were not already imported.', 'fgj2wp'); ?>" ><?php _e('Force media import. Keep unchecked except if you had previously some media download issues.', 'fgj2wp'); ?></label>
 					</div></td>
 				</tr>
 				<tr>
