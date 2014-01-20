@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems
 Requires at least: 3.0
 Tested up to: WP 3.8
-Stable tag: 1.24.0
+Stable tag: 1.24.1
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -90,8 +90,8 @@ These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wo
 = The migration stops and I get the message: "Fatal error: Allowed memory size of XXXXXX bytes exhausted" =
 
 * You can run the migration again. It will continue where it stopped.
-* You can add: `define('WP_MEMORY_LIMIT', '64M');` in your wp-config.php file to increase the memory allowed by WordPress
-* You can also increase the memory limit in php.ini if you have write access to this file (ie: memory_limit = 128M).
+* You can add: `define('WP_MEMORY_LIMIT', '512M');` in your wp-config.php file to increase the memory allowed by WordPress
+* You can also increase the memory limit in php.ini if you have write access to this file (ie: memory_limit = 1G).
 
 = The media are not imported =
 
@@ -111,11 +111,14 @@ These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wo
 
 = I get the message: "Fatal error: Class 'PDO' not found" =
 
-* PDO and PDO_MySQL libraries are needed. You must enable them in php.ini.
+* PDO and PDO_MySQL libraries are needed. You must enable them in php.ini on the WordPress host.<br />
+Or on Ubuntu:<br />
+sudo php5enmod pdo<br />
+sudo service apache2 reload
 
 = I get this error: PHP Fatal error: Undefined class constant 'MYSQL_ATTR_INIT_COMMAND' =
 
-* You have to enable PDO_MySQL in php.ini. That means uncomment the line extension=pdo_mysql.so in php.ini
+* You have to enable PDO_MySQL in php.ini on the WordPress host. That means uncomment the line extension=pdo_mysql.so in php.ini
 
 = Does the migration process modify the Joomla site it migrates from? =
 
@@ -151,6 +154,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.24.1 =
+* Fixed: Syntax error with parse_ini_string
+* Fixed: Images containing "%20" were not imported into the post content
+* FAQ updated
 
 = 1.24.0 =
 * New: Compatibility with Joomla 3.2
@@ -387,6 +395,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.24.1 =
+Fixed: Syntax error with parse_ini_string
+Fixed: Images containing "%20" were not imported into the post content
 
 = 1.24.0 =
 New: Compatibility with Joomla 3.2

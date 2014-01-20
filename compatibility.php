@@ -48,7 +48,9 @@ if (!function_exists('wp_suspend_cache_addition')) {
  * for PHP < 5.3.0
  */
 if (!function_exists('parse_ini_string')) {
-	function parse_ini_string($str) {
+	if ( !defined('INI_SCANNER_NORMAL') ) define('INI_SCANNER_NORMAL', 0);
+	if ( !defined('INI_SCANNER_RAW') ) define('INI_SCANNER_RAW', 1);
+	function parse_ini_string($str, $process_sections = false,  $scanner_mode = INI_SCANNER_NORMAL) {
 		
 		if(empty($str)) return false;
 
