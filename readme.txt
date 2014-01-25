@@ -3,8 +3,8 @@ Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems
 Requires at least: 3.0
-Tested up to: WP 3.8
-Stable tag: 1.24.1
+Tested up to: WP 3.8.1
+Stable tag: 1.24.3
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -154,6 +154,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.24.3 =
+* Fixed: Don't add the &lt;!--more--&gt; tag if the introtext is empty
+* Tested with WordPress 3.8.1
 
 = 1.24.1 =
 * Fixed: Syntax error with parse_ini_string
@@ -395,6 +399,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.24.3 =
+Fixed: Don't add the &lt;!--more--&gt; tag if the introtext is empty
+Tested with WordPress 3.8.1
 
 = 1.24.1 =
 Fixed: Syntax error with parse_ini_string

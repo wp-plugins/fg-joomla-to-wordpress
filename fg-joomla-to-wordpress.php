@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.24.1
+ * Version:     1.24.3
  * Author:      Frédéric GILLES
  */
 
@@ -565,10 +565,17 @@ SQL;
 						'category_description'	=> $category['description'],
 						'category_nicename'		=> $category['name'], // slug
 					);
+					
+					// Hook before inserting the category
+					$new_category = apply_filters('fgj2wp_pre_insert_category', $new_category, $category);
+					
 					if ( $cat_id = wp_insert_category($new_category) ) {
 						$cat_count++;
 						$terms[] = $cat_id;
 					}
+					
+					// Hook after inserting the category
+					do_action('fgj2wp_post_insert_category', $cat_id, $category);
 				}
 				
 				// Update the categories with their parent ids
@@ -581,13 +588,20 @@ SQL;
 						if ( !empty($category['parent']) ) {
 							$parent_cat = get_category_by_slug($category['parent']);
 							if ( $parent_cat ) {
+								// Hook before editing the category
+								$cat = apply_filters('fgj2wp_pre_edit_category', $cat, $parent_cat);
 								wp_update_term($cat->term_id, 'category', array(
 									'parent' => $parent_cat->term_id
 								));
+								// Hook after editing the category
+								do_action('fgj2wp_post_edit_category', $cat);
 							}
 						}
 					}
 				}
+				
+				// Hook after importing all the categories
+				do_action('fgj2wp_post_import_categories', $categories);
 				
 				// Update cache
 				wp_update_term_count_now($terms, 'category');
@@ -897,7 +911,9 @@ SQL;
 			// Attribs
 			$post_attribs = $this->convert_post_attribs_to_array(array_key_exists('attribs', $post)? $post['attribs']: '');
 			
-			if ( empty($post['fulltext']) ) {
+			if ( empty($post['introtext']) ) {
+				$content = $post['fulltext'];
+			} elseif ( empty($post['fulltext']) ) {
 				// Posts without a "Read more" link
 				$content = $post['introtext'];
 			} else {
