@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-11 13:06+0100\n"
-"PO-Revision-Date: 2014-01-11 13:08+0100\n"
+"POT-Creation-Date: 2014-02-02 08:10+0100\n"
+"PO-Revision-Date: 2014-02-02 08:11+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -374,7 +374,11 @@ msgstr "images Rokbox"
 msgid "Phocagallery images"
 msgstr "images Phocagallery"
 
-#: admin_build_page.tpl.php:200
+#: admin_build_page.tpl.php:196
+msgid "Joom!Fish translations to WPML"
+msgstr "traductions Joom!Fish vers WPML"
+
+#: admin_build_page.tpl.php:201
 msgid ""
 "Please note that some of these features need an add-on in addition to the "
 "Premium version."
@@ -382,7 +386,7 @@ msgstr ""
 "Veuillez noter que certaines de ces fonctionnalités nécessitent un module "
 "supplémentaire en plus de la version Premium."
 
-#: admin_build_page.tpl.php:204
+#: admin_build_page.tpl.php:205
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -395,7 +399,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:223
+#: admin_build_page.tpl.php:224
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -403,11 +407,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:226
+#: admin_build_page.tpl.php:227
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:229
+#: admin_build_page.tpl.php:230
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -564,8 +568,8 @@ msgstr[1] "%d mots-clefs importés"
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:782 fg-joomla-to-wordpress.php:831
-#: fg-joomla-to-wordpress.php:882
+#: fg-joomla-to-wordpress.php:794 fg-joomla-to-wordpress.php:843
+#: fg-joomla-to-wordpress.php:894
 msgid "Error:"
 msgstr "Erreur :"
 

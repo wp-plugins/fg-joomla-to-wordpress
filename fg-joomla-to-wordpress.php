@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.24.3
+ * Version:     1.24.4
  * Author:      Frédéric GILLES
  */
 
@@ -590,9 +590,7 @@ SQL;
 							if ( $parent_cat ) {
 								// Hook before editing the category
 								$cat = apply_filters('fgj2wp_pre_edit_category', $cat, $parent_cat);
-								wp_update_term($cat->term_id, 'category', array(
-									'parent' => $parent_cat->term_id
-								));
+								wp_update_term($cat->term_id, 'category', array('parent' => $parent_cat->term_id));
 								// Hook after editing the category
 								do_action('fgj2wp_post_edit_category', $cat);
 							}
@@ -912,7 +910,7 @@ SQL;
 			$post_attribs = $this->convert_post_attribs_to_array(array_key_exists('attribs', $post)? $post['attribs']: '');
 			
 			if ( empty($post['introtext']) ) {
-				$content = $post['fulltext'];
+				$content = isset($post['fulltext'])? $post['fulltext'] : '';
 			} elseif ( empty($post['fulltext']) ) {
 				// Posts without a "Read more" link
 				$content = $post['introtext'];
@@ -1277,6 +1275,9 @@ SQL;
 			$step = 1000; // to limit the results
 			$offset = 0;
 			
+			// Hook for doing other actions before modifying the links
+			do_action('fgj2wp_pre_modify_links');
+			
 			$this->post_type = ($this->plugin_options['import_as_pages'] == 1) ? 'page' : 'post';
 			
 			do {
@@ -1325,6 +1326,9 @@ SQL;
 				}
 				$offset += $step;
 			} while ( ($posts != null) && (count($posts) > 0) );
+			
+			// Hook for doing other actions after modifying the links
+			do_action('fgj2wp_post_modify_links');
 			
 			return array('links_count' => $links_count);
 		}
@@ -1450,6 +1454,9 @@ SQL;
 		 * Remove the prefixes categories
 		 */
 		private function remove_category_prefix() {
+			// Hook for doing other actions before removing the prefixes
+			do_action('fgj2wp_pre_remove_category_prefix');
+			
 			$categories = get_terms( 'category', array('hide_empty' => 0) );
 			if ( !empty($categories) ) {
 				foreach ( $categories as $cat ) {
@@ -1460,6 +1467,9 @@ SQL;
 					}
 				}
 			}
+			
+			// Hook for doing other actions after removing the prefixes
+			do_action('fgj2wp_post_remove_category_prefix');
 		}
 	}
 }
