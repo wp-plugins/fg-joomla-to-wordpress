@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-02 08:10+0100\n"
-"PO-Revision-Date: 2014-02-02 08:11+0100\n"
+"POT-Creation-Date: 2014-02-23 22:17+0100\n"
+"PO-Revision-Date: 2014-02-23 22:18+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -303,82 +303,78 @@ msgid "SEO: Keeps meta description and meta keywords"
 msgstr "SEO : Garde les meta description et meta keywords"
 
 #: admin_build_page.tpl.php:178
-msgid "SEO: Keeps sh404sef URLs"
-msgstr "SEO : garde les URLs sh404sef"
+msgid "SEO: Keeps sh404sef, JoomSEF and OpenSEF URLs"
+msgstr "SEO : garde les URLs sh404sef, JoomSEF et OpenSEF"
 
 #: admin_build_page.tpl.php:179
-msgid "SEO: Keeps JoomSEF URLs"
-msgstr "SEO : garde les URLs JoomSEF"
-
-#: admin_build_page.tpl.php:180
-msgid "SEO: Keeps OpenSEF URLs"
-msgstr "SEO : garde les URLs OpenSEF"
-
-#: admin_build_page.tpl.php:181
 msgid "Joomla views counts migration"
 msgstr "migration des compteurs de vues de Joomla"
 
-#: admin_build_page.tpl.php:182
+#: admin_build_page.tpl.php:180
 msgid "Joomla 1.0 compatible"
 msgstr "compatible Joomla 1.0"
 
-#: admin_build_page.tpl.php:183
+#: admin_build_page.tpl.php:181
 msgid "Joomla 2.5+ featured images"
 msgstr "images d'intro de Joomla 2.5+"
 
-#: admin_build_page.tpl.php:184
+#: admin_build_page.tpl.php:182
+msgid "Joomla 3.1+ tags"
+msgstr "mots-clefs de Joomla 3.1+"
+
+#: admin_build_page.tpl.php:183
 msgid "Mambo 4.5 and 4.6 compatible"
 msgstr "compatible Mambo 4.5 et 4.6"
 
-#: admin_build_page.tpl.php:185
+#: admin_build_page.tpl.php:184
 msgid "K2 content"
 msgstr "contenu K2"
 
-#: admin_build_page.tpl.php:186
+#: admin_build_page.tpl.php:185
 msgid "EasyBlog content"
 msgstr "contenu EasyBlog"
 
-#: admin_build_page.tpl.php:187
+#: admin_build_page.tpl.php:186
 msgid "Kunena forum to bbPress"
 msgstr "Forum Kunena vers bbPress"
 
-#: admin_build_page.tpl.php:188
+#: admin_build_page.tpl.php:187
 msgid "Flexicontent content"
 msgstr "contenu Flexicontent"
 
-#: admin_build_page.tpl.php:189
+#: admin_build_page.tpl.php:188
 msgid "Zoo content"
 msgstr "contenu Zoo"
 
+#: admin_build_page.tpl.php:189
+msgid "Jcomments and Jomcomment comments"
+msgstr "commentaires Jcomments et Jomcomment"
+
 #: admin_build_page.tpl.php:190
-msgid "Jcomments comments"
-msgstr "commentaires Jcomments"
-
-#: admin_build_page.tpl.php:191
-msgid "Jomcomment comments"
-msgstr "commentaires Jomcomment"
-
-#: admin_build_page.tpl.php:192
 msgid "Joomlatags tags"
 msgstr "mots-clefs Joomlatags"
 
-#: admin_build_page.tpl.php:193
+#: admin_build_page.tpl.php:191
 msgid "Attachments"
 msgstr "fichiers joints Attachments"
 
-#: admin_build_page.tpl.php:194
+#: admin_build_page.tpl.php:192
 msgid "Rokbox images"
 msgstr "images Rokbox"
 
-#: admin_build_page.tpl.php:195
+#: admin_build_page.tpl.php:193
+msgid "JoomGallery images"
+msgstr "images JoomGallery"
+
+#: admin_build_page.tpl.php:194
 msgid "Phocagallery images"
 msgstr "images Phocagallery"
 
-#: admin_build_page.tpl.php:196
+#: admin_build_page.tpl.php:195
 msgid "Joom!Fish translations to WPML"
 msgstr "traductions Joom!Fish vers WPML"
 
-#: admin_build_page.tpl.php:201
+#: admin_build_page.tpl.php:200
 msgid ""
 "Please note that some of these features need an add-on in addition to the "
 "Premium version."
@@ -386,7 +382,7 @@ msgstr ""
 "Veuillez noter que certaines de ces fonctionnalités nécessitent un module "
 "supplémentaire en plus de la version Premium."
 
-#: admin_build_page.tpl.php:205
+#: admin_build_page.tpl.php:204
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -399,7 +395,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:224
+#: admin_build_page.tpl.php:223
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -407,11 +403,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:227
+#: admin_build_page.tpl.php:226
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:230
+#: admin_build_page.tpl.php:229
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -568,10 +564,19 @@ msgstr[1] "%d mots-clefs importés"
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:794 fg-joomla-to-wordpress.php:843
-#: fg-joomla-to-wordpress.php:894
+#: fg-joomla-to-wordpress.php:794 fg-joomla-to-wordpress.php:844
+#: fg-joomla-to-wordpress.php:895
 msgid "Error:"
 msgstr "Erreur :"
+
+#~ msgid "SEO: Keeps JoomSEF URLs"
+#~ msgstr "SEO : garde les URLs JoomSEF"
+
+#~ msgid "SEO: Keeps OpenSEF URLs"
+#~ msgstr "SEO : garde les URLs OpenSEF"
+
+#~ msgid "Jcomments comments"
+#~ msgstr "commentaires Jcomments"
 
 #~ msgid "Posts with a \"read more\" split:"
 #~ msgstr "Articles avec «Lire la suite» :"

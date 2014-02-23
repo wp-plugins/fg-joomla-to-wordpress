@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml
+Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery
 Requires at least: 3.0
 Tested up to: WP 3.8.1
-Stable tag: 1.24.4
+Stable tag: 1.27.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -46,6 +46,7 @@ The **Premium version** includes these extra features:
 * compatible with **Joomla 1.0** and **Mambo 4.5 and 4.6** (process {mosimages} and {mospagebreak})
 * migrates Joomla 1.0 static articles as pages
 * migrates Joomla 2.5+ featured images
+* migrates Joomla 3.1+ tags
 
 The Premium version can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -67,6 +68,7 @@ The Premium version allows the use of add-ons that enhance functionality:
 * Joomlatags
 * Attachments
 * Rokbox
+* JoomGallery
 * Phocagallery
 * Joom!Fish translations to WPML
 
@@ -137,6 +139,10 @@ sudo service apache2 reload
 
 * You can use the Convert Post Types plugin after the migration.
 
+= Do I need to keep the plugin activated after the migration? =
+
+* No, you can deactivate or even uninstall the plugin after the migration (for the free version only).
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -155,6 +161,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.27.0 =
+* New: Minor internal changes
+* FAQ updated
 
 = 1.24.4 =
 * New: Add hooks
@@ -404,6 +414,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.27.0 =
+New: Minor internal changes
+FAQ updated
 
 = 1.24.4 =
 New: Add hooks

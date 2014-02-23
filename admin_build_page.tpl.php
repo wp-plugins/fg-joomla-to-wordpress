@@ -53,9 +53,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 				<tr>
 					<th scope="row"><label for="version"><?php _e('Joomla version', 'fgj2wp'); ?></label></th>
 					<td><select id="version" name="version">
-							<option id="version_1_5" value="1.5"<?php print ($data['version'] == '1.5')? ' selected' : ''; ?>>1.5</option>
-							<option id="version_1_6" value="1.6"<?php print ($data['version'] == '1.6')? ' selected' : ''; ?>>1.6, 1.7</option>
-							<option id="version_2_5" value="2.5"<?php print ($data['version'] == '2.5')? ' selected' : ''; ?>>2.5, 3.0, 3.1, 3.2</option>
+							<option id="version_1_5" value="1.5"<?php selected($data['version'], '1.5'); ?>>1.5</option>
+							<option id="version_1_6" value="1.6"<?php selected($data['version'], '1.6'); ?>>1.6, 1.7</option>
+							<option id="version_2_5" value="2.5"<?php selected($data['version'], '2.5'); ?>>2.5, 3.0, 3.1, 3.2</option>
 						</select>
 					</td>
 				</tr>
@@ -175,23 +175,22 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<li><?php _e('menus migration', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO: keeps Joomla IDs or redirects standard Joomla URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('SEO: Keeps meta description and meta keywords', 'fgj2wp'); ?></li>
-			<li><?php _e('SEO: Keeps sh404sef URLs', 'fgj2wp'); ?></li>
-			<li><?php _e('SEO: Keeps JoomSEF URLs', 'fgj2wp'); ?></li>
-			<li><?php _e('SEO: Keeps OpenSEF URLs', 'fgj2wp'); ?></li>
+			<li><?php _e('SEO: Keeps sh404sef, JoomSEF and OpenSEF URLs', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla views counts migration', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 1.0 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomla 2.5+ featured images', 'fgj2wp'); ?></li>
+			<li><?php _e('Joomla 3.1+ tags', 'fgj2wp'); ?></li>
 			<li><?php _e('Mambo 4.5 and 4.6 compatible', 'fgj2wp'); ?></li>
 			<li><?php _e('K2 content', 'fgj2wp'); ?></li>
 			<li><?php _e('EasyBlog content', 'fgj2wp'); ?></li>
 			<li><?php _e('Kunena forum to bbPress', 'fgj2wp'); ?></li>
 			<li><?php _e('Flexicontent content', 'fgj2wp'); ?></li>
 			<li><?php _e('Zoo content', 'fgj2wp'); ?></li>
-			<li><?php _e('Jcomments comments', 'fgj2wp'); ?></li>
-			<li><?php _e('Jomcomment comments', 'fgj2wp'); ?></li>
+			<li><?php _e('Jcomments and Jomcomment comments', 'fgj2wp'); ?></li>
 			<li><?php _e('Joomlatags tags', 'fgj2wp'); ?></li>
 			<li><?php _e('Attachments', 'fgj2wp'); ?></li>
 			<li><?php _e('Rokbox images', 'fgj2wp'); ?></li>
+			<li><?php _e('JoomGallery images', 'fgj2wp'); ?></li>
 			<li><?php _e('Phocagallery images', 'fgj2wp'); ?></li>
 			<li><?php _e('Joom!Fish translations to WPML', 'fgj2wp'); ?></li>
 		</ul>
