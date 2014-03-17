@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.27.0
+ * Version:     1.28.0
  * Author:      Frédéric GILLES
  */
 
@@ -45,8 +45,10 @@ if ( !class_exists('fgj2wp', false) ) {
 		public function __construct() {
 			$this->plugin_options = array();
 
-			add_action( 'init', array (&$this, 'init') ); // Hook on init
-			add_action( 'admin_enqueue_scripts', array (&$this, 'enqueue_scripts') );
+			add_action( 'init', array(&$this, 'init') ); // Hook on init
+			add_action( 'admin_enqueue_scripts', array(&$this, 'enqueue_scripts') );
+			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'test_joomla_1_0') );
+			add_action( 'fgj2wp_pre_import_check', array(&$this, 'test_joomla_1_0') );
 		}
 
 		/**
@@ -55,7 +57,7 @@ if ( !class_exists('fgj2wp', false) ) {
 		public function init() {
 			load_plugin_textdomain( 'fgj2wp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		
-			register_importer('fgj2wp', __('Joomla (FG)', 'fgj2wp'), __('Import categories, articles and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp'), array ($this, 'dispatch'));
+			register_importer('fgj2wp', __('Joomla (FG)', 'fgj2wp'), __('Import categories, articles and medias (images, attachments) from a Joomla database into WordPress.', 'fgj2wp'), array($this, 'dispatch'));
 			
 			// Suspend the cache during the migration to avoid exhausted memory problem
 			wp_suspend_cache_addition(true);
@@ -92,7 +94,6 @@ if ( !class_exists('fgj2wp', false) ) {
 			// Default values
 			$this->plugin_options = array(
 				'url'					=> null,
-				'version'				=> '1.5',
 				'hostname'				=> 'localhost',
 				'port'					=> 3306,
 				'database'				=> null,
@@ -241,6 +242,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				$this->display_admin_error(__('Couldn\'t connect to the Joomla database. Please check your parameters. And be sure the WordPress server can access the Joomla database.', 'fgj2wp') . '<br />' . $e->getMessage());
 				return false;
 			}
+			$this->plugin_options['version'] = $this->joomla_version();
 			return true;
 		}
 		
@@ -419,6 +421,9 @@ SQL;
 					}
 					
 					$this->display_admin_notice(__('Connected with success to the Joomla database', 'fgj2wp'));
+					
+					do_action('fgj2wp_post_test_database_connection');
+					
 					return true;
 					
 				} catch ( PDOException $e ) {
@@ -427,6 +432,19 @@ SQL;
 				}
 				$joomla_db = null;
 			}
+		}
+		
+		/**
+		 * Test for Joomla version 1.0
+		 *
+		 * @return bool False if Joomla version < 1.5 (for Joomla 1.0 and Mambo)
+		 */
+		public function test_joomla_1_0() {
+			if ( version_compare($this->plugin_options['version'], '1.5', '<') ) {
+				$this->display_admin_error(__('Your version of Joomla (probably 1.0) is not supported by this plugin. Please consider upgrading to the <a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank">Premium version</a>.', 'fgj2wp'));
+				return false;
+			}
+			return true;
 		}
 		
 		/**
@@ -454,7 +472,6 @@ SQL;
 			}
 			return array(
 				'url'					=> $url,
-				'version'				=> $_POST['version'],
 				'hostname'				=> $_POST['hostname'],
 				'port'					=> intval($_POST['port']),
 				'database'				=> $_POST['database'],
@@ -1471,6 +1488,68 @@ SQL;
 			
 			// Hook for doing other actions after removing the prefixes
 			do_action('fgj2wp_post_remove_category_prefix');
+		}
+		
+		/**
+		 * Guess the Joomla version
+		 *
+		 * @return string Joomla version
+		 */
+		private function joomla_version() {
+			if ( !$this->table_exists('content') ) {
+				return '0.0';
+			} elseif ( !$this->column_exists('content', 'alias') ) {
+				return '1.0';
+			} elseif ( !$this->column_exists('content', 'asset_id') ) {
+				return '1.5';
+			} elseif ( $this->column_exists('content', 'title_alias') ) {
+				return '2.5';
+			} elseif ( !$this->table_exists('tags') ) {
+				return '3.0';
+			} else {
+				return '3.1';
+			}
+		}
+		
+		/**
+		 * Test if a column exists
+		 *
+		 * @param string $table Table name
+		 * @param string $column Column name
+		 * @return bool
+		 */
+		private function column_exists($table, $column) {
+			global $joomla_db;
+			
+			try {
+				$prefix = $this->plugin_options['prefix'];
+				
+				$sql = "SHOW COLUMNS FROM ${prefix}${table} WHERE Field = '$column'";
+				$query = $joomla_db->query($sql);
+				$result = $query->fetch();
+				return !empty($result);
+			} catch ( PDOException $e ) {}
+			return false;
+		}
+		
+		/**
+		 * Test if a table exists
+		 *
+		 * @param string $table Table name
+		 * @return bool
+		 */
+		private function table_exists($table) {
+			global $joomla_db;
+			
+			try {
+				$prefix = $this->plugin_options['prefix'];
+				
+				$sql = "SHOW TABLES LIKE '${prefix}${table}'";
+				$query = $joomla_db->query($sql);
+				$result = $query->fetch();
+				return !empty($result);
+			} catch ( PDOException $e ) {}
+			return false;
 		}
 	}
 }

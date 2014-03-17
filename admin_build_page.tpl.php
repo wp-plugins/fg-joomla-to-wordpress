@@ -51,15 +51,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
 					<td><input id="url" name="url" type="text" size="50" value="<?php echo $data['url']; ?>" /></td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="version"><?php _e('Joomla version', 'fgj2wp'); ?></label></th>
-					<td><select id="version" name="version">
-							<option id="version_1_5" value="1.5"<?php selected($data['version'], '1.5'); ?>>1.5</option>
-							<option id="version_1_6" value="1.6"<?php selected($data['version'], '1.6'); ?>>1.6, 1.7</option>
-							<option id="version_2_5" value="2.5"<?php selected($data['version'], '2.5'); ?>>2.5, 3.0, 3.1, 3.2</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
 					<th scope="row" colspan="2"><h3><?php _e('Joomla database parameters', 'fgj2wp'); ?></h3></th>
 				</tr>
 				<tr>
