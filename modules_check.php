@@ -134,8 +134,10 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					FROM ${prefix}${table}
 				";
 				$query = $joomla_db->query($sql);
-				$result = $query->fetch();
-				$count = $result['nb'];
+				if ( is_a($query, 'PDOStatement') ) {
+					$result = $query->fetch();
+					$count = $result['nb'];
+				}
 				
 			} catch ( PDOException $e ) {
 			}
