@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-17 23:27+0100\n"
-"PO-Revision-Date: 2014-03-17 23:29+0100\n"
+"POT-Creation-Date: 2014-03-21 23:52+0100\n"
+"PO-Revision-Date: 2014-03-21 23:52+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -407,11 +407,11 @@ msgstr "Toutes les données vont être supprimées de WordPress."
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
-#: fg-joomla-to-wordpress.php:60
+#: fg-joomla-to-wordpress.php:63
 msgid "Joomla (FG)"
 msgstr "Joomla (FG)"
 
-#: fg-joomla-to-wordpress.php:60
+#: fg-joomla-to-wordpress.php:63
 msgid ""
 "Import categories, articles and medias (images, attachments) from a Joomla "
 "database into WordPress."
@@ -419,38 +419,38 @@ msgstr ""
 "Importer les catégories, articles et médias (images, fichiers attachés) "
 "depuis une base Joomla vers WordPress."
 
-#: fg-joomla-to-wordpress.php:122
+#: fg-joomla-to-wordpress.php:124
 msgid "The wp-content directory must be writable."
 msgstr "Le répertoire wp-content doit avoir les permissions en écriture."
 
-#: fg-joomla-to-wordpress.php:130
+#: fg-joomla-to-wordpress.php:132
 msgid "WordPress content removed"
 msgstr "Contenu supprimé de WordPress"
 
-#: fg-joomla-to-wordpress.php:132
+#: fg-joomla-to-wordpress.php:134
 msgid "Couldn't remove content"
 msgstr "Impossible de supprimer le contenu"
 
-#: fg-joomla-to-wordpress.php:142
+#: fg-joomla-to-wordpress.php:144
 msgid "Settings saved"
 msgstr "Paramètres enregistrés"
 
-#: fg-joomla-to-wordpress.php:172
+#: fg-joomla-to-wordpress.php:174
 msgid "Prefixes removed from categories"
 msgstr "Préfixes de catégories supprimés"
 
-#: fg-joomla-to-wordpress.php:181
+#: fg-joomla-to-wordpress.php:183
 #, php-format
 msgid "%d internal link modified"
 msgid_plural "%d internal links modified"
 msgstr[0] "%d lien interne modifié"
 msgstr[1] "%d liens internes modifiés"
 
-#: fg-joomla-to-wordpress.php:201
+#: fg-joomla-to-wordpress.php:203
 msgid "Import Joomla (FG)"
 msgstr "Import Joomla (FG)"
 
-#: fg-joomla-to-wordpress.php:202
+#: fg-joomla-to-wordpress.php:204
 msgid ""
 "This plugin will import sections, categories, posts and medias (images, "
 "attachments) from a Joomla database into WordPress.<br />Compatible with "
@@ -460,7 +460,7 @@ msgstr ""
 "les médias (images, fichiers attachés) depuis une base Joomla vers WordPress."
 "<br />Compatible avec Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1 et 3.2."
 
-#: fg-joomla-to-wordpress.php:203
+#: fg-joomla-to-wordpress.php:205
 msgid ""
 "For any issue, please read the <a href=\"http://wordpress.org/plugins/fg-"
 "joomla-to-wordpress/faq/\" target=\"_blank\">FAQ</a> first."
@@ -469,46 +469,46 @@ msgstr ""
 "wordpress.org/plugins/fg-joomla-to-wordpress/faq/\" target=\"_blank\">FAQ</"
 "a>."
 
-#: fg-joomla-to-wordpress.php:208
+#: fg-joomla-to-wordpress.php:210
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
 msgstr[0] "%d catégorie"
 msgstr[1] "%d catégories"
 
-#: fg-joomla-to-wordpress.php:209
+#: fg-joomla-to-wordpress.php:211
 #, php-format
 msgid "%d post"
 msgid_plural "%d posts"
 msgstr[0] "%d article"
 msgstr[1] "%d articles"
 
-#: fg-joomla-to-wordpress.php:210
+#: fg-joomla-to-wordpress.php:212
 #, php-format
 msgid "%d page"
 msgid_plural "%d pages"
 msgstr[0] "%d page"
 msgstr[1] "%d pages"
 
-#: fg-joomla-to-wordpress.php:211
+#: fg-joomla-to-wordpress.php:213
 #, php-format
 msgid "%d media"
 msgid_plural "%d medias"
 msgstr[0] "%d média"
 msgstr[1] "%d médias"
 
-#: fg-joomla-to-wordpress.php:212
+#: fg-joomla-to-wordpress.php:214
 #, php-format
 msgid "%d tag"
 msgid_plural "%d tags"
 msgstr[0] "%d mot-clef"
 msgstr[1] "%d mots-clefs"
 
-#: fg-joomla-to-wordpress.php:234
+#: fg-joomla-to-wordpress.php:236
 msgid "PDO is required. Please enable it."
 msgstr "PDO est requis. Veuillez l'activer."
 
-#: fg-joomla-to-wordpress.php:243 fg-joomla-to-wordpress.php:431
+#: fg-joomla-to-wordpress.php:245 fg-joomla-to-wordpress.php:433
 msgid ""
 "Couldn't connect to the Joomla database. Please check your parameters. And "
 "be sure the WordPress server can access the Joomla database."
@@ -517,11 +517,11 @@ msgstr ""
 "vos paramètres. Et soyez certains que le serveur WordPress ait accès à la "
 "base de données de Joomla."
 
-#: fg-joomla-to-wordpress.php:424
+#: fg-joomla-to-wordpress.php:426
 msgid "Connected with success to the Joomla database"
 msgstr "Connecté avec succès à la base de données Joomla"
 
-#: fg-joomla-to-wordpress.php:445
+#: fg-joomla-to-wordpress.php:447
 msgid ""
 "Your version of Joomla (probably 1.0) is not supported by this plugin. "
 "Please consider upgrading to the <a href=\"http://www.fredericgilles.net/fg-"
@@ -532,49 +532,200 @@ msgstr ""
 "fredericgilles.net/fg-joomla-to-wordpress/\" target=\"_blank\">version "
 "Premium</a>."
 
-#: fg-joomla-to-wordpress.php:516
+#: fg-joomla-to-wordpress.php:518
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:522
+#: fg-joomla-to-wordpress.php:524
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
 msgstr[0] "%d page importée"
 msgstr[1] "%d pages importées"
 
-#: fg-joomla-to-wordpress.php:526
+#: fg-joomla-to-wordpress.php:528
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:528
+#: fg-joomla-to-wordpress.php:530
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
 msgstr[0] "%d média importé"
 msgstr[1] "%d médias importés"
 
-#: fg-joomla-to-wordpress.php:533
+#: fg-joomla-to-wordpress.php:535
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
 msgstr[0] "%d mot-clef importé"
 msgstr[1] "%d mots-clefs importés"
 
-#: fg-joomla-to-wordpress.php:550
+#: fg-joomla-to-wordpress.php:552
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
-#: fg-joomla-to-wordpress.php:812 fg-joomla-to-wordpress.php:862
-#: fg-joomla-to-wordpress.php:913
+#: fg-joomla-to-wordpress.php:814 fg-joomla-to-wordpress.php:864
+#: fg-joomla-to-wordpress.php:915
 msgid "Error:"
 msgstr "Erreur :"
+
+#: modules_check.php:30
+#, php-format
+msgid ""
+"Your Joomla database contains %s. You need the <a href=\"%s\" target=\"_blank"
+"\">Premium version</a> to import them."
+msgstr ""
+"Votre base de données Joomla contient %s. Vous avez besoin de la <a href=\"%s"
+"\" target=\"_blank\">version Premium</a> pour les importer."
+
+#: modules_check.php:31
+#, php-format
+msgid ""
+"Your Joomla database contains %s. You need the <a href=\"%s\" target=\"_blank"
+"\">Premium version</a> and the <a href=\"%s\" target=\"_blank\">%s</a> to "
+"import them."
+msgstr ""
+"Votre base de données Joomla contient %s. Vous avez besoin de la <a href=\"%s"
+"\" target=\"_blank\">version Premium</a> et <a href=\"%s\" target=\"_blank\">"
+"%s</a> pour les importer."
+
+#: modules_check.php:35
+msgid "several users"
+msgstr "plusieurs utilisateurs"
+
+#: modules_check.php:39
+msgid "some tags"
+msgstr "des mots-clefs"
+
+#: modules_check.php:43
+msgid "some K2 items"
+msgstr "des éléments K2"
+
+#: modules_check.php:43
+msgid "K2 add-on"
+msgstr "du module K2"
+
+#: modules_check.php:47
+msgid "some Flexicontent items"
+msgstr "des éléments Flexicontent"
+
+#: modules_check.php:47
+msgid "Flexicontent add-on"
+msgstr "du module Flexicontent"
+
+#: modules_check.php:51
+msgid "some EasyBlog posts"
+msgstr "des articles EasyBlog"
+
+#: modules_check.php:51
+msgid "EasyBlog add-on"
+msgstr "du module EasyBlog"
+
+#: modules_check.php:55
+msgid "some Joom!Fish translations"
+msgstr "des traductions Joom!Fish"
+
+#: modules_check.php:55
+msgid "Joom!Fish add-on"
+msgstr "du module Joom!Fish"
+
+#: modules_check.php:59
+msgid "some Zoo items"
+msgstr "des éléments Zoo"
+
+#: modules_check.php:59
+msgid "Zoo add-on"
+msgstr "du module Zoo"
+
+#: modules_check.php:63 modules_check.php:67
+msgid "some sh404sef redirections"
+msgstr "des redirections sh404sef"
+
+#: modules_check.php:63 modules_check.php:67
+msgid "sh404sef add-on"
+msgstr "du module sh404sef"
+
+#: modules_check.php:71
+msgid "some JoomSEF redirections"
+msgstr "des redirections JoomSEF"
+
+#: modules_check.php:71
+msgid "JoomSEF add-on"
+msgstr "du module JoomSEF"
+
+#: modules_check.php:75
+msgid "some OpenSEF redirections"
+msgstr "des redirections OpenSEF"
+
+#: modules_check.php:75
+msgid "OpenSEF add-on"
+msgstr "du module OpenSEF"
+
+#: modules_check.php:79
+msgid "some JComments comments"
+msgstr "des commentaires JComments"
+
+#: modules_check.php:79
+msgid "JComments add-on"
+msgstr "du module JComments"
+
+#: modules_check.php:83
+msgid "some JomComment comments"
+msgstr "des commentaires JomComment"
+
+#: modules_check.php:83
+msgid "JomComment add-on"
+msgstr "du module JomComment"
+
+#: modules_check.php:87 modules_check.php:91
+msgid "a Kunena forum"
+msgstr "un forum Kunena"
+
+#: modules_check.php:87 modules_check.php:91
+msgid "Kunena add-on"
+msgstr "du module Kunena"
+
+#: modules_check.php:95
+msgid "some attachments"
+msgstr "des fichiers joints"
+
+#: modules_check.php:95
+msgid "Attachments add-on"
+msgstr "du module Attachments"
+
+#: modules_check.php:99
+msgid "some Joomlatags tags"
+msgstr "des mots-clefs Joomlatags"
+
+#: modules_check.php:99
+msgid "Joomlatags add-on"
+msgstr "du module Joomlatags"
+
+#: modules_check.php:103
+msgid "some JoomGallery galleries"
+msgstr "des galeries JoomGallery"
+
+#: modules_check.php:103
+msgid "JoomGallery add-on"
+msgstr "du module JoomGallery"
+
+#: modules_check.php:107
+msgid "some PhocaGallery galleries"
+msgstr "des images PhocaGallery"
+
+#: modules_check.php:107
+msgid "PhocaGallery add-on"
+msgstr "du module Phocagallery"
+
+#~ msgid "des fichiers joints"
+#~ msgstr "des fichiers joints"
 
 #~ msgid "Joomla version"
 #~ msgstr "Version de Joomla"
@@ -584,9 +735,6 @@ msgstr "Erreur :"
 
 #~ msgid "SEO: Keeps OpenSEF URLs"
 #~ msgstr "SEO : garde les URLs OpenSEF"
-
-#~ msgid "Jcomments comments"
-#~ msgstr "commentaires Jcomments"
 
 #~ msgid "Posts with a \"read more\" split:"
 #~ msgstr "Articles avec «Lire la suite» :"
