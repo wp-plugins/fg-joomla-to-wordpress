@@ -106,6 +106,10 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					'fg-joomla-to-wordpress-premium-phocagallery-module/fgj2wp-phocagallery.php',
 					sprintf($message_addon, __('some PhocaGallery galleries', 'fgj2wp'), $premium_url, $premium_url . 'phoca-gallery/', __('PhocaGallery add-on', 'fgj2wp'))
 				),
+				array('jevents_vevent', 0,
+					'fg-joomla-to-wordpress-premium-jevents-module/fgj2wp-jevents.php',
+					sprintf($message_addon, __('some JEvents events', 'fgj2wp'), $premium_url, $premium_url . 'jevents/', __('JEvents add-on', 'fgj2wp'))
+				),
 			);
 			foreach ( $modules as $module ) {
 				list($table, $count, $plugin, $message) = $module;

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-21 23:52+0100\n"
-"PO-Revision-Date: 2014-03-21 23:52+0100\n"
+"POT-Creation-Date: 2014-04-13 22:56+0100\n"
+"PO-Revision-Date: 2014-04-13 22:56+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -370,7 +370,11 @@ msgstr "images Phocagallery"
 msgid "Joom!Fish translations to WPML"
 msgstr "traductions Joom!Fish vers WPML"
 
-#: admin_build_page.tpl.php:191
+#: admin_build_page.tpl.php:187
+msgid "JEvents events"
+msgstr "évènements JEvents"
+
+#: admin_build_page.tpl.php:192
 msgid ""
 "Please note that some of these features need an add-on in addition to the "
 "Premium version."
@@ -378,7 +382,7 @@ msgstr ""
 "Veuillez noter que certaines de ces fonctionnalités nécessitent un module "
 "supplémentaire en plus de la version Premium."
 
-#: admin_build_page.tpl.php:195
+#: admin_build_page.tpl.php:196
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -391,7 +395,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:214
+#: admin_build_page.tpl.php:215
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -399,11 +403,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:217
+#: admin_build_page.tpl.php:218
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:220
+#: admin_build_page.tpl.php:221
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -723,6 +727,14 @@ msgstr "des images PhocaGallery"
 #: modules_check.php:107
 msgid "PhocaGallery add-on"
 msgstr "du module Phocagallery"
+
+#: modules_check.php:111
+msgid "some JEvents events"
+msgstr "des évènements JEvents"
+
+#: modules_check.php:111
+msgid "JEvents add-on"
+msgstr "du module JEvents"
 
 #~ msgid "des fichiers joints"
 #~ msgstr "des fichiers joints"

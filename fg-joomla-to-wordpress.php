@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.29.3
+ * Version:     1.29.4
  * Author:      Frédéric GILLES
  */
 
@@ -622,8 +622,10 @@ SQL;
 				do_action('fgj2wp_post_import_categories', $categories);
 				
 				// Update cache
-				wp_update_term_count_now($terms, 'category');
-				$this->clean_cache($terms);
+				if ( !empty($terms) ) {
+					wp_update_term_count_now($terms, 'category');
+					$this->clean_cache($terms);
+				}
 			}
 			return $cat_count;
 		}
@@ -632,7 +634,7 @@ SQL;
 		 * Clean the cache
 		 * 
 		 */
-		private function clean_cache($terms = array()) {
+		public function clean_cache($terms = array()) {
 			delete_option("category_children");
 			clean_term_cache($terms, 'category');
 		}
@@ -1205,15 +1207,17 @@ SQL;
 											$new_link = preg_replace('#('.$old_filename.'|'.$media['old_filename_without_spaces'].')#', $media['new_url'], $new_link, 1);
 											
 											if ( $link_type == 'img' ) { // images only
+												$width_assertion = isset($media['width'])? ' width="' . $media['width'] . '"' : '';
+												$height_assertion = isset($media['height'])? ' height="' . $media['height'] . '"' : '';
 												// Caption shortcode
 												if ( preg_match('/class=".*caption.*?".*?title="(.*?)"/', $link['old_link'], $matches_caption) ) {
 													$caption_value = str_replace('%', '%%', $matches_caption[1]);
 													$align_value = ($alignment != '')? $alignment : 'alignnone';
-													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '" width="' . $media['width'] . '"]%s' . $caption_value . '[/caption]';
+													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '"' . $width_assertion . ']%s' . $caption_value . '[/caption]';
 												}
 												
 												$align_class = ($alignment != '')? $alignment . ' ' : '';
-												$new_link = preg_replace('#<img(.*?)( class="(.*?)")?(.*) />#', "<img$1 class=\"$3 " . $align_class . 'size-full wp-image-' . $media['attachment_id'] . "\"$4" . ' width="' . $media['width'] . '" height="' . $media['height'] . '" />', $new_link);
+												$new_link = preg_replace('#<img(.*?)( class="(.*?)")?(.*) />#', "<img$1 class=\"$3 " . $align_class . 'size-full wp-image-' . $media['attachment_id'] . "\"$4" . $width_assertion . $height_assertion . ' />', $new_link);
 											}
 										}
 									}
@@ -1554,6 +1558,7 @@ SQL;
 			} catch ( PDOException $e ) {}
 			return false;
 		}
+		
 	}
 }
 ?>

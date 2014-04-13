@@ -184,6 +184,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<li><?php _e('JoomGallery images', 'fgj2wp'); ?></li>
 			<li><?php _e('Phocagallery images', 'fgj2wp'); ?></li>
 			<li><?php _e('Joom!Fish translations to WPML', 'fgj2wp'); ?></li>
+			<li><?php _e('JEvents events', 'fgj2wp'); ?></li>
 		</ul>
 		<div style="text-align: center;">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>
