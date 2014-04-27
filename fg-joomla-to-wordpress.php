@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.30.0
+ * Version:     1.31.0
  * Author:      Frédéric GILLES
  */
 
@@ -15,6 +15,7 @@ if ( !defined('WP_LOAD_IMPORTERS') )
 
 require_once 'compatibility.php';
 require_once 'modules_check.php';
+require_once 'weblinks.php';
 
 // Load Importer API
 require_once ABSPATH . 'wp-admin/includes/import.php';
@@ -47,6 +48,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$this->plugin_options = array();
 
 			$fgj2wp_modules = new fgj2wp_modules($this); // modules check
+			$fgj2wp_links = new fgj2wp_links($this); // web links
 			
 			add_action( 'init', array(&$this, 'init') ); // Hook on init
 			add_action( 'admin_enqueue_scripts', array(&$this, 'enqueue_scripts') );
@@ -201,7 +203,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts and medias (images, attachments) from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1 and 3.2.', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts, medias (images, attachments) and web links from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1 and 3.2.', 'fgj2wp');
 			$data['description'] .= "<br />\n" . __('For any issue, please read the <a href="http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/" target="_blank">FAQ</a> first.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
@@ -829,27 +831,20 @@ SQL;
 
 			try {
 				$prefix = $this->plugin_options['prefix'];
-				switch ( $this->plugin_options['version'] ) {
-					case '1.5':
-						$sql = "
-							SELECT c.title, CONCAT('c', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS parent
-							FROM ${prefix}categories c
-							INNER JOIN ${prefix}sections AS s ON s.id = c.section
-						";
-						break;
-					
-					case '1.6':
-					case '2.5':
-					case '3.1':
-					default:
-						$sql = "
-							SELECT c.title, CONCAT('c', c.id, '-', c.alias) AS name, c.description, CONCAT('c', cp.id, '-', cp.alias) AS parent
-							FROM ${prefix}categories c
-							INNER JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
-							WHERE c.extension = 'com_content'
-							ORDER BY c.lft
-						";
-						break;
+				if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+					$sql = "
+						SELECT c.title, CONCAT('c', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS name, c.description, CONCAT('s', s.id, '-', IF(s.alias <> '', s.alias, s.name)) AS parent
+						FROM ${prefix}categories c
+						INNER JOIN ${prefix}sections AS s ON s.id = c.section
+					";
+				} else {
+					$sql = "
+						SELECT c.title, CONCAT('c', c.id, '-', c.alias) AS name, c.description, CONCAT('c', cp.id, '-', cp.alias) AS parent
+						FROM ${prefix}categories c
+						INNER JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
+						WHERE c.extension = 'com_content'
+						ORDER BY c.lft
+					";
 				}
 				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
 				
@@ -865,7 +860,51 @@ SQL;
 			} catch ( PDOException $e ) {
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
-			return $categories;		
+			return $categories;
+		}
+		
+		/**
+		 * Get Joomla component categories
+		 *
+		 * @param string $component Component name
+		 * @param string $cat_prefix Category prefix to set
+		 * @return array of Categories
+		 */
+		public function get_component_categories($component, $cat_prefix) {
+			global $joomla_db;
+			$categories = array();
+			
+			try {
+				$prefix = $this->plugin_options['prefix'];
+				if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+					$sql = "
+						SELECT c.title, CONCAT('$cat_prefix', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS name, c.description, CONCAT('$cat_prefix', cp.id, '-', IF(cp.alias <> '', cp.alias, cp.name)) AS parent
+						FROM ${prefix}categories c
+						LEFT JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
+						WHERE c.section = '$component'
+					";
+				} else {
+					$sql = "
+						SELECT c.title, CONCAT('$cat_prefix', c.id, '-', c.alias) AS name, c.description, CONCAT('$cat_prefix', cp.id, '-', cp.alias) AS parent
+						FROM ${prefix}categories c
+						LEFT JOIN ${prefix}categories AS cp ON cp.id = c.parent_id
+						WHERE c.extension = '$component'
+						ORDER BY c.lft
+					";
+				}
+				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
+				
+				$query = $joomla_db->query($sql);
+				if ( is_object($query) ) {
+					foreach ( $query as $row ) {
+						$categories[] = $row;
+					}
+				}
+				
+			} catch ( PDOException $e ) {
+				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
+			}
+			return $categories;
 		}
 		
 		/**
