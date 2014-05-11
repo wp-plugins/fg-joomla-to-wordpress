@@ -1,10 +1,10 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
-Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery, jevents, contact directory
+Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery, jevents, contact directory, docman
 Requires at least: 3.0
-Tested up to: WP 3.9
-Stable tag: 1.31.0
+Tested up to: WP 3.9.1
+Stable tag: 1.31.2
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -74,6 +74,7 @@ The Premium version allows the use of add-ons that enhance functionality:
 * Joom!Fish translations to WPML
 * JEvents events
 * Contact Directory
+* Docman
 
 These modules can be purchased on: http://www.fredericgilles.net/fg-joomla-to-wordpress/
 
@@ -164,6 +165,13 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.31.2 =
+* New add-on: Docman
+* Tested with WordPress 3.9.1
+
+= 1.31.1 =
+* New: Add a parameter to force the external media import
 
 = 1.31.0 =
 * New: Import Web links
@@ -445,6 +453,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.31.2 =
+Tested with WordPress 3.9.1
 
 = 1.31.0 =
 New: Import Web links

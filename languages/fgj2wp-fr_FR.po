@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-27 22:46+0100\n"
-"PO-Revision-Date: 2014-04-27 22:46+0100\n"
+"POT-Creation-Date: 2014-05-10 08:05+0100\n"
+"PO-Revision-Date: 2014-05-11 17:58+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -378,7 +378,11 @@ msgstr "évènements JEvents"
 msgid "Contact Directory contacts"
 msgstr "contacts de Contact Directory"
 
-#: admin_build_page.tpl.php:193
+#: admin_build_page.tpl.php:189
+msgid "Docman documents"
+msgstr "documents Docman"
+
+#: admin_build_page.tpl.php:194
 msgid ""
 "Please note that some of these features need an add-on in addition to the "
 "Premium version."
@@ -386,7 +390,7 @@ msgstr ""
 "Veuillez noter que certaines de ces fonctionnalités nécessitent un module "
 "supplémentaire en plus de la version Premium."
 
-#: admin_build_page.tpl.php:197
+#: admin_build_page.tpl.php:198
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -399,7 +403,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:216
+#: admin_build_page.tpl.php:217
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -407,11 +411,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:219
+#: admin_build_page.tpl.php:220
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:222
+#: admin_build_page.tpl.php:223
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -770,6 +774,14 @@ msgstr "des contacts de Contact Directory"
 #: modules_check.php:115
 msgid "Contact Directory add-on"
 msgstr "module Contact Directory"
+
+#: modules_check.php:119
+msgid "some Docman documents"
+msgstr "des documents Docman"
+
+#: modules_check.php:119
+msgid "Docman add-on"
+msgstr "du module Docman"
 
 #~ msgid "des fichiers joints"
 #~ msgstr "des fichiers joints"

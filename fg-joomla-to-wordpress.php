@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.31.0
+ * Version:     1.31.2
  * Author:      Frédéric GILLES
  */
 
@@ -1038,9 +1038,10 @@ SQL;
 		 * 		array media: Medias imported
 		 * 		int media_count:   Medias count
 		 */
-		public function import_media($content, $post_date) {
+		public function import_media($content, $post_date, $options=array()) {
 			$media = array();
 			$media_count = 0;
+			$import_external = ($this->plugin_options['import_external'] == 1) || (isset($options['force_external']) && $options['force_external'] );
 			
 			if ( preg_match_all('#<(img|a)(.*?)(src|href)="(.*?)"(.*?)>#', $content, $matches, PREG_SET_ORDER) > 0 ) {
 				if ( is_array($matches) ) {
@@ -1056,8 +1057,9 @@ SQL;
 						
 						// Upload the file from the Joomla web site to WordPress upload dir
 						if ( preg_match('/^http/', $filename) ) {
-							if ( preg_match('#^' . $this->plugin_options['url'] . '#', $filename) // Local file
-								|| ($this->plugin_options['import_external'] == 1) ) { // External file 
+							if ( $import_external || // External file 
+								preg_match('#^' . $this->plugin_options['url'] . '#', $filename) // Local file
+							) {
 								$old_filename = $filename;
 							} else {
 								continue;
