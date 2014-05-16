@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.31.2
+ * Version:     1.31.3
  * Author:      Frédéric GILLES
  */
 
@@ -1572,7 +1572,7 @@ SQL;
 			try {
 				$prefix = $this->plugin_options['prefix'];
 				
-				$sql = "SHOW COLUMNS FROM ${prefix}${table} WHERE Field = '$column'";
+				$sql = "SHOW COLUMNS FROM ${prefix}${table} LIKE '$column'";
 				$query = $joomla_db->query($sql);
 				$result = $query->fetch();
 				return !empty($result);
