@@ -460,6 +460,9 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Upgrade Notice ==
 
+= 1.31.4 =
+Fixed: Warning: Creating default object from empty value
+
 = 1.31.3 =
 Fixed: "Fatal error: Call to a member function fetch() on a non-object" for versions of MySQL < 5.0.3
 
