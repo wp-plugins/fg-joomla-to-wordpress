@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.31.3
+ * Version:     1.31.4
  * Author:      Frédéric GILLES
  */
 
@@ -1317,14 +1317,16 @@ SQL;
 				foreach ( $post_media as $old_filename => $media ) {
 					$post_media_name = $media['name'];
 					$attachment = $this->get_attachment_from_name($post_media_name);
-					$attachment->post_parent = $post_id; // Attach the post to the media
-					$attachment->post_date = $post_data['post_date'] ;// Define the media's date
-					wp_update_post($attachment);
+					if ( !empty($attachment) ) {
+						$attachment->post_parent = $post_id; // Attach the post to the media
+						$attachment->post_date = $post_data['post_date'] ;// Define the media's date
+						wp_update_post($attachment);
 
-					// Set the featured image. If not defined, it is the first image of the content.
-					if ( $set_featured_image && !$thumbnail_is_set ) {
-						set_post_thumbnail($post_id, $attachment->ID);
-						$thumbnail_is_set = true;
+						// Set the featured image. If not defined, it is the first image of the content.
+						if ( $set_featured_image && !$thumbnail_is_set ) {
+							set_post_thumbnail($post_id, $attachment->ID);
+							$thumbnail_is_set = true;
+						}
 					}
 				}
 			}
