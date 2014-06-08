@@ -1,17 +1,16 @@
 <?php
 /**
  * Plugin Name: FG Joomla to WordPress
- * Plugin Uri:  http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
+ * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.31.4
+ * Version:     1.32.0
  * Author:      Frédéric GILLES
  */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-if ( !defined('WP_LOAD_IMPORTERS') )
-	return;
+if ( !defined('WP_LOAD_IMPORTERS') ) return;
 
 require_once 'compatibility.php';
 require_once 'modules_check.php';
@@ -22,15 +21,16 @@ require_once ABSPATH . 'wp-admin/includes/import.php';
 
 if ( !class_exists( 'WP_Importer' ) ) {
 	$class_wp_importer = ABSPATH . 'wp-admin/includes/class-wp-importer.php';
-	if ( file_exists( $class_wp_importer ) )
+	if ( file_exists( $class_wp_importer ) ) {
 		require_once $class_wp_importer;
+	}
 }
 
 if ( !function_exists( 'fgj2wp_load' ) ) {
 	add_action( 'plugins_loaded', 'fgj2wp_load', 20 );
 	
 	function fgj2wp_load() {
-		$fgj2wp = new fgj2wp();
+		new fgj2wp();
 	}
 }
 
@@ -47,12 +47,13 @@ if ( !class_exists('fgj2wp', false) ) {
 		public function __construct() {
 			$this->plugin_options = array();
 
-			$fgj2wp_modules = new fgj2wp_modules($this); // modules check
-			$fgj2wp_links = new fgj2wp_links($this); // web links
+			new fgj2wp_modules($this); // modules check
+			new fgj2wp_links($this); // web links
 			
 			add_action( 'init', array(&$this, 'init') ); // Hook on init
 			add_action( 'admin_enqueue_scripts', array(&$this, 'enqueue_scripts') );
-			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'test_joomla_1_0') );
+			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'test_joomla_1_0'), 8 );
+			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'get_joomla_info'), 9 );
 			add_action( 'fgj2wp_pre_import_check', array(&$this, 'test_joomla_1_0') );
 		}
 
@@ -203,7 +204,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts, medias (images, attachments) and web links from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1 and 3.2.', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts, medias (images, attachments) and web links from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1, 3.2 and 3.3.', 'fgj2wp');
 			$data['description'] .= "<br />\n" . __('For any issue, please read the <a href="http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/" target="_blank">FAQ</a> first.', 'fgj2wp');
 			$data['posts_count'] = $posts_count->publish + $posts_count->draft + $posts_count->future + $posts_count->pending;
 			$data['pages_count'] = $pages_count->publish + $pages_count->draft + $pages_count->future + $pages_count->pending;
@@ -252,9 +253,33 @@ if ( !class_exists('fgj2wp', false) ) {
 		}
 		
 		/**
+		 * Execute a SQL query on the Joomla database
+		 * 
+		 * @param string $sql SQL query
+		 * @return array Query result
+		 */
+		public function joomla_query($sql) {
+			global $joomla_db;
+			$result = array();
+			
+			try {
+				$query = $joomla_db->query($sql);
+				if ( is_object($query) ) {
+					foreach ( $query as $row ) {
+						$result = $row;
+					}
+				}
+				
+			} catch ( PDOException $e ) {
+				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
+			}
+			return $result;
+		}
+		
+		/**
 		 * Delete all posts, medias and categories from the database
 		 *
-		 * @param string $action:	newposts = removes only new imported posts
+		 * @param string $action	newposts = removes only new imported posts
 		 * 							all = removes all
 		 * @return boolean
 		 */
@@ -447,9 +472,141 @@ SQL;
 		public function test_joomla_1_0() {
 			if ( version_compare($this->plugin_options['version'], '1.5', '<') ) {
 				$this->display_admin_error(__('Your version of Joomla (probably 1.0) is not supported by this plugin. Please consider upgrading to the <a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank">Premium version</a>.', 'fgj2wp'));
+				// Deactivate the Joomla info feature
+				remove_action('fgj2wp_post_test_database_connection', array($this, 'get_joomla_info'), 9);
 				return false;
 			}
 			return true;
+		}
+		
+		/**
+		 * Get some Joomla information
+		 *
+		 */
+		public function get_joomla_info() {
+			$message = __('Joomla data found:', 'fgj2wp') . '<br />';
+			
+			// Sections
+			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+				$sections_count = $this->get_sections_count();
+				$message .= sprintf(_n('%d section', '%d sections', $sections_count, 'fgj2wp'), $sections_count) . '<br />';
+			}
+			
+			// Categories
+			$cat_count = $this->get_categories_count();
+			$message .= sprintf(_n('%d category', '%d categories', $cat_count, 'fgj2wp'), $cat_count) . '<br />';
+			
+			// Articles
+			$posts_count = $this->get_posts_count();
+			$message .= sprintf(_n('%d article', '%d articles', $posts_count, 'fgj2wp'), $posts_count) . '<br />';
+			
+			// Users
+			$users_count = $this->get_users_count();
+			$message .= sprintf(_n('%d user', '%d users', $users_count, 'fgj2wp'), $users_count) . '<br />';
+			
+			// Web links
+			$weblinks_count = $this->get_weblinks_count();
+			$message .= sprintf(_n('%d web link', '%d web links', $weblinks_count, 'fgj2wp'), $weblinks_count) . '<br />';
+			
+			$message = apply_filters('fgj2wp_pre_display_joomla_info', $message);
+			
+			$this->display_admin_notice($message);
+		}
+		
+		/**
+		 * Get the number of Joomla categories
+		 * 
+		 * $return int Number of categories
+		 */
+		private function get_categories_count() {
+			$prefix = $this->plugin_options['prefix'];
+			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+				$sql = "
+					SELECT COUNT(*) AS nb
+					FROM ${prefix}categories c
+					INNER JOIN ${prefix}sections AS s ON s.id = c.section
+				";
+			} else { // Joomla > 1.5
+				$sql = "
+					SELECT COUNT(*) AS nb
+					FROM ${prefix}categories c
+					WHERE c.extension = 'com_content'
+				";
+			}
+			$result = $this->joomla_query($sql);
+			$cat_count = is_array($result) && array_key_exists('nb', $result)? $result['nb'] : 0;
+			return $cat_count;
+		}
+		
+		/**
+		 * Get the number of Joomla sections
+		 * 
+		 * $return int Number of sections
+		 */
+		private function get_sections_count() {
+			$prefix = $this->plugin_options['prefix'];
+			$sql = "
+				SELECT COUNT(*) AS nb
+				FROM ${prefix}sections s
+			";
+			$result = $this->joomla_query($sql);
+			$sections_count = is_array($result) && array_key_exists('nb', $result)? $result['nb'] : 0;
+			return $sections_count;
+		}
+		
+		/**
+		 * Get the number of Joomla articles
+		 * 
+		 * $return int Number of articles
+		 */
+		private function get_posts_count() {
+			$prefix = $this->plugin_options['prefix'];
+			$sql = "
+				SELECT COUNT(*) AS nb
+				FROM ${prefix}content c
+				WHERE c.state >= -1 -- don't get the trash
+			";
+			$result = $this->joomla_query($sql);
+			$posts_count = is_array($result) && array_key_exists('nb', $result)? $result['nb'] : 0;
+			return $posts_count;
+		}
+		
+		/**
+		 * Get the number of Joomla users
+		 * 
+		 * $return int Number of users
+		 */
+		private function get_users_count() {
+			$prefix = $this->plugin_options['prefix'];
+			$sql = "
+				SELECT COUNT(*) AS nb
+				FROM ${prefix}users u
+			";
+			$result = $this->joomla_query($sql);
+			$users_count = is_array($result) && array_key_exists('nb', $result)? $result['nb'] : 0;
+			return $users_count;
+		}
+		
+		/**
+		 * Get the number of Joomla web links
+		 * 
+		 * $return int Number of web links
+		 */
+		private function get_weblinks_count() {
+			$prefix = $this->plugin_options['prefix'];
+			if ( version_compare($this->plugin_options['version'], '1.5', '<=') ) {
+				$published_field = 'published';
+			} else {
+				$published_field = 'state';
+			}
+			$sql = "
+				SELECT COUNT(*) AS nb
+				FROM ${prefix}weblinks l
+				WHERE l.$published_field = 1
+			";
+			$result = $this->joomla_query($sql);
+			$weblinks_count = is_array($result) && array_key_exists('nb', $result)? $result['nb'] : 0;
+			return $weblinks_count;
 		}
 		
 		/**
@@ -471,27 +628,27 @@ SQL;
 		 */
 		private function validate_form_info() {
 			// Add http:// before the URL if it is missing
-			$url = $_POST['url'];
+			$url = filter_input(INPUT_POST, 'url', FILTER_SANITIZE_URL);
 			if ( !empty($url) && (preg_match('#^https?://#', $url) == 0) ) {
 				$url = 'http://' . $url;
 			}
 			return array(
 				'url'					=> $url,
-				'hostname'				=> $_POST['hostname'],
-				'port'					=> intval($_POST['port']),
-				'database'				=> $_POST['database'],
-				'username'				=> $_POST['username'],
-				'password'				=> $_POST['password'],
-				'prefix'				=> $_POST['prefix'],
-				'introtext'				=> $_POST['introtext'],
-				'archived_posts'		=> $_POST['archived_posts'],
-				'skip_media'			=> !empty($_POST['skip_media']),
-				'first_image'			=> $_POST['first_image'],
-				'import_external'		=> !empty($_POST['import_external']),
-				'import_duplicates'		=> !empty($_POST['import_duplicates']),
-				'force_media_import'	=> !empty($_POST['force_media_import']),
-				'meta_keywords_in_tags'	=> !empty($_POST['meta_keywords_in_tags']),
-				'import_as_pages'		=> !empty($_POST['import_as_pages']),
+				'hostname'				=> filter_input(INPUT_POST, 'hostname', FILTER_SANITIZE_STRING),
+				'port'					=> filter_input(INPUT_POST, 'port', FILTER_SANITIZE_NUMBER_INT),
+				'database'				=> filter_input(INPUT_POST, 'database', FILTER_SANITIZE_STRING),
+				'username'				=> filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING),
+				'password'				=> filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING),
+				'prefix'				=> filter_input(INPUT_POST, 'prefix', FILTER_SANITIZE_STRING),
+				'introtext'				=> filter_input(INPUT_POST, 'introtext', FILTER_SANITIZE_STRING),
+				'archived_posts'		=> filter_input(INPUT_POST, 'archived_posts', FILTER_SANITIZE_STRING),
+				'skip_media'			=> filter_input(INPUT_POST, 'skip_media', FILTER_VALIDATE_BOOLEAN),
+				'first_image'			=> filter_input(INPUT_POST, 'first_image', FILTER_SANITIZE_STRING),
+				'import_external'		=> filter_input(INPUT_POST, 'import_external', FILTER_VALIDATE_BOOLEAN),
+				'import_duplicates'		=> filter_input(INPUT_POST, 'import_duplicates', FILTER_VALIDATE_BOOLEAN),
+				'force_media_import'	=> filter_input(INPUT_POST, 'force_media_import', FILTER_VALIDATE_BOOLEAN),
+				'meta_keywords_in_tags'	=> filter_input(INPUT_POST, 'meta_keywords_in_tags', FILTER_VALIDATE_BOOLEAN),
+				'import_as_pages'		=> filter_input(INPUT_POST, 'import_as_pages', FILTER_VALIDATE_BOOLEAN),
 			);
 		}
 		
@@ -591,7 +748,7 @@ SQL;
 					// Hook before inserting the category
 					$new_category = apply_filters('fgj2wp_pre_insert_category', $new_category, $category);
 					
-					if ( $cat_id = wp_insert_category($new_category) ) {
+					if ( ($cat_id = wp_insert_category($new_category)) !== false ) {
 						$cat_count++;
 						$terms[] = $cat_id;
 					}
@@ -817,7 +974,7 @@ SQL;
 			} catch ( PDOException $e ) {
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
-			return $sections;		
+			return $sections;
 		}
 		
 		/**
@@ -955,7 +1112,7 @@ SQL;
 			} catch ( PDOException $e ) {
 				$this->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
 			}
-			return $posts;		
+			return $posts;
 		}
 		
 		/**
@@ -1041,6 +1198,9 @@ SQL;
 		public function import_media($content, $post_date, $options=array()) {
 			$media = array();
 			$media_count = 0;
+			$matches = array();
+			$alt_matches = array();
+			
 			$import_external = ($this->plugin_options['import_external'] == 1) || (isset($options['force_external']) && $options['force_external'] );
 			
 			if ( preg_match_all('#<(img|a)(.*?)(src|href)="(.*?)"(.*?)>#', $content, $matches, PREG_SET_ORDER) > 0 ) {
@@ -1190,6 +1350,9 @@ SQL;
 		 * @return string Processed post content
 		 */
 		private function process_content_media_links($content, $post_media) {
+			$matches = array();
+			$matches_caption = array();
+			
 			if ( is_array($post_media) ) {
 				
 				// Get the attachments attributes
@@ -1342,6 +1505,7 @@ SQL;
 			$links_count = 0;
 			$step = 1000; // to limit the results
 			$offset = 0;
+			$matches = array();
 			
 			// Hook for doing other actions before modifying the links
 			do_action('fgj2wp_pre_modify_links');
@@ -1420,6 +1584,8 @@ SQL;
 		 * @return array('meta_key' => $meta_key, 'meta_value' => $meta_value)
 		 */
 		private function get_joomla_id_in_link($link) {
+			$matches = array();
+			
 			$meta_key_value = array(
 				'meta_key'		=> '',
 				'meta_value'	=> 0);
@@ -1522,13 +1688,15 @@ SQL;
 		 * Remove the prefixes categories
 		 */
 		private function remove_category_prefix() {
+			$matches = array();
+			
 			// Hook for doing other actions before removing the prefixes
 			do_action('fgj2wp_pre_remove_category_prefix');
 			
 			$categories = get_terms( 'category', array('hide_empty' => 0) );
 			if ( !empty($categories) ) {
 				foreach ( $categories as $cat ) {
-					if ( preg_match('/^(s|c(e|k|z)?)\d+-(.*)/', $cat->slug, $matches) ) {
+					if ( preg_match('/^(s|c(d|e|k|z)?)\d+-(.*)/', $cat->slug, $matches) ) {
 						wp_update_term($cat->term_id, 'category', array(
 							'slug' => $matches[3]
 						));
