@@ -44,6 +44,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 			<table class="form-table">
 				<tr>
+					<th scope="row"><?php _e('Automatic removal:', 'fgj2wp'); ?></th>
+					<td><input id="automatic_empty" name="automatic_empty" type="checkbox" value="1" <?php checked($data['automatic_empty'], 1); ?> /> <label for="automatic_empty" ><?php _e('Automatically remove all the WordPress content before each import', 'fgj2wp'); ?></label></td>
+				</tr>
+				<tr>
 					<th scope="row" colspan="2"><h3><?php _e('Joomla web site parameters', 'fgj2wp'); ?></h3></th>
 				</tr>
 				<tr>

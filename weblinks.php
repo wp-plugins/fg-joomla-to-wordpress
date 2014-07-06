@@ -63,6 +63,10 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 *
 		 */
 		public function import_links() {
+			if ( isset($this->plugin->premium_options['skip_weblinks']) && $this->plugin->premium_options['skip_weblinks'] ) {
+				return;
+			}
+			
 			// Links categories
 			$cat_count = $this->import_categories();
 			$this->plugin->display_admin_notice(sprintf(_n('%d links category imported', '%d links categories imported', $cat_count, 'fgj2wp'), $cat_count));
@@ -232,6 +236,10 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 * 
 		 */
 		public function display_links_count() {
+			if ( isset($this->plugin->premium_options['skip_weblinks']) && $this->plugin->premium_options['skip_weblinks'] ) {
+				return;
+			}
+			
 			$this->plugin->display_admin_notice(sprintf(_n('%d web link imported', '%d web links imported', $this->links_count, 'fgj2wp'), $this->links_count));
 		}
 		

@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.32.0
+ * Version:     1.34.0
  * Author:      Frédéric GILLES
  */
 
@@ -99,6 +99,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			
 			// Default values
 			$this->plugin_options = array(
+				'automatic_empty'		=> 0,
 				'url'					=> null,
 				'hostname'				=> 'localhost',
 				'port'					=> 3306,
@@ -162,6 +163,16 @@ if ( !class_exists('fgj2wp', false) ) {
 				
 				// Save database options
 				$this->save_plugin_options();
+				
+				// Automatic empty
+				if ( $this->plugin_options['automatic_empty'] ) {
+					if ($this->empty_database('all')) {
+						$this->display_admin_notice(__('WordPress content removed', 'fgj2wp'));
+					} else {
+						$this->display_admin_error(__('Couldn\'t remove content', 'fgj2wp'));
+					}
+					wp_cache_flush();
+				}
 				
 				// Import content
 				if ( check_admin_referer( 'parameters_form', 'fgj2wp_nonce' ) ) { // Security check
@@ -288,6 +299,10 @@ if ( !class_exists('fgj2wp', false) ) {
 			$result = true;
 			
 			$wpdb->show_errors();
+			
+			// Hook for doing other actions before emptying the database
+			do_action('fgj2wp_pre_empty_database', $action);
+			
 			$sql_queries = array();
 			
 			if ( $action == 'all' ) {
@@ -633,6 +648,7 @@ SQL;
 				$url = 'http://' . $url;
 			}
 			return array(
+				'automatic_empty'		=> filter_input(INPUT_POST, 'automatic_empty', FILTER_VALIDATE_BOOLEAN),
 				'url'					=> $url,
 				'hostname'				=> filter_input(INPUT_POST, 'hostname', FILTER_SANITIZE_STRING),
 				'port'					=> filter_input(INPUT_POST, 'port', FILTER_SANITIZE_NUMBER_INT),
@@ -673,25 +689,29 @@ SQL;
 				do_action('fgj2wp_pre_import');
 				
 				// Categories
-				$cat_count = $this->import_categories();
-				$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
-				
-				// Posts and medias
-				$result = $this->import_posts();
-				switch ($this->post_type) {
-					case 'page':
-						$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
-						break;
-					case 'post':
-					default:
-						$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+				if ( !isset($this->premium_options['skip_categories']) || !$this->premium_options['skip_categories'] ) {
+					$cat_count = $this->import_categories();
+					$this->display_admin_notice(sprintf(_n('%d category imported', '%d categories imported', $cat_count, 'fgj2wp'), $cat_count));
 				}
-				$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
 				
-				// Tags
-				if ($this->post_type == 'post') {
-					if ( $this->plugin_options['meta_keywords_in_tags'] ) {
-						$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+				if ( !isset($this->premium_options['skip_articles']) || !$this->premium_options['skip_articles'] ) {
+					// Posts and medias
+					$result = $this->import_posts();
+					switch ($this->post_type) {
+						case 'page':
+							$this->display_admin_notice(sprintf(_n('%d page imported', '%d pages imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+							break;
+						case 'post':
+						default:
+							$this->display_admin_notice(sprintf(_n('%d post imported', '%d posts imported', $result['posts_count'], 'fgj2wp'), $result['posts_count']));
+					}
+					$this->display_admin_notice(sprintf(_n('%d media imported', '%d medias imported', $result['media_count'], 'fgj2wp'), $result['media_count']));
+
+					// Tags
+					if ($this->post_type == 'post') {
+						if ( $this->plugin_options['meta_keywords_in_tags'] ) {
+							$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $result['tags_count'], 'fgj2wp'), $result['tags_count']));
+						}
 					}
 				}
 				
@@ -1614,7 +1634,7 @@ SQL;
 		 * @param string $path destination file
 		 * @return boolean
 		 */
-		private function remote_copy($url, $path) {
+		public function remote_copy($url, $path) {
 			
 			/*
 			 * cwg enhancement: if destination already exists, just return true
