@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.34.1
+ * Version:     1.34.2
  * Author:      Frédéric GILLES
  */
 
@@ -1431,8 +1431,15 @@ SQL;
 											$new_link = preg_replace('#('.$old_filename.'|'.$media['old_filename_without_spaces'].')#', $media['new_url'], $new_link, 1);
 											
 											if ( $link_type == 'img' ) { // images only
-												$width_assertion = isset($media['width'])? ' width="' . $media['width'] . '"' : '';
-												$height_assertion = isset($media['height'])? ' height="' . $media['height'] . '"' : '';
+												// Define the width and the height of the image if it isn't defined yet
+												if ((strpos($new_link, 'width=') === false) && (strpos($new_link, 'height=') === false)) {
+													$width_assertion = isset($media['width'])? ' width="' . $media['width'] . '"' : '';
+													$height_assertion = isset($media['height'])? ' height="' . $media['height'] . '"' : '';
+												} else {
+													$width_assertion = '';
+													$height_assertion = '';
+												}
+												
 												// Caption shortcode
 												if ( preg_match('/class=".*caption.*?".*?title="(.*?)"/', $link['old_link'], $matches_caption) ) {
 													$caption_value = str_replace('%', '%%', $matches_caption[1]);
