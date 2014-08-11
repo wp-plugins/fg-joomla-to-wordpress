@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.34.2
+ * Version:     1.35.0
  * Author:      Frédéric GILLES
  */
 
@@ -936,7 +936,7 @@ SQL;
 						
 						$new_post_id = wp_insert_post($new_post);
 						
-						if ( $new_post_id ) { 
+						if ( $new_post_id ) {
 							// Add links between the post and its medias
 							$this->add_post_media($new_post_id, $new_post, $post_media, $this->plugin_options['first_image'] != 'as_is');
 							
@@ -1752,6 +1752,47 @@ SQL;
 			} else {
 				return '3.1';
 			}
+		}
+		
+		/**
+		 * Get the Joomla installation language
+		 *
+		 * @return string Language code (eg: fr-FR)
+		 */
+		public function get_joomla_language() {
+			global $joomla_db;
+			$lang = '';
+			
+			try {
+				$prefix = $this->plugin_options['prefix'];
+				
+				if ( $this->table_exists('extensions') ) {
+					$sql = "
+						SELECT `params`
+						FROM ${prefix}extensions
+						WHERE `element` = 'com_languages'
+					";
+				} elseif ( $this->table_exists('components') ) {
+					$sql = "
+						SELECT `params`
+						FROM ${prefix}components
+						WHERE `option` = 'com_languages'
+					";
+				} else {
+					return '';
+				}
+				$query = $joomla_db->query($sql);
+				$result = $query->fetch();
+				if ( (substr($result['params'], 0, 1) != '{') && (substr($result['params'], -1, 1) != '}') ) {
+					$params = parse_ini_string($result['params'], false, INI_SCANNER_RAW);
+				} else {
+					$params = json_decode($result['params'], true);
+				}
+				if ( array_key_exists('site', $params)) {
+					$lang = $params['site'];
+				}
+			} catch ( PDOException $e ) {}
+			return $lang;
 		}
 		
 		/**

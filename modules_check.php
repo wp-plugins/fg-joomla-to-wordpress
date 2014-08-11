@@ -118,6 +118,14 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					'fg-joomla-to-wordpress-premium-docman-module/fgj2wp-docman.php',
 					sprintf($message_addon, __('some Docman documents', 'fgj2wp'), $premium_url, $premium_url . 'docman/', __('Docman add-on', 'fgj2wp'))
 				),
+				array('virtuemart_products', 0,
+					'fg-joomla-to-wordpress-premium-virtuemart-module/fgj2wp-virtuemart.php',
+					sprintf($message_addon, __('a Virtuemart e-commerce solution', 'fgj2wp'), $premium_url, $premium_url . 'virtuemart/', __('Virtuemart add-on', 'fgj2wp'))
+				),
+				array('vm_product', 0,
+					'fg-joomla-to-wordpress-premium-virtuemart-module/fgj2wp-virtuemart.php',
+					sprintf($message_addon, __('a Virtuemart e-commerce solution', 'fgj2wp'), $premium_url, $premium_url . 'virtuemart/', __('Virtuemart add-on', 'fgj2wp'))
+				),
 			);
 			foreach ( $modules as $module ) {
 				list($table, $count, $plugin, $message) = $module;
