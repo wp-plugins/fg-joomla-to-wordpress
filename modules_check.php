@@ -126,6 +126,10 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					'fg-joomla-to-wordpress-premium-virtuemart-module/fgj2wp-virtuemart.php',
 					sprintf($message_addon, __('a Virtuemart e-commerce solution', 'fgj2wp'), $premium_url, $premium_url . 'virtuemart/', __('Virtuemart add-on', 'fgj2wp'))
 				),
+				array('jreviews_content', 0,
+					'fg-joomla-to-wordpress-premium-jreviews-module/fgj2wp-jreviews.php',
+					sprintf($message_addon, __('some JReviews data', 'fgj2wp'), $premium_url, $premium_url . 'jreviews/', __('JReviews add-on', 'fgj2wp'))
+				),
 			);
 			foreach ( $modules as $module ) {
 				list($table, $count, $plugin, $message) = $module;

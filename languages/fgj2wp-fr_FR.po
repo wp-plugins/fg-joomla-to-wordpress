@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-10 07:13+0100\n"
-"PO-Revision-Date: 2014-08-10 07:14+0100\n"
+"POT-Creation-Date: 2014-08-17 21:08+0100\n"
+"PO-Revision-Date: 2014-08-17 21:08+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -809,6 +809,14 @@ msgstr "une boutique en ligne Virtuemart"
 #: modules_check.php:123 modules_check.php:127
 msgid "Virtuemart add-on"
 msgstr "du module Virtuemart"
+
+#: modules_check.php:131
+msgid "some JReviews data"
+msgstr "des données JReviews"
+
+#: modules_check.php:131
+msgid "JReviews add-on"
+msgstr "du module JReviews"
 
 #: weblinks.php:72
 #, php-format

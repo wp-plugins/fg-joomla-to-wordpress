@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.35.0
+ * Version:     1.36.0
  * Author:      Frédéric GILLES
  */
 
@@ -274,7 +274,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$result = array();
 			
 			try {
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$result = $row;
@@ -982,7 +982,7 @@ SQL;
 				";
 				$sql = apply_filters('fgj2wp_get_sections_sql', $sql, $prefix);
 				
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$sections[] = $row;
@@ -1025,7 +1025,7 @@ SQL;
 				}
 				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
 				
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$categories[] = $row;
@@ -1071,7 +1071,7 @@ SQL;
 				}
 				$sql = apply_filters('fgj2wp_get_categories_sql', $sql, $prefix);
 				
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$categories[] = $row;
@@ -1123,7 +1123,7 @@ SQL;
 				";
 				$sql = apply_filters('fgj2wp_get_posts_sql', $sql, $prefix, $cat_field, $extra_cols, $extra_joins, $last_joomla_id, $limit);
 				
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				if ( is_object($query) ) {
 					foreach ( $query as $row ) {
 						$posts[] = $row;
@@ -1710,7 +1710,7 @@ SQL;
 		}
 		
 		/**
-		 * Remove the prefixes categories
+		 * Remove the prefixes from the categories
 		 */
 		private function remove_category_prefix() {
 			$matches = array();
@@ -1781,7 +1781,7 @@ SQL;
 				} else {
 					return '';
 				}
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				$result = $query->fetch();
 				if ( (substr($result['params'], 0, 1) != '{') && (substr($result['params'], -1, 1) != '}') ) {
 					$params = parse_ini_string($result['params'], false, INI_SCANNER_RAW);
@@ -1793,6 +1793,64 @@ SQL;
 				}
 			} catch ( PDOException $e ) {}
 			return $lang;
+		}
+		
+		/**
+		 * Returns the imported posts mapped with their Joomla ID
+		 *
+		 * @return array of post IDs [joomla_article_id => wordpress_post_id]
+		 */
+		public function get_imported_joomla_posts() {
+			global $wpdb;
+			$posts = array();
+			
+			$sql = "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_fgj2wp_old_id'";
+			$results = $wpdb->get_results($sql);
+			foreach ( $results as $result ) {
+				$posts[$result->meta_value] = $result->post_id;
+			}
+			ksort($posts);
+			return $posts;
+		}
+		
+		/**
+		 * Returns the imported categories mapped with their Joomla ID
+		 *
+		 * @return array of category IDs [joomla_category_id => wordpress_category_id]
+		 */
+		public function get_imported_joomla_categories() {
+			global $wpdb;
+			$categories = array();
+			$matches = array();
+			
+			$sql = "SELECT term_id, slug FROM {$wpdb->terms} WHERE slug LIKE 'c%'";
+			$results = $wpdb->get_results($sql);
+			foreach ( $results as $result ) {
+				if ( preg_match("/^c(\d+)-/", $result->slug, $matches) ) {
+					$cat_id = $matches[1];
+					$categories[$cat_id] = $result->term_id;
+				}
+			}
+			ksort($categories);
+			return $categories;
+		}
+		
+		/**
+		 * Returns the imported users mapped with their Joomla ID
+		 *
+		 * @return array of user IDs [joomla_user_id => wordpress_user_id]
+		 */
+		public function get_imported_joomla_users() {
+			global $wpdb;
+			$users = array();
+			
+			$sql = "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'joomla_user_id'";
+			$results = $wpdb->get_results($sql);
+			foreach ( $results as $result ) {
+				$users[$result->meta_value] = $result->user_id;
+			}
+			ksort($users);
+			return $users;
 		}
 		
 		/**
@@ -1809,7 +1867,7 @@ SQL;
 				$prefix = $this->plugin_options['prefix'];
 				
 				$sql = "SHOW COLUMNS FROM ${prefix}${table} LIKE '$column'";
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				$result = $query->fetch();
 				return !empty($result);
 			} catch ( PDOException $e ) {}
@@ -1829,7 +1887,7 @@ SQL;
 				$prefix = $this->plugin_options['prefix'];
 				
 				$sql = "SHOW TABLES LIKE '${prefix}${table}'";
-				$query = $joomla_db->query($sql);
+				$query = $joomla_db->query($sql, PDO::FETCH_ASSOC);
 				$result = $query->fetch();
 				return !empty($result);
 			} catch ( PDOException $e ) {}
