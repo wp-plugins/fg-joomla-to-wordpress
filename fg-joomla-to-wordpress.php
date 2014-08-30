@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.36.0
+ * Version:     1.37.0
  * Author:      Frédéric GILLES
  */
 
@@ -55,8 +55,9 @@ if ( !class_exists('fgj2wp', false) ) {
 			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'test_joomla_1_0'), 8 );
 			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'get_joomla_info'), 9 );
 			add_action( 'fgj2wp_pre_import_check', array(&$this, 'test_joomla_1_0') );
+			add_action( 'load-importer-fgj2wp', array(&$this, 'add_help_tab'), 20 );
 		}
-
+		
 		/**
 		 * Initialize the plugin
 		 */
@@ -237,7 +238,46 @@ if ( !class_exists('fgj2wp', false) ) {
 			do_action('fgj2wp_post_display_admin_page');
 			
 		}
-
+		
+		/**
+		 * Add an help tab
+		 * 
+		 */
+		public function add_help_tab() {
+			$screen = get_current_screen();
+			$screen->add_help_tab(array(
+				'id'	=> 'fgj2wp_help_instructions',
+				'title'	=> __('Instructions'),
+				'content'	=> '',
+				'callback' => array($this, 'help_instructions'),
+			));
+			$screen->add_help_tab(array(
+				'id'	=> 'fgj2wp_help_options',
+				'title'	=> __('Options'),
+				'content'	=> '',
+				'callback' => array($this, 'help_options'),
+			));
+			$screen->set_help_sidebar(__('<a href="http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/" target="_blank">FAQ</a>'), 'fgj2wp');
+		}
+		
+		/**
+		 * Instructions help screen
+		 * 
+		 * @return string Help content
+		 */
+		public function help_instructions() {
+			include('help-instructions.tpl.php');
+		}
+		
+		/**
+		 * Options help screen
+		 * 
+		 * @return string Help content
+		 */
+		public function help_options() {
+			include('help-options.tpl.php');
+		}
+		
 		/**
 		 * Open the connection on Joomla database
 		 *
@@ -1615,7 +1655,7 @@ SQL;
 				'meta_key'		=> '',
 				'meta_value'	=> 0);
 			$meta_key_value = apply_filters('fgj2wp_pre_get_joomla_id_in_link', $meta_key_value, $link);
-			if ($meta_key_value['meta_value'] == 0) {
+			if ( $meta_key_value['meta_value'] == 0 ) {
 				$meta_key_value['meta_key'] = '_fgj2wp_old_id';
 				// Without URL rewriting
 				if ( preg_match("#id=(\d+)#", $link, $matches) ) {
@@ -1833,6 +1873,28 @@ SQL;
 			}
 			ksort($categories);
 			return $categories;
+		}
+		
+		/**
+		 * Returns the imported sections mapped with their Joomla ID
+		 *
+		 * @return array of section IDs [joomla_section_id => wordpress_category_id]
+		 */
+		public function get_imported_joomla_sections() {
+			global $wpdb;
+			$sections = array();
+			$matches = array();
+			
+			$sql = "SELECT term_id, slug FROM {$wpdb->terms} WHERE slug LIKE 's%'";
+			$results = $wpdb->get_results($sql);
+			foreach ( $results as $result ) {
+				if ( preg_match("/^s(\d+)-/", $result->slug, $matches) ) {
+					$section_id = $matches[1];
+					$sections[$section_id] = $result->term_id;
+				}
+			}
+			ksort($sections);
+			return $sections;
 		}
 		
 		/**

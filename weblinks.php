@@ -30,7 +30,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		/**
 		 * Delete all links from the database
 		 *
-		 * @param string $action:	newposts = removes only new imported posts
+		 * @param string $action	newposts = removes only new imported posts
 		 * 							all = removes all
 		 * @return boolean
 		 */
@@ -218,6 +218,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 * Remove the prefixes categories
 		 */
 		public function remove_category_prefix() {
+			$matches = array();
 			$taxonomy = 'link_category';
 			$categories = get_terms( $taxonomy, array('hide_empty' => 0) );
 			if ( !empty($categories) ) {
