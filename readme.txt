@@ -3,8 +3,8 @@ Contributors: Frédéric GILLES
 Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery, jevents, contact directory, docman, virtuemart, woocommerce, jreviews
 Requires at least: 3.0
-Tested up to: WP 3.9.2
-Stable tag: 1.37.0
+Tested up to: WP 4.0.0
+Stable tag: 1.38.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=Fr%c3%a9d%c3%a9ric%20GILLES&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -14,7 +14,7 @@ A plugin to migrate categories, posts, tags, images and other medias from Joomla
 
 This plugin migrates sections, categories, posts, images, medias and tags from Joomla to Wordpress.
 
-It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1, 3.2 and 3.3** and **Wordpress 3.9** on huge databases (72 000+ posts). It is compatible with multisite installations.
+It has been tested with **Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1, 3.2 and 3.3** and **Wordpress 4.0** on huge databases (72 000+ posts). It is compatible with multisite installations.
 
 Major features include:
 
@@ -175,6 +175,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.38.0 =
+* Fixed: The media filename was empty on the attachment page
+* Tested with WordPress 4.0
 
 = 1.37.0 =
 * New: Help screen
@@ -494,6 +498,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.38.0 =
+Fixed: The media filename was empty on the attachment page
+Tested with WordPress 4.0
 
 = 1.37.0 =
 New: Help screen

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Import Joomla 1.5 (FG)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-30 09:26+0100\n"
-"PO-Revision-Date: 2014-08-30 09:26+0100\n"
+"POT-Creation-Date: 2014-09-04 06:42+0100\n"
+"PO-Revision-Date: 2014-09-04 06:44+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.6.8\n"
+"X-Generator: Poedit 1.6.9\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin_build_page.tpl.php:22
@@ -340,7 +340,7 @@ msgstr "contenu EasyBlog"
 
 #: admin_build_page.tpl.php:181
 msgid "Kunena forum to bbPress"
-msgstr "Forum Kunena vers bbPress"
+msgstr "forum Kunena vers bbPress"
 
 #: admin_build_page.tpl.php:182
 msgid "Flexicontent content"
@@ -390,7 +390,15 @@ msgstr "contacts de Contact Directory"
 msgid "Docman documents"
 msgstr "documents Docman"
 
-#: admin_build_page.tpl.php:198
+#: admin_build_page.tpl.php:194
+msgid "Virtuemart e-commerce"
+msgstr "boutique en ligne Virtuemart"
+
+#: admin_build_page.tpl.php:195
+msgid "JReviews reviews"
+msgstr "revues JReviews"
+
+#: admin_build_page.tpl.php:200
 msgid ""
 "Please note that some of these features need an add-on in addition to the "
 "Premium version."
@@ -398,7 +406,7 @@ msgstr ""
 "Veuillez noter que certaines de ces fonctionnalités nécessitent un module "
 "supplémentaire en plus de la version Premium."
 
-#: admin_build_page.tpl.php:202
+#: admin_build_page.tpl.php:204
 msgid ""
 "If you found this plugin useful and it saved you many hours or days, please "
 "rate it on <a href=\"http://wordpress.org/extend/plugins/fg-joomla-to-"
@@ -411,7 +419,7 @@ msgstr ""
 "WordPress</a>. Vous pouvez aussi faire une donation en utilisant le bouton "
 "ci-dessous."
 
-#: admin_build_page.tpl.php:221
+#: admin_build_page.tpl.php:223
 msgid ""
 "All new imported posts or pages and their comments will be deleted from "
 "WordPress."
@@ -419,11 +427,11 @@ msgstr ""
 "Tous les nouveaux articles ou pages importés vont être supprimés de "
 "WordPress."
 
-#: admin_build_page.tpl.php:224
+#: admin_build_page.tpl.php:226
 msgid "All content will be deleted from WordPress."
 msgstr "Toutes les données vont être supprimées de WordPress."
 
-#: admin_build_page.tpl.php:227
+#: admin_build_page.tpl.php:229
 msgid "Please select a remove option."
 msgstr "Veuillez sélectionner une option de suppression."
 
@@ -490,7 +498,7 @@ msgstr ""
 "wordpress.org/plugins/fg-joomla-to-wordpress/faq/\" target=\"_blank\">FAQ</"
 "a>."
 
-#: fg-joomla-to-wordpress.php:225 fg-joomla-to-wordpress.php:554
+#: fg-joomla-to-wordpress.php:225 fg-joomla-to-wordpress.php:552
 #, php-format
 msgid "%d category"
 msgid_plural "%d categories"
@@ -541,11 +549,11 @@ msgstr ""
 "<a href=\"http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/\" target="
 "\"_blank\">FAQ</a>"
 
-#: fg-joomla-to-wordpress.php:292
+#: fg-joomla-to-wordpress.php:290
 msgid "PDO is required. Please enable it."
 msgstr "PDO est requis. Veuillez l'activer."
 
-#: fg-joomla-to-wordpress.php:301 fg-joomla-to-wordpress.php:517
+#: fg-joomla-to-wordpress.php:299 fg-joomla-to-wordpress.php:515
 msgid ""
 "Couldn't connect to the Joomla database. Please check your parameters. And "
 "be sure the WordPress server can access the Joomla database."
@@ -554,17 +562,17 @@ msgstr ""
 "vos paramètres. Et soyez certains que le serveur WordPress ait accès à la "
 "base de données de Joomla."
 
-#: fg-joomla-to-wordpress.php:327 fg-joomla-to-wordpress.php:1037
-#: fg-joomla-to-wordpress.php:1080 fg-joomla-to-wordpress.php:1124
-#: fg-joomla-to-wordpress.php:1175 weblinks.php:157 weblinks.php:197
+#: fg-joomla-to-wordpress.php:325 fg-joomla-to-wordpress.php:1035
+#: fg-joomla-to-wordpress.php:1078 fg-joomla-to-wordpress.php:1122
+#: fg-joomla-to-wordpress.php:1173 weblinks.php:157 weblinks.php:197
 msgid "Error:"
 msgstr "Erreur :"
 
-#: fg-joomla-to-wordpress.php:510
+#: fg-joomla-to-wordpress.php:508
 msgid "Connected with success to the Joomla database"
 msgstr "Connecté avec succès à la base de données Joomla"
 
-#: fg-joomla-to-wordpress.php:531
+#: fg-joomla-to-wordpress.php:529
 msgid ""
 "Your version of Joomla (probably 1.0) is not supported by this plugin. "
 "Please consider upgrading to the <a href=\"http://www.fredericgilles.net/fg-"
@@ -575,74 +583,74 @@ msgstr ""
 "fredericgilles.net/fg-joomla-to-wordpress/\" target=\"_blank\">version "
 "Premium</a>."
 
-#: fg-joomla-to-wordpress.php:544
+#: fg-joomla-to-wordpress.php:542
 msgid "Joomla data found:"
 msgstr "Données Joomla trouvées :"
 
-#: fg-joomla-to-wordpress.php:549
+#: fg-joomla-to-wordpress.php:547
 #, php-format
 msgid "%d section"
 msgid_plural "%d sections"
 msgstr[0] "%d section"
 msgstr[1] "%d sections"
 
-#: fg-joomla-to-wordpress.php:558
+#: fg-joomla-to-wordpress.php:556
 #, php-format
 msgid "%d article"
 msgid_plural "%d articles"
 msgstr[0] "%d article"
 msgstr[1] "%d articles"
 
-#: fg-joomla-to-wordpress.php:562
+#: fg-joomla-to-wordpress.php:560
 #, php-format
 msgid "%d user"
 msgid_plural "%d users"
 msgstr[0] "%d utilisateur"
 msgstr[1] "%d utilisateurs"
 
-#: fg-joomla-to-wordpress.php:566
+#: fg-joomla-to-wordpress.php:564
 #, php-format
 msgid "%d web link"
 msgid_plural "%d web links"
 msgstr[0] "%d lien"
 msgstr[1] "%d liens"
 
-#: fg-joomla-to-wordpress.php:736
+#: fg-joomla-to-wordpress.php:734
 #, php-format
 msgid "%d category imported"
 msgid_plural "%d categories imported"
 msgstr[0] "%d catégorie importée"
 msgstr[1] "%d catégories importées"
 
-#: fg-joomla-to-wordpress.php:744
+#: fg-joomla-to-wordpress.php:742
 #, php-format
 msgid "%d page imported"
 msgid_plural "%d pages imported"
 msgstr[0] "%d page importée"
 msgstr[1] "%d pages importées"
 
-#: fg-joomla-to-wordpress.php:748
+#: fg-joomla-to-wordpress.php:746
 #, php-format
 msgid "%d post imported"
 msgid_plural "%d posts imported"
 msgstr[0] "%d article importé"
 msgstr[1] "%d articles importés"
 
-#: fg-joomla-to-wordpress.php:750
+#: fg-joomla-to-wordpress.php:748
 #, php-format
 msgid "%d media imported"
 msgid_plural "%d medias imported"
 msgstr[0] "%d média importé"
 msgstr[1] "%d médias importés"
 
-#: fg-joomla-to-wordpress.php:755
+#: fg-joomla-to-wordpress.php:753
 #, php-format
 msgid "%d tag imported"
 msgid_plural "%d tags imported"
 msgstr[0] "%d mot-clef importé"
 msgstr[1] "%d mots-clefs importés"
 
-#: fg-joomla-to-wordpress.php:773
+#: fg-joomla-to-wordpress.php:771
 msgid "Don't forget to modify internal links."
 msgstr "N'oubliez pas de modifier les liens internes."
 
@@ -841,14 +849,14 @@ msgid_plural "%d links categories imported"
 msgstr[0] "%d catégorie de liens importée"
 msgstr[1] "%d catégories de liens importées"
 
-#: weblinks.php:243
+#: weblinks.php:244
 #, php-format
 msgid "%d web link imported"
 msgid_plural "%d web links imported"
 msgstr[0] "%d lien web importé"
 msgstr[1] "%d liens web importés"
 
-#: weblinks.php:256
+#: weblinks.php:257
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
