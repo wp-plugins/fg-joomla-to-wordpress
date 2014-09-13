@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.38.0
+ * Version:     1.38.1
  * Author:      Frédéric GILLES
  */
 
@@ -50,12 +50,12 @@ if ( !class_exists('fgj2wp', false) ) {
 			new fgj2wp_modules($this); // modules check
 			new fgj2wp_links($this); // web links
 			
-			add_action( 'init', array(&$this, 'init') ); // Hook on init
-			add_action( 'admin_enqueue_scripts', array(&$this, 'enqueue_scripts') );
-			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'test_joomla_1_0'), 8 );
-			add_action( 'fgj2wp_post_test_database_connection', array(&$this, 'get_joomla_info'), 9 );
-			add_action( 'fgj2wp_pre_import_check', array(&$this, 'test_joomla_1_0') );
-			add_action( 'load-importer-fgj2wp', array(&$this, 'add_help_tab'), 20 );
+			add_action( 'init', array($this, 'init') ); // Hook on init
+			add_action( 'admin_enqueue_scripts', array($this, 'enqueue_scripts') );
+			add_action( 'fgj2wp_post_test_database_connection', array($this, 'test_joomla_1_0'), 8 );
+			add_action( 'fgj2wp_post_test_database_connection', array($this, 'get_joomla_info'), 9 );
+			add_action( 'fgj2wp_pre_import_check', array($this, 'test_joomla_1_0') );
+			add_action( 'load-importer-fgj2wp', array($this, 'add_help_tab'), 20 );
 		}
 		
 		/**
@@ -1483,10 +1483,12 @@ SQL;
 												}
 												
 												// Caption shortcode
-												if ( preg_match('/class=".*caption.*?".*?title="(.*?)"/', $link['old_link'], $matches_caption) ) {
-													$caption_value = str_replace('%', '%%', $matches_caption[1]);
-													$align_value = ($alignment != '')? $alignment : 'alignnone';
-													$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '"' . $width_assertion . ']%s' . $caption_value . '[/caption]';
+												if ( preg_match('/class=".*caption.*?"/', $link['old_link']) ) {
+													if ( preg_match('/title="(.*?)"/', $link['old_link'], $matches_caption) ) {
+														$caption_value = str_replace('%', '%%', $matches_caption[1]);
+														$align_value = ($alignment != '')? $alignment : 'alignnone';
+														$caption = '[caption id="attachment_' . $media['attachment_id'] . '" align="' . $align_value . '"' . $width_assertion . ']%s' . $caption_value . '[/caption]';
+													}
 												}
 												
 												$align_class = ($alignment != '')? $alignment . ' ' : '';
