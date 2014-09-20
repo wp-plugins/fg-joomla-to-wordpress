@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.38.1
+ * Version:     1.39.0
  * Author:      Frédéric GILLES
  */
 
@@ -117,6 +117,7 @@ if ( !class_exists('fgj2wp', false) ) {
 				'force_media_import'	=> 0,
 				'meta_keywords_in_tags'	=> 0,
 				'import_as_pages'		=> 0,
+				'timeout'				=> 5,
 			);
 			$options = get_option('fgj2wp_options');
 			if ( is_array($options) ) {
@@ -705,6 +706,7 @@ SQL;
 				'force_media_import'	=> filter_input(INPUT_POST, 'force_media_import', FILTER_VALIDATE_BOOLEAN),
 				'meta_keywords_in_tags'	=> filter_input(INPUT_POST, 'meta_keywords_in_tags', FILTER_VALIDATE_BOOLEAN),
 				'import_as_pages'		=> filter_input(INPUT_POST, 'import_as_pages', FILTER_VALIDATE_BOOLEAN),
+				'timeout'				=> filter_input(INPUT_POST, 'timeout', FILTER_SANITIZE_NUMBER_INT),
 			);
 		}
 		
@@ -1693,7 +1695,9 @@ SQL;
 				return true;
 			}
 			
-			$response = wp_remote_get($url); // Uses WordPress HTTP API
+			$response = wp_remote_get($url, array(
+				'timeout'     => $this->plugin_options['timeout'],
+			)); // Uses WordPress HTTP API
 			
 			if ( is_wp_error($response) ) {
 				trigger_error($response->get_error_message(), E_USER_WARNING);
