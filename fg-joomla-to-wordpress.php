@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.44.1
+ * Version:     1.44.2
  * Author:      Frédéric GILLES
  */
 
@@ -1131,7 +1131,7 @@ SQL;
 			$extra_joins = apply_filters('fgj2wp_get_posts_add_extra_joins', '');
 
 			$sql = "
-				SELECT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, p.created AS `date`, p.attribs, p.metakey, p.metadesc, p.ordering
+				SELECT DISTINCT p.id, p.title, p.alias, p.introtext, p.fulltext, p.state, CONCAT('c', c.id, '-', $cat_field) AS category, p.modified, p.created AS `date`, p.attribs, p.metakey, p.metadesc, p.ordering
 				$extra_cols
 				FROM ${prefix}content p
 				LEFT JOIN ${prefix}categories AS c ON p.catid = c.id
