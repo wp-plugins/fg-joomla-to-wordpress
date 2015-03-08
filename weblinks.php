@@ -104,59 +104,47 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 * @return array of Links
 		 */
 		private function get_weblinks() {
-			global $joomla_db;
 			$links = array();
 			$cat_prefix = 'cl';
 
 			$last_id = (int)get_option('fgj2wp_last_link_id'); // to restore the import where it left
-			try {
-				$prefix = $this->plugin->plugin_options['prefix'];
-				switch ( $this->plugin->plugin_options['version'] ) {
-					case '1.0':
-						$sql = "
-							SELECT l.id, l.title, l.url, l.description, l.ordering, l.date, CONCAT('$cat_prefix', c.id, '-', c.name) AS category
-							FROM ${prefix}weblinks l
-							LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
-							WHERE l.published = 1
-							AND l.id > '$last_id'
-							ORDER BY l.id
-						";
-						break;
-					
-					case '1.5':
-						$sql = "
-							SELECT l.id, l.title, l.url, l.description, l.ordering, l.date, CONCAT('$cat_prefix', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS category
-							FROM ${prefix}weblinks l
-							LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
-							WHERE l.published = 1
-							AND l.id > '$last_id'
-							ORDER BY l.id
-						";
-						break;
-					
-					default:
-						$sql = "
-							SELECT l.id, l.title, l.url, l.description, l.ordering, l.created AS date, CONCAT('$cat_prefix', c.id, '-', c.alias) AS category
-							FROM ${prefix}weblinks l
-							LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
-							WHERE l.state = 1
-							AND l.id > '$last_id'
-							ORDER BY l.id
-						";
-						break;
-				}
-				
-				$query = $joomla_db->query($sql);
-				if ( is_object($query) ) {
-					foreach ( $query as $row ) {
-						$links[] = $row;
-					}
-				}
-				
-			} catch ( PDOException $e ) {
-				$this->plugin->display_admin_error(__('Error:', 'fgj2wp') . $e->getMessage());
+			$prefix = $this->plugin->plugin_options['prefix'];
+			switch ( $this->plugin->plugin_options['version'] ) {
+				case '1.0':
+					$sql = "
+						SELECT l.id, l.title, l.url, l.description, l.ordering, l.date, CONCAT('$cat_prefix', c.id, '-', c.name) AS category
+						FROM ${prefix}weblinks l
+						LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
+						WHERE l.published = 1
+						AND l.id > '$last_id'
+						ORDER BY l.id
+					";
+					break;
+
+				case '1.5':
+					$sql = "
+						SELECT l.id, l.title, l.url, l.description, l.ordering, l.date, CONCAT('$cat_prefix', c.id, '-', IF(c.alias <> '', c.alias, c.name)) AS category
+						FROM ${prefix}weblinks l
+						LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
+						WHERE l.published = 1
+						AND l.id > '$last_id'
+						ORDER BY l.id
+					";
+					break;
+
+				default:
+					$sql = "
+						SELECT l.id, l.title, l.url, l.description, l.ordering, l.created AS date, CONCAT('$cat_prefix', c.id, '-', c.alias) AS category
+						FROM ${prefix}weblinks l
+						LEFT JOIN ${prefix}categories AS c ON c.id = l.catid
+						WHERE l.state = 1
+						AND l.id > '$last_id'
+						ORDER BY l.id
+					";
+					break;
 			}
-			return $links;		
+			$links = $this->plugin->joomla_query($sql);
+			return $links;
 		}
 		
 		/**

@@ -4,7 +4,7 @@ Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery, jevents, contact directory, docman, virtuemart, woocommerce, jreviews, mosets tree
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 1.44.3
+Stable tag: 1.45.0
 License: GPLv2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=fg-joomla-to-wordpress&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
@@ -155,6 +155,11 @@ sudo service apache2 reload
 
 * You must use at least PHP 5.3 on your WordPress site.
 
+= I get this error: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client =
+
+* It is a compatibility issue with your version of MySQL.<br />
+You can read this post to fix it: http://forumsarchive.laravel.io/viewtopic.php?id=8667
+
 = None image get transferred into the WordPress uploads folder. I'm using Xampp on Windows. =
 
 * Xampp puts the htdocs in the applications folder which is write protected. You need to move the htdocs to a writeable folder.
@@ -166,6 +171,12 @@ sudo service apache2 reload
 = Do I need to keep the plugin activated after the migration? =
 
 * No, you can deactivate or even uninstall the plugin after the migration (for the free version only).
+
+= Is there a log file to show the information from the import? =
+* Yes since version 1.45.0. First you must put these lines in wp-config.php:<br />
+define('WP_DEBUG', true);<br />
+define('WP_DEBUG_LOG', true);<br />
+And the messages will be logged to wp-content/debug.log.
 
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
@@ -185,6 +196,11 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 1.45.0 =
+* New: Log the messages to wp-content/debug.log
+* Tweak: Code optimization
+* FAQ updated
 
 = 1.44.3 =
 * Fixed: Import images even when there are linefeeds in the img tags
@@ -561,6 +577,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * Initial version: Import Joomla 1.5 sections, categories, posts and images
 
 == Upgrade Notice ==
+
+= 1.45.0 =
+New: Log the messages to wp-content/debug.log
+Tweak: Code optimization
 
 = 1.44.3 =
 Fixed: Import images even when there are linefeeds in the img tags
