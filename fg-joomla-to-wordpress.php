@@ -3,7 +3,7 @@
  * Plugin Name: FG Joomla to WordPress
  * Plugin Uri:  http://wordpress.org/plugins/fg-joomla-to-wordpress/
  * Description: A plugin to migrate categories, posts, images and medias from Joomla to WordPress
- * Version:     1.45.0
+ * Version:     1.46.0
  * Author:      Frédéric GILLES
  */
 
@@ -216,7 +216,7 @@ if ( !class_exists('fgj2wp', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import Joomla (FG)', 'fgj2wp');
-			$data['description'] = __('This plugin will import sections, categories, posts, medias (images, attachments) and web links from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1, 3.2 and 3.3.', 'fgj2wp');
+			$data['description'] = __('This plugin will import sections, categories, posts, medias (images, attachments) and web links from a Joomla database into WordPress.<br />Compatible with Joomla versions 1.5, 1.6, 1.7, 2.5, 3.0, 3.1, 3.2, 3.3 and 3.4.', 'fgj2wp');
 			$data['description'] .= "<br />\n" . __('For any issue, please read the <a href="http://wordpress.org/plugins/fg-joomla-to-wordpress/faq/" target="_blank">FAQ</a> first.', 'fgj2wp');
 			$data['posts_count'] = $this->count_posts('post');
 			$data['pages_count'] = $this->count_posts('page');
@@ -576,8 +576,10 @@ SQL;
 			$message .= sprintf(_n('%d user', '%d users', $users_count, 'fgj2wp'), $users_count) . '<br />';
 			
 			// Web links
-			$weblinks_count = $this->get_weblinks_count();
-			$message .= sprintf(_n('%d web link', '%d web links', $weblinks_count, 'fgj2wp'), $weblinks_count) . '<br />';
+			if ( $this->table_exists('weblinks') ) { // Joomla 3.4
+				$weblinks_count = $this->get_weblinks_count();
+				$message .= sprintf(_n('%d web link', '%d web links', $weblinks_count, 'fgj2wp'), $weblinks_count) . '<br />';
+			}
 			
 			$message = apply_filters('fgj2wp_pre_display_joomla_info', $message);
 			

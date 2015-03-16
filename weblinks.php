@@ -66,6 +66,9 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			if ( isset($this->plugin->premium_options['skip_weblinks']) && $this->plugin->premium_options['skip_weblinks'] ) {
 				return;
 			}
+			if ( !$this->plugin->table_exists('weblinks') ) { // Joomla 3.4
+				return;
+			}
 			
 			// Links categories
 			$cat_count = $this->import_categories();
@@ -226,6 +229,9 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 */
 		public function display_links_count() {
 			if ( isset($this->plugin->premium_options['skip_weblinks']) && $this->plugin->premium_options['skip_weblinks'] ) {
+				return;
+			}
+			if ( !$this->plugin->table_exists('weblinks') ) { // Joomla 3.4
 				return;
 			}
 			
