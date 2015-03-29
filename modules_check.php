@@ -134,6 +134,10 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					'fg-joomla-to-wordpress-premium-mosetstree-module/fgj2wp-mosetstree.php',
 					sprintf($message_addon, __('a Mosets Tree directory', 'fgj2wp'), $premium_url, $premium_url . 'mosetstree/', __('Mosets Tree add-on', 'fgj2wp'))
 				),
+				array('usergroups', 10,
+					'fg-joomla-to-wordpress-premium-usergroups-module/fgj2wp-usergroups.php',
+					sprintf($message_addon, __('user groups', 'fgj2wp'), $premium_url, $premium_url . 'usergroups/', __('User Groups add-on', 'fgj2wp'))
+				),
 			);
 			foreach ( $modules as $module ) {
 				list($table, $count, $plugin, $message) = $module;

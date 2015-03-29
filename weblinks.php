@@ -193,9 +193,6 @@ if ( !class_exists('fgj2wp_links', false) ) {
 					do_action('fgj2wp_post_insert_category', $cat_id, $category);
 				}
 				
-				// Hook after importing all the categories
-				do_action('fgj2wp_post_import_categories', $categories);
-				
 				// Update cache
 				if ( !empty($terms) ) {
 					wp_update_term_count_now($terms, $taxonomy);

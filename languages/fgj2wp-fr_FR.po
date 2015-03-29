@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FG Joomla to WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-16 21:05+0100\n"
-"PO-Revision-Date: 2015-03-16 21:05+0100\n"
+"POT-Creation-Date: 2015-03-29 22:27+0100\n"
+"PO-Revision-Date: 2015-03-29 22:27+0100\n"
 "Last-Translator: F. GILLES\n"
 "Language-Team: F. GILLES\n"
 "Language: fr_FR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.5\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin_build_page.tpl.php:22
@@ -865,6 +865,14 @@ msgstr "un annuaire Mosets Tree"
 msgid "Mosets Tree add-on"
 msgstr "du module Mosets Tree"
 
+#: modules_check.php:139
+msgid "user groups"
+msgstr "des groupes d'utilisateurs"
+
+#: modules_check.php:139
+msgid "User Groups add-on"
+msgstr "du module User Groups"
+
 #: weblinks.php:75
 #, php-format
 msgid "%d links category imported"
@@ -872,14 +880,14 @@ msgid_plural "%d links categories imported"
 msgstr[0] "%d catégorie de liens importée"
 msgstr[1] "%d catégories de liens importées"
 
-#: weblinks.php:238
+#: weblinks.php:235
 #, php-format
 msgid "%d web link imported"
 msgid_plural "%d web links imported"
 msgstr[0] "%d lien web importé"
 msgstr[1] "%d liens web importés"
 
-#: weblinks.php:251
+#: weblinks.php:248
 #, php-format
 msgid "%d link"
 msgid_plural "%d links"
