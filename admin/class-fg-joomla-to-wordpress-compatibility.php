@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Functions to provide backwards compatibility with old versions of PHP and WordPress
+ *
+ * @link       https://wordpress.org/plugins/fg-joomla-to-wordpress/
+ * @since      2.0.0
+ *
+ * @package    FG_Joomla_to_WordPress
+ * @subpackage FG_Joomla_to_WordPress/admin
+ */
+
 /**
  * Get the last occurred error
  * for PHP < 5.2.0
@@ -110,5 +121,3 @@ if (!function_exists('parse_ini_string')) {
 		return $ret;
 	}
 }
-
-?>

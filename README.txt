@@ -1,11 +1,12 @@
 === FG Joomla to WordPress ===
 Contributors: Frédéric GILLES
-Plugin Uri: http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/
+Plugin Uri: https://wordpress.org/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, wordpress, convert joomla to wordpress, migrate joomla to wordpress, joomla to wordpress migration, migrator, converter, import, k2, jcomments, joomlacomments, jomcomment, flexicontent, postviews, joomlatags, sh404sef, attachments, rokbox, kunena, phocagallery, phoca, joomsef, opensef, easyblog, zoo, zooitems, joomfish, joom!fish, wpml, joomgallery, jevents, contact directory, docman, virtuemart, woocommerce, jreviews, mosets tree
 Requires at least: 3.0
 Tested up to: 4.1.1
-Stable tag: 1.46.1
-License: GPLv2
+Stable tag: 2.0.0
+License: GPL-2.0+
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=fred%2egilles%40free%2efr&lc=FR&item_name=fg-joomla-to-wordpress&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 
 A plugin to migrate categories, posts, tags, images and other medias from Joomla to WordPress
@@ -179,6 +180,11 @@ define('WP_DEBUG', true);<br />
 define('WP_DEBUG_LOG', true);<br />
 And the messages will be logged to wp-content/debug.log.
 
+= How does the plugin handle Weblinks? =
+
+* The plugin imports the Joomla web links to WordPress links managed by the Link Manager plugin: https://wordpress.org/plugins/link-manager/
+
+
 Don't hesitate to let a comment on the forum or to report bugs if you found some.
 http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
@@ -197,6 +203,10 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 * other can be translated
 
 == Changelog ==
+
+= 2.0.0 =
+* Restructure the whole code using the BoilerPlate foundation
+* FAQ updated
 
 = 1.46.1 =
 * Fixed: Remove duplicate hook in weblinks.php
@@ -586,26 +596,6 @@ http://wordpress.org/support/plugin/fg-joomla-to-wordpress
 
 == Upgrade Notice ==
 
-= 1.46.1 =
-Fixed: Remove duplicate hook in weblinks.php
-
-= 1.46.0 =
-New: Compatible with Joomla 3.4 (ignore weblinks)
-
-= 1.45.0 =
-New: Log the messages to wp-content/debug.log
-Tweak: Code optimization
-
-= 1.44.3 =
-Fixed: Import images even when there are linefeeds in the img tags
-
-= 1.44.2 =
-Fixed: Don't import the posts as duplicates if the categories are duplicated on Joomla
-
-= 1.44.1 =
-Tested with WordPress 4.1.1
-
-= 1.44.0 =
-Fixed: the joomla_query() function was returning only one row
-Update the German translation (thanks to Tobias C.)
-Update the Spanish translation (thanks to Jacob R.)
+= 2.0.0 =
+Restructure the whole code using the BoilerPlate foundation
+FAQ updated

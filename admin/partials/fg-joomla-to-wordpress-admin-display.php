@@ -1,31 +1,32 @@
 <?php
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Provide an admin area view for the plugin
+ *
+ * This file is used to markup the admin-facing aspects of the plugin.
+ *
+ * @link       https://wordpress.org/plugins/fg-joomla-to-wordpress/
+ * @since      2.0.0
+ *
+ * @package    FG_Joomla_to_WordPress
+ * @subpackage FG_Joomla_to_WordPress/admin/partials
+ */
 ?>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		function hide_unhide_media() {
-			$("#media_import_box").toggle(!$("#skip_media").is(':checked'));
-		}
-		$("#skip_media").bind('click', hide_unhide_media);
-		hide_unhide_media();
-	});
-</script>
-<div class="wrap" style="float: left;">
+<div id="fgj2wp_admin_page" class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php print $data['title'] ?></h2>
 	
 	<p><?php print $data['description'] ?></p>
 	
-	<div style="float:left; max-width:724px;">
-		<div style="border: 1px solid #cccccc; background: #faebd7; margin: 10px; padding: 2px 10px;">
+	<div id="fgj2wp_settings">
+		<div id="fgj2wp_database_info">
 			<h3><?php _e('WordPress database', 'fgj2wp') ?></h3>
 			<?php foreach ( $data['database_info'] as $data_row ): ?>
 				<?php print $data_row; ?><br />
 			<?php endforeach; ?>
 		</div>
 		
-		<form action="" method="post" onsubmit="return check_empty_content_option()">
+		<form id="form_empty_wordpress_content" method="post">
 			<?php wp_nonce_field( 'empty', 'fgj2wp_nonce' ); ?>
 			
 			<table class="form-table">
@@ -38,7 +39,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			</table>
 		</form>
 		
-		<form action="" method="post">
+		<form id="form_import" method="post">
 
 			<?php wp_nonce_field( 'parameters_form', 'fgj2wp_nonce' ); ?>
 
@@ -147,7 +148,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<tr>
 				<th scope="row"><?php _e('During the migration, prefixes have been added to the categories slugs to avoid categories duplicates. This button will remove these prefixes which are useless after the migration.', 'fgj2wp'); ?></th>
 				<td>
-					<form method="post">
+					<form id="form_remove_cat" method="post">
 						<?php wp_nonce_field( 'remove_cat_prefix', 'fgj2wp_nonce' ); ?>
 						<?php submit_button( __('Remove the prefixes from the categories', 'fgj2wp'), 'primary', 'remove_cat_prefix' ); ?>
 					</form>
@@ -156,7 +157,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<tr>
 				<th scope="row"><?php _e('If you have links between articles, you need to modify internal links.', 'fgj2wp'); ?></th>
 				<td>
-					<form method="post">
+					<form id="form_modify_links" method="post">
 						<?php wp_nonce_field( 'modify_links', 'fgj2wp_nonce' ); ?>
 						<?php submit_button( __('Modify internal links', 'fgj2wp'), 'primary', 'modify_links' ); ?>
 					</form>
@@ -165,9 +166,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		</table>
 	</div>
 	
-	<div style="float:left; width:300px;">
+	<div id="fgj2wp_extra_features">
 		<h3><?php _e('Do you need extra features?', 'fgj2wp'); ?></h3>
-		<ul style="list-style:disc inside">
+		<ul>
 			<li><?php _e('authors and all users migration', 'fgj2wp'); ?></li>
 			<li><?php _e('menus migration', 'fgj2wp'); ?></li>
 			<li><?php _e('HTML modules migration', 'fgj2wp'); ?></li>
@@ -198,7 +199,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<li><?php _e('JReviews reviews', 'fgj2wp'); ?></li>
 			<li><?php _e('Mosets Tree directory', 'fgj2wp'); ?></li>
 		</ul>
-		<div style="text-align: center;">
+		<div class="center">
 			<a href="http://www.fredericgilles.net/fg-joomla-to-wordpress/" target="_blank"><img src="http://www.fredericgilles.net/wp-content/uploads/premium-version.png" alt="Buy Premium Version" /></a>
 		</div>
 		<p><?php _e('Please note that some of these features need an add-on in addition to the Premium version.', 'fgj2wp'); ?>
@@ -206,8 +207,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		<hr />
 		<p><?php _e('If you found this plugin useful and it saved you many hours or days, please rate it on <a href="http://wordpress.org/extend/plugins/fg-joomla-to-wordpress/">FG Joomla to WordPress</a>. You can also make a donation using the button below.', 'fgj2wp'); ?></p>
 		
-		<div style="text-align: center; margin-top:20px;">
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<div id="fgj2wp_paypal_donate" class="center">
+			<form id="form-paypal-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
 				">
@@ -217,22 +218,3 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		</div>
 	</div>	
 </div>
-<script type="text/javascript">
-	function check_empty_content_option() {
-		var confirm_message;
-		var action = jQuery('input:radio[name=empty_action]:checked').val();
-		switch ( action ) {
-			case 'newposts':
-				confirm_message = '<?php _e('All new imported posts or pages and their comments will be deleted from WordPress.', 'fgj2wp'); ?>';
-				break;
-			case 'all':
-				confirm_message = '<?php _e('All content will be deleted from WordPress.', 'fgj2wp'); ?>';
-				break;
-			default:
-				alert('<?php _e('Please select a remove option.', 'fgj2wp'); ?>');
-				return false;
-				break;
-		}
-		return confirm(confirm_message);
-	}
-</script>

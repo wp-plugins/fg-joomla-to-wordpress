@@ -1,31 +1,40 @@
 <?php
+
 /**
- * FG Joomla to WordPress
  * Module to import the web links
+ *
+ * @link       https://wordpress.org/plugins/fg-joomla-to-wordpress/
+ * @since      2.0.0
+ *
+ * @package    FG_Joomla_to_WordPress
+ * @subpackage FG_Joomla_to_WordPress/admin
  */
 
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( !class_exists('FG_Joomla_to_WordPress_Weblinks', false) ) {
 
-if ( !class_exists('fgj2wp_links', false) ) {
-	class fgj2wp_links {
-		
-		public $links_count = 0;
-		
+	/**
+	 * Class to import the web links
+	 *
+	 * @package    FG_Joomla_to_WordPress
+	 * @subpackage FG_Joomla_to_WordPress/admin
+	 * @author     Frédéric GILLES
+	 */
+	class FG_Joomla_to_WordPress_Weblinks {
+
+		public $links_count = 0; // Number of imported weblinks
+
 		/**
-		 * Sets up the plugin
+		 * Initialize the class and set its properties.
 		 *
+		 * @since    2.0.0
+		 * @param    object    $plugin       Admin plugin
 		 */
-		public function __construct($plugin) {
-			
+		public function __construct( $plugin ) {
+
 			$this->plugin = $plugin;
-			
-			add_action( 'fgj2wp_post_empty_database', array ($this, 'empty_links'), 10, 1 );
-			add_action( 'fgj2wp_post_import', array($this, 'import_links') );
-			add_action( 'fgj2wp_post_remove_category_prefix', array ($this, 'remove_category_prefix') );
-			add_action( 'fgj2wp_import_notices', array ($this, 'display_links_count') );
-			add_filter( 'fgj2wp_pre_display_admin_page', array ($this, 'process_admin_page'), 11, 1 );
+
 		}
+
 
 		/**
 		 * Delete all links from the database
@@ -37,7 +46,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		public function empty_links($action) {
 			global $wpdb;
 			$result = true;
-			
+
 			if ( $action == 'all' ) {
 				$sql = "TRUNCATE $wpdb->links";
 				$result = $wpdb->query($sql);
@@ -45,7 +54,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			}
 			return ($result !== false);
 		}
-		
+
 		/**
 		 * Count the web links
 		 *
@@ -53,11 +62,11 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 */
 		public function count_links() {
 			global $wpdb;
-			
+
 			$sql = "SELECT COUNT(*) AS nb FROM $wpdb->links";
 			return $wpdb->get_var($sql);
 		}
-		
+
 		/**
 		 * Import the web links
 		 *
@@ -69,14 +78,14 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			if ( !$this->plugin->table_exists('weblinks') ) { // Joomla 3.4
 				return;
 			}
-			
+
 			// Links categories
 			$cat_count = $this->import_categories();
 			$this->plugin->display_admin_notice(sprintf(_n('%d links category imported', '%d links categories imported', $cat_count, 'fgj2wp'), $cat_count));
-			
+
 			$links = $this->get_weblinks();
 			foreach ( $links as $link ) {
-				
+
 				// Categories
 				$category = $link['category'];
 				if ( array_key_exists($category, $this->categories) ) {
@@ -84,7 +93,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 				} else {
 					$cat_id = ''; // default category
 				}
-				
+
 				$linkdata = array(
 					'link_name'			=> $link['title'],
 					'link_url'			=> $link['url'],
@@ -100,7 +109,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 				}
 			}
 		}
-		
+
 		/**
 		 * Get Joomla web links
 		 *
@@ -149,10 +158,11 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			$links = $this->plugin->joomla_query($sql);
 			return $links;
 		}
-		
+
 		/**
 		 * Import the web links categories
 		 *
+		 * @return int Number of imported categories
 		 */
 		private function import_categories() {
 			$cat_count = 0;
@@ -167,7 +177,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 						$this->categories[$category['name']] = $obj_cat->term_id;
 						continue; // Do not import already imported category
 					}
-					
+
 					// Insert the category
 					$new_category = array(
 						'cat_name' 				=> $category['title'],
@@ -175,10 +185,10 @@ if ( !class_exists('fgj2wp_links', false) ) {
 						'category_nicename'		=> $category['name'], // slug
 						'taxonomy'				=> $taxonomy,
 					);
-					
+
 					// Hook before inserting the category
 					$new_category = apply_filters('fgj2wp_pre_insert_category', $new_category, $category);
-					
+
 					$cat_id = wp_insert_category($new_category, true);
 					if ( !is_a($cat_id, 'WP_Error') ) {
 						$cat_count++;
@@ -188,11 +198,11 @@ if ( !class_exists('fgj2wp_links', false) ) {
 						$this->plugin->display_admin_error(__('Error:', 'fgj2wp') . ' ' . print_r($cat_id, true));
 						continue;
 					}
-					
+
 					// Hook after inserting the category
 					do_action('fgj2wp_post_insert_category', $cat_id, $category);
 				}
-				
+
 				// Update cache
 				if ( !empty($terms) ) {
 					wp_update_term_count_now($terms, $taxonomy);
@@ -201,7 +211,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			}
 			return $cat_count;
 		}
-		
+
 		/**
 		 * Remove the prefixes categories
 		 */
@@ -219,7 +229,7 @@ if ( !class_exists('fgj2wp_links', false) ) {
 				}
 			}
 		}
-		
+
 		/**
 		 * Display the number of imported links
 		 * 
@@ -231,10 +241,10 @@ if ( !class_exists('fgj2wp_links', false) ) {
 			if ( !$this->plugin->table_exists('weblinks') ) { // Joomla 3.4
 				return;
 			}
-			
+
 			$this->plugin->display_admin_notice(sprintf(_n('%d web link imported', '%d web links imported', $this->links_count, 'fgj2wp'), $this->links_count));
 		}
-		
+
 		/**
 		 * Add information to the admin page
 		 * 
@@ -243,13 +253,12 @@ if ( !class_exists('fgj2wp_links', false) ) {
 		 */
 		public function process_admin_page($data) {
 			$links_count = $this->count_links();
-			
+
 			if ( $links_count > 0 ) {
 				$data['database_info'][] = sprintf(_n('%d link', '%d links', $links_count, 'fgj2wp'), $links_count);
 			}
 			return $data;
 		}
-		
+
 	}
 }
-?>

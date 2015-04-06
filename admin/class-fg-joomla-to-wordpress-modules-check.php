@@ -1,29 +1,42 @@
 <?php
+
 /**
- * FG Joomla to WordPress
  * Module to check the modules that are needed
+ *
+ * @link       https://wordpress.org/plugins/fg-joomla-to-wordpress/
+ * @since      2.0.0
+ *
+ * @package    FG_Joomla_to_WordPress
+ * @subpackage FG_Joomla_to_WordPress/admin
  */
 
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( !class_exists('FG_Joomla_to_WordPress_Modules_Check', false) ) {
 
-if ( !class_exists('fgj2wp_modules', false) ) {
-	class fgj2wp_modules {
-		
+	/**
+	 * Class to check the modules that are needed
+	 *
+	 * @package    FG_Joomla_to_WordPress
+	 * @subpackage FG_Joomla_to_WordPress/admin
+	 * @author     Frédéric GILLES
+	 */
+	class FG_Joomla_to_WordPress_Modules_Check {
+
 		/**
-		 * Sets up the plugin
+		 * Initialize the class and set its properties.
 		 *
+		 * @since    2.0.0
+		 * @param    object    $plugin       Admin plugin
 		 */
-		public function __construct($plugin) {
-			
+		public function __construct( $plugin ) {
+
 			$this->plugin = $plugin;
-			
-			add_action( 'fgj2wp_post_test_database_connection', array($this, 'check_modules') );
+
 		}
 
 		/**
 		 * Check if some modules are needed
 		 *
+		 * @since    2.0.0
 		 */
 		public function check_modules() {
 			$premium_url = 'http://www.fredericgilles.net/fg-joomla-to-wordpress/';
@@ -148,7 +161,7 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					}
 			}
 		}
-		
+
 		/**
 		 * Count the number of rows in the table
 		 *
@@ -170,12 +183,11 @@ if ( !class_exists('fgj2wp_modules', false) ) {
 					$result = $query->fetch();
 					$count = $result['nb'];
 				}
-				
+
 			} catch ( PDOException $e ) {
 			}
 			return $count;
 		}
-	
+
 	}
 }
-?>

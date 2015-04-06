@@ -1,18 +1,3 @@
-<style>
-#fgj2wp-help-options h2 {
-	margin-top: 30px;
-}
-#fgj2wp-help-options p {
-	margin-left: 30px;
-}
-#fgj2wp-help-options ul {
-	margin-left: 60px;
-}
-.fgj2wp-premium-feature {
-	color: #58b6fc;
-}
-</style>
-
 <div id="fgj2wp-help-options">
 <h1>FG Joomla to WordPress Options</h1>
 
