@@ -922,15 +922,16 @@ SQL;
 		/**
 		 * Import posts
 		 *
+		 * @param bool $test_mode Test mode active: import only one post
 		 * @return array:
 		 * 		int posts_count: Number of posts imported
 		 * 		int media_count: Number of medias imported
 		 */
-		private function import_posts() {
+		private function import_posts($test_mode = false) {
 			$posts_count = 0;
 			$media_count = 0;
 			$imported_tags = array();
-			$step = 1000; // to limit the results
+			$step = $test_mode? 1 : 1000; // to limit the results
 
 			$tab_categories = $this->tab_categories(); // Get the categories list
 
@@ -1067,7 +1068,7 @@ SQL;
 						}
 					}
 				}
-			} while ( ($posts != null) && (count($posts) > 0) );
+			} while ( ($posts != null) && (count($posts) > 0) && !$test_mode);
 
 			// Hook for doing other actions after the import
 			do_action('fgj2wp_post_import_posts');
